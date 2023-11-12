@@ -37,8 +37,8 @@
 
 * Configuration, deployment and management of HSMs.
 * Multiple HSMs can be managed at once.
-* Accounts managed by Polaris, can be used to log into the HSMs.
-* NFC support for logging into HSMs in administator mode.
+* Accounts managed by Polaris can be used to log into the HSMs.
+* NFC support for logging into HSMs in administrator mode.
 
 ## How To Use
 
@@ -58,17 +58,21 @@ To use Polaris:
 
 ## Open-Source
 
-Please keep in mind that this software is entirely **open-source**, meaning everything you see was developed for free with no financial incentive, investment or gain and was entirely done during personal time.
+Please remember that this software is entirely **open-source**, meaning everything you see was developed for free with no financial incentive, investment or gain and was entirely done during personal time.
 
 ## Credits
 
-This software uses the following open-source packages:
+This software uses the following:
 
 - [Python](https://python.org/)
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [SQLAlchemy](https://www.sqlalchemy.org/)
 - [Qt](https://qt.io)
 - [Mailgun](https://mailgun.com)
+- [Infisical](https://infisical.com)
+- [Mintlify](https://mintlify.com)
+- [New Relic](https://newrelic.com/)
+- [Sentry](https://sentry.io)
 - Emojis are taken from [here](https://github.com/arvida/emoji-cheat-sheet.com)
 
 With a huge thanks to:
