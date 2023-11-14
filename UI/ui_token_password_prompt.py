@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'first_run.ui'
+## Form generated from reading UI file 'token_password_prompt.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.3
 ##
@@ -19,19 +19,19 @@ from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
     QLabel, QLineEdit, QMainWindow, QPushButton,
     QSizePolicy, QStackedWidget, QTextEdit, QVBoxLayout,
     QWidget)
-from .resources_rc import *
+import resources_rc
 
-class Ui_FirstRunWindow(object):
-    def setupUi(self, FirstRunWindow):
-        if not FirstRunWindow.objectName():
-            FirstRunWindow.setObjectName(u"FirstRunWindow")
-        FirstRunWindow.resize(370, 520)
-        FirstRunWindow.setMinimumSize(QSize(370, 520))
-        FirstRunWindow.setMaximumSize(QSize(370, 520))
+class Ui_TokenLoginWindow(object):
+    def setupUi(self, TokenLoginWindow):
+        if not TokenLoginWindow.objectName():
+            TokenLoginWindow.setObjectName(u"TokenLoginWindow")
+        TokenLoginWindow.resize(370, 520)
+        TokenLoginWindow.setMinimumSize(QSize(370, 520))
+        TokenLoginWindow.setMaximumSize(QSize(370, 520))
         icon = QIcon()
         icon.addFile(u":/images/images/images/Polaris.png", QSize(), QIcon.Normal, QIcon.Off)
-        FirstRunWindow.setWindowIcon(icon)
-        self.styleSheet = QWidget(FirstRunWindow)
+        TokenLoginWindow.setWindowIcon(icon)
+        self.styleSheet = QWidget(TokenLoginWindow)
         self.styleSheet.setObjectName(u"styleSheet")
         font = QFont()
         font.setFamilies([u"Inter Medium 400"])
@@ -586,10 +586,6 @@ class Ui_FirstRunWindow(object):
 "}\n"
 "\n"
 "")
-        self.appMargins = QVBoxLayout(self.styleSheet)
-        self.appMargins.setSpacing(0)
-        self.appMargins.setObjectName(u"appMargins")
-        self.appMargins.setContentsMargins(10, 10, 10, 10)
         self.bgApp = QFrame(self.styleSheet)
         self.bgApp.setObjectName(u"bgApp")
         self.bgApp.setGeometry(QRect(10, 10, 350, 500))
@@ -877,18 +873,18 @@ class Ui_FirstRunWindow(object):
 "	background-position: center;\n"
 "	background-repeat: no-repeat;\n"
 "}")
-        self.login_button = QPushButton(self.login)
-        self.login_button.setObjectName(u"login_button")
-        self.login_button.setGeometry(QRect(80, 290, 160, 30))
-        self.login_button.setMinimumSize(QSize(150, 30))
+        self.loginTokenButton = QPushButton(self.login)
+        self.loginTokenButton.setObjectName(u"loginTokenButton")
+        self.loginTokenButton.setGeometry(QRect(80, 290, 160, 30))
+        self.loginTokenButton.setMinimumSize(QSize(150, 30))
         font2 = QFont()
         font2.setFamilies([u"Inter Medium"])
         font2.setPointSize(10)
         font2.setBold(False)
         font2.setItalic(False)
-        self.login_button.setFont(font2)
-        self.login_button.setCursor(QCursor(Qt.PointingHandCursor))
-        self.login_button.setStyleSheet(u"QPushButton {\n"
+        self.loginTokenButton.setFont(font2)
+        self.loginTokenButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.loginTokenButton.setStyleSheet(u"QPushButton {\n"
 "background-color: #9e77ed;\n"
 "font: 10pt \"Inter Medium\";\n"
 "}\n"
@@ -903,14 +899,14 @@ class Ui_FirstRunWindow(object):
 "}")
         icon4 = QIcon()
         icon4.addFile(u":/icons/images/icons/login.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.login_button.setIcon(icon4)
-        self.register_button = QPushButton(self.login)
-        self.register_button.setObjectName(u"register_button")
-        self.register_button.setGeometry(QRect(79, 330, 160, 30))
-        self.register_button.setMinimumSize(QSize(150, 30))
-        self.register_button.setFont(font2)
-        self.register_button.setCursor(QCursor(Qt.PointingHandCursor))
-        self.register_button.setStyleSheet(u"QPushButton {\n"
+        self.loginTokenButton.setIcon(icon4)
+        self.loginNormalButton = QPushButton(self.login)
+        self.loginNormalButton.setObjectName(u"loginNormalButton")
+        self.loginNormalButton.setGeometry(QRect(79, 330, 160, 30))
+        self.loginNormalButton.setMinimumSize(QSize(150, 30))
+        self.loginNormalButton.setFont(font2)
+        self.loginNormalButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.loginNormalButton.setStyleSheet(u"QPushButton {\n"
 "background-color: rgb(44, 49, 58);\n"
 "font: 10pt \"Inter Medium\";\n"
 "}\n"
@@ -925,7 +921,7 @@ class Ui_FirstRunWindow(object):
 "}")
         icon5 = QIcon()
         icon5.addFile(u":/icons/images/icons/register.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.register_button.setIcon(icon5)
+        self.loginNormalButton.setIcon(icon5)
         self.bg = QLabel(self.login)
         self.bg.setObjectName(u"bg")
         self.bg.setGeometry(QRect(-50, -130, 1500, 700))
@@ -940,39 +936,20 @@ class Ui_FirstRunWindow(object):
 "background: transparent;\n"
 "padding-left: 5px;")
         self.welcome.setAlignment(Qt.AlignCenter)
-        self.motto = QLabel(self.login)
-        self.motto.setObjectName(u"motto")
-        self.motto.setGeometry(QRect(0, 40, 321, 51))
-        self.motto.setStyleSheet(u"font: 600 9pt \"Space Grotesk Medium\";\n"
-"background: transparent;\n"
-"padding-left: 5px;")
-        self.motto.setAlignment(Qt.AlignCenter)
-        self.motto.setWordWrap(True)
         self.login_items = QFrame(self.login)
         self.login_items.setObjectName(u"login_items")
-        self.login_items.setGeometry(QRect(70, 90, 171, 171))
+        self.login_items.setGeometry(QRect(70, 150, 171, 71))
         self.login_items.setFrameShape(QFrame.StyledPanel)
         self.login_items.setFrameShadow(QFrame.Raised)
-        self.usernameLabel = QLabel(self.login_items)
-        self.usernameLabel.setObjectName(u"usernameLabel")
-        self.usernameLabel.setGeometry(QRect(10, 10, 151, 20))
-        self.usernameLabel.setStyleSheet(u"color: rgb(113, 126, 149);")
-        self.usernameLabel.setLineWidth(1)
-        self.usernameLabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.username = QLineEdit(self.login_items)
-        self.username.setObjectName(u"username")
-        self.username.setGeometry(QRect(10, 30, 161, 30))
-        self.username.setMinimumSize(QSize(0, 30))
-        self.username.setStyleSheet(u"background-color: rgb(33, 37, 43);")
         self.passwordLabel = QLabel(self.login_items)
         self.passwordLabel.setObjectName(u"passwordLabel")
-        self.passwordLabel.setGeometry(QRect(10, 80, 151, 20))
+        self.passwordLabel.setGeometry(QRect(10, 0, 151, 20))
         self.passwordLabel.setStyleSheet(u"color: rgb(113, 126, 149);")
         self.passwordLabel.setLineWidth(1)
         self.passwordLabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
         self.password = QLineEdit(self.login_items)
         self.password.setObjectName(u"password")
-        self.password.setGeometry(QRect(10, 110, 161, 30))
+        self.password.setGeometry(QRect(10, 30, 161, 30))
         self.password.setMinimumSize(QSize(0, 30))
         self.password.setStyleSheet(u"background-color: rgb(33, 37, 43);")
         self.password.setEchoMode(QLineEdit.Password)
@@ -982,14 +959,22 @@ class Ui_FirstRunWindow(object):
         self.responseLabel.setStyleSheet(u"color: rgb(113, 126, 149);")
         self.responseLabel.setLineWidth(1)
         self.responseLabel.setAlignment(Qt.AlignCenter)
+        self.motto_2 = QLabel(self.login)
+        self.motto_2.setObjectName(u"motto_2")
+        self.motto_2.setGeometry(QRect(0, 70, 321, 51))
+        self.motto_2.setStyleSheet(u"font: 600 9pt \"Space Grotesk Medium\";\n"
+"background: transparent;\n"
+"padding-left: 5px;")
+        self.motto_2.setAlignment(Qt.AlignCenter)
+        self.motto_2.setWordWrap(True)
         self.stackedWidget.addWidget(self.login)
         self.bg.raise_()
-        self.login_button.raise_()
-        self.register_button.raise_()
+        self.loginTokenButton.raise_()
+        self.loginNormalButton.raise_()
         self.welcome.raise_()
-        self.motto.raise_()
         self.login_items.raise_()
         self.responseLabel.raise_()
+        self.motto_2.raise_()
         self.widgets = QWidget()
         self.widgets.setObjectName(u"widgets")
         self.widgets.setStyleSheet(u"b")
@@ -1000,12 +985,14 @@ class Ui_FirstRunWindow(object):
         self.stackedWidget.addWidget(self.widgets)
         self.twofactor = QWidget()
         self.twofactor.setObjectName(u"twofactor")
-        self.twofactor_field = QLineEdit(self.twofactor)
-        self.twofactor_field.setObjectName(u"twofactor_field")
-        self.twofactor_field.setGeometry(QRect(80, 130, 161, 30))
-        self.twofactor_field.setMinimumSize(QSize(0, 30))
-        self.twofactor_field.setStyleSheet(u"background-color: rgb(33, 37, 43);")
-        self.twofactor_field.setEchoMode(QLineEdit.Password)
+        self.motto_3 = QLabel(self.twofactor)
+        self.motto_3.setObjectName(u"motto_3")
+        self.motto_3.setGeometry(QRect(0, 20, 321, 51))
+        self.motto_3.setStyleSheet(u"font: 600 9pt \"Space Grotesk Medium\";\n"
+"background: transparent;\n"
+"padding-left: 5px;")
+        self.motto_3.setAlignment(Qt.AlignCenter)
+        self.motto_3.setWordWrap(True)
         self.twofactor_button = QPushButton(self.twofactor)
         self.twofactor_button.setObjectName(u"twofactor_button")
         self.twofactor_button.setGeometry(QRect(80, 210, 160, 30))
@@ -1032,14 +1019,12 @@ class Ui_FirstRunWindow(object):
         self.passwordLabel_2.setStyleSheet(u"color: rgb(113, 126, 149);")
         self.passwordLabel_2.setLineWidth(1)
         self.passwordLabel_2.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.motto_2 = QLabel(self.twofactor)
-        self.motto_2.setObjectName(u"motto_2")
-        self.motto_2.setGeometry(QRect(0, 20, 321, 51))
-        self.motto_2.setStyleSheet(u"font: 600 9pt \"Space Grotesk Medium\";\n"
-"background: transparent;\n"
-"padding-left: 5px;")
-        self.motto_2.setAlignment(Qt.AlignCenter)
-        self.motto_2.setWordWrap(True)
+        self.twofactor_field = QLineEdit(self.twofactor)
+        self.twofactor_field.setObjectName(u"twofactor_field")
+        self.twofactor_field.setGeometry(QRect(80, 130, 161, 30))
+        self.twofactor_field.setMinimumSize(QSize(0, 30))
+        self.twofactor_field.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.twofactor_field.setEchoMode(QLineEdit.Password)
         self.twofactor_responselabel = QLabel(self.twofactor)
         self.twofactor_responselabel.setObjectName(u"twofactor_responselabel")
         self.twofactor_responselabel.setGeometry(QRect(0, 370, 321, 41))
@@ -1191,29 +1176,27 @@ class Ui_FirstRunWindow(object):
 
         self.appLayout.addWidget(self.contentBox)
 
-        FirstRunWindow.setCentralWidget(self.styleSheet)
+        TokenLoginWindow.setCentralWidget(self.styleSheet)
 
-        self.appMargins.addWidget(self.bgApp)
-
-        self.retranslateUi(FirstRunWindow)
+        self.retranslateUi(TokenLoginWindow)
 
         self.stackedWidget.setCurrentIndex(2)
 
 
-        QMetaObject.connectSlotsByName(FirstRunWindow)
+        QMetaObject.connectSlotsByName(TokenLoginWindow)
     # setupUi
 
-    def retranslateUi(self, FirstRunWindow):
-        FirstRunWindow.setWindowTitle(QCoreApplication.translate("FirstRunWindow", u"Polaris", None))
-        self.extraLabel.setText(QCoreApplication.translate("FirstRunWindow", u"Left Box", None))
+    def retranslateUi(self, TokenLoginWindow):
+        TokenLoginWindow.setWindowTitle(QCoreApplication.translate("TokenLoginWindow", u"Polaris", None))
+        self.extraLabel.setText(QCoreApplication.translate("TokenLoginWindow", u"Left Box", None))
 #if QT_CONFIG(tooltip)
-        self.extraCloseColumnBtn.setToolTip(QCoreApplication.translate("FirstRunWindow", u"Close left box", None))
+        self.extraCloseColumnBtn.setToolTip(QCoreApplication.translate("TokenLoginWindow", u"Close left box", None))
 #endif // QT_CONFIG(tooltip)
         self.extraCloseColumnBtn.setText("")
-        self.btn_share.setText(QCoreApplication.translate("FirstRunWindow", u"Share", None))
-        self.btn_adjustments.setText(QCoreApplication.translate("FirstRunWindow", u"Adjustments", None))
-        self.btn_more.setText(QCoreApplication.translate("FirstRunWindow", u"More", None))
-        self.textEdit.setHtml(QCoreApplication.translate("FirstRunWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        self.btn_share.setText(QCoreApplication.translate("TokenLoginWindow", u"Share", None))
+        self.btn_adjustments.setText(QCoreApplication.translate("TokenLoginWindow", u"Adjustments", None))
+        self.btn_more.setText(QCoreApplication.translate("TokenLoginWindow", u"More", None))
+        self.textEdit.setHtml(QCoreApplication.translate("TokenLoginWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "hr { height: 1px; border-width: 0; }\n"
@@ -1228,42 +1211,39 @@ class Ui_FirstRunWindow(object):
                         "go-Medium';\"><br /></span><span style=\" font-family:'Anago-Medium'; font-size:9pt; color:#ffffff;\">UX: Figma</span><span style=\" font-family:'Anago-Medium';\"><br /></span><span style=\" font-family:'Anago-Medium'; font-size:9pt; color:#ffffff;\">API: FastAPI</span><span style=\" font-family:'Anago-Medium';\"><br /></span><span style=\" font-family:'Anago-Medium'; font-size:9pt; color:#ffffff;\">Assets: Untitled UI</span><span style=\" font-family:'Anago-Medium';\"><br /></span><span style=\" font-family:'Anago-Medium'; font-size:9pt; color:#ffffff;\">MFA: Mailgun, Twilio Authy</span><span style=\" font-family:'Anago-Medium';\"><br /></span><span style=\" font-family:'Anago-Medium'; font-size:9pt; color:#ffffff;\">Cryptography: PyCryptodome(x)</span></p>\n"
 "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Segoe UI'; font-size:9pt; color:#ffffff;\">Licensed under MIT (PyDracula) and GNU 3."
                         "0</span></p></body></html>", None))
-        self.titleLeftDescription.setText(QCoreApplication.translate("FirstRunWindow", u"<html><head/><body><p><span style=\" color:#ffffff;\">Polaris </span><span style=\" color:#9e77ed;\">| OpenHSM</span></p></body></html>", None))
+        self.titleLeftDescription.setText(QCoreApplication.translate("TokenLoginWindow", u"<html><head/><body><p><span style=\" color:#ffffff;\">Polaris </span><span style=\" color:#9e77ed;\">| OpenHSM</span></p></body></html>", None))
 #if QT_CONFIG(tooltip)
-        self.minimizeAppBtn.setToolTip(QCoreApplication.translate("FirstRunWindow", u"Minimize", None))
+        self.minimizeAppBtn.setToolTip(QCoreApplication.translate("TokenLoginWindow", u"Minimize", None))
 #endif // QT_CONFIG(tooltip)
         self.minimizeAppBtn.setText("")
 #if QT_CONFIG(tooltip)
-        self.closeAppBtn.setToolTip(QCoreApplication.translate("FirstRunWindow", u"Close", None))
+        self.closeAppBtn.setToolTip(QCoreApplication.translate("TokenLoginWindow", u"Close", None))
 #endif // QT_CONFIG(tooltip)
         self.closeAppBtn.setText("")
-        self.login_button.setText(QCoreApplication.translate("FirstRunWindow", u" Log In", None))
+        self.loginTokenButton.setText(QCoreApplication.translate("TokenLoginWindow", u" Log In", None))
 #if QT_CONFIG(tooltip)
-        self.register_button.setToolTip(QCoreApplication.translate("FirstRunWindow", u"<html><head/><body><p>This will take you to our website.</p></body></html>", None))
+        self.loginNormalButton.setToolTip(QCoreApplication.translate("TokenLoginWindow", u"<html><head/><body><p>This will take you to our website.</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
-        self.register_button.setText(QCoreApplication.translate("FirstRunWindow", u" Register", None))
-        self.bg.setText(QCoreApplication.translate("FirstRunWindow", u"<html><head/><body><p><br/></p></body></html>", None))
-        self.welcome.setText(QCoreApplication.translate("FirstRunWindow", u"<html><head/><body><p><span style=\" color:#ffffff;\">Welcome to </span><span style=\" color:#9e77ed;\">Polaris!</span></p></body></html>", None))
-        self.motto.setText(QCoreApplication.translate("FirstRunWindow", u"<html><head/><body><p><span style=\" font-style:italic; color:#ffffff;\">The </span><span style=\" font-style:italic; color:#9e77ed;\">first</span><span style=\" font-style:italic; color:#ffffff;\"> full open-source toolkit for deploying a </span><span style=\" font-style:italic; color:#9e77ed;\">HSM</span><span style=\" font-style:italic; color:#ffffff;\">.</span></p></body></html>", None))
-        self.usernameLabel.setText(QCoreApplication.translate("FirstRunWindow", u"Username", None))
-        self.username.setText("")
-        self.username.setPlaceholderText(QCoreApplication.translate("FirstRunWindow", u"...", None))
-        self.passwordLabel.setText(QCoreApplication.translate("FirstRunWindow", u"Password", None))
+        self.loginNormalButton.setText(QCoreApplication.translate("TokenLoginWindow", u"Log In Without Token", None))
+        self.bg.setText(QCoreApplication.translate("TokenLoginWindow", u"<html><head/><body><p><br/></p></body></html>", None))
+        self.welcome.setText(QCoreApplication.translate("TokenLoginWindow", u"<html><head/><body><p><span style=\" color:#ffffff;\">Welcome back to </span><span style=\" color:#9e77ed;\">Polaris!</span></p></body></html>", None))
+        self.passwordLabel.setText(QCoreApplication.translate("TokenLoginWindow", u"Password", None))
         self.password.setInputMask("")
         self.password.setText("")
-        self.password.setPlaceholderText(QCoreApplication.translate("FirstRunWindow", u"...", None))
+        self.password.setPlaceholderText(QCoreApplication.translate("TokenLoginWindow", u"...", None))
         self.responseLabel.setText("")
+        self.motto_2.setText(QCoreApplication.translate("TokenLoginWindow", u"<html><head/><body><p><span style=\" font-style:italic; color:#ffffff;\">Please enter your </span><span style=\" font-style:italic; color:#9e77ed;\">password</span><span style=\" font-style:italic; color:#ffffff;\"> to decrypt your login </span><span style=\" font-style:italic; color:#9e77ed;\">token</span><span style=\" font-style:italic; color:#ffffff;\">. Your tokens are </span><span style=\" font-style:italic; color:#9e77ed;\">not </span><span style=\" font-style:italic; color:#ffffff;\">stored in </span><span style=\" font-style:italic; color:#9e77ed;\">plain form</span><span style=\" font-style:italic; color:#ffffff;\">.</span></p></body></html>", None))
+        self.motto_3.setText(QCoreApplication.translate("TokenLoginWindow", u"<html><head/><body><p><span style=\" font-style:italic; color:#ffffff;\">You have </span><span style=\" font-style:italic; color:#9e77ed;\">two factor authentication</span><span style=\" font-style:italic; color:#ffffff;\"> enabled. Enter the </span><span style=\" font-style:italic; color:#9e77ed;\">code</span><span style=\" font-style:italic; color:#ffffff;\"> from your authenticator app.</span></p></body></html>", None))
+        self.twofactor_button.setText(QCoreApplication.translate("TokenLoginWindow", u" Log In", None))
+        self.passwordLabel_2.setText(QCoreApplication.translate("TokenLoginWindow", u"Authenticator code", None))
         self.twofactor_field.setInputMask("")
         self.twofactor_field.setText("")
-        self.twofactor_field.setPlaceholderText(QCoreApplication.translate("FirstRunWindow", u"...", None))
-        self.twofactor_button.setText(QCoreApplication.translate("FirstRunWindow", u" Log In", None))
-        self.passwordLabel_2.setText(QCoreApplication.translate("FirstRunWindow", u"Authenticator code", None))
-        self.motto_2.setText(QCoreApplication.translate("FirstRunWindow", u"<html><head/><body><p><span style=\" font-style:italic; color:#ffffff;\">You have </span><span style=\" font-style:italic; color:#9e77ed;\">two factor authentication</span><span style=\" font-style:italic; color:#ffffff;\"> enabled. Enter the </span><span style=\" font-style:italic; color:#9e77ed;\">code</span><span style=\" font-style:italic; color:#ffffff;\"> from your authenticator app.</span></p></body></html>", None))
+        self.twofactor_field.setPlaceholderText(QCoreApplication.translate("TokenLoginWindow", u"...", None))
         self.twofactor_responselabel.setText("")
-        self.btn_message.setText(QCoreApplication.translate("FirstRunWindow", u"Message", None))
-        self.btn_print.setText(QCoreApplication.translate("FirstRunWindow", u"Print", None))
-        self.btn_logout.setText(QCoreApplication.translate("FirstRunWindow", u"Logout", None))
-        self.creditsLabel.setText(QCoreApplication.translate("FirstRunWindow", u"Milestone 2 Build", None))
-        self.version.setText(QCoreApplication.translate("FirstRunWindow", u"v0.2.0", None))
+        self.btn_message.setText(QCoreApplication.translate("TokenLoginWindow", u"Message", None))
+        self.btn_print.setText(QCoreApplication.translate("TokenLoginWindow", u"Print", None))
+        self.btn_logout.setText(QCoreApplication.translate("TokenLoginWindow", u"Logout", None))
+        self.creditsLabel.setText(QCoreApplication.translate("TokenLoginWindow", u"Milestone 2 Build", None))
+        self.version.setText(QCoreApplication.translate("TokenLoginWindow", u"v0.2.0", None))
     # retranslateUi
 

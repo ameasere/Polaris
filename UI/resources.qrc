@@ -7,6 +7,7 @@
     <file>images/images/Polaris.png</file>
   </qresource>
   <qresource prefix="icons">
+    <file>images/icons/user.png</file>
     <file>images/icons/log-in_purple.png</file>
     <file>images/icons/register_purple.png</file>
     <file>images/icons/register.png</file>

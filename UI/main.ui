@@ -63,6 +63,17 @@ QToolTip {
 	font: 10pt &quot;Inter&quot;;
 }
 
+#home QPushButton {
+	background-color: rgba(255, 255, 255, 70);
+	border: 1px solid white;
+}
+#home QPushButton:hover {
+	background-color: rgba(255, 255, 255, 150);
+	border: 1px solid white;
+	image: url(:/icons/images/icons/cil-plus.png);
+}
+
+
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Bg App */
 #bgApp {	
@@ -161,13 +172,6 @@ Extra Tab */
 }
 #extraTopBg{	
 	background-color: rgb(189, 147, 249);
-}
-
-/* Icon */
-#extraIcon {
-	background-position: center;
-	background-repeat: no-repeat;
-	background-image: url(:/icons/images/icons/settings.png);
 }
 
 /* Label */
@@ -1868,8 +1872,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
                      </property>
                      <widget class="QWidget" name="home">
                       <property name="styleSheet">
-                       <string notr="true">background-position: center;
-background-repeat: no-repeat;</string>
+                       <string notr="true">
+background-position: center;
+background-repeat: no-repeat;
+
+</string>
                       </property>
                       <widget class="QLabel" name="label_2">
                        <property name="geometry">
@@ -1891,6 +1898,357 @@ background-repeat: no-repeat;</string>
                        </property>
                        <property name="scaledContents">
                         <bool>false</bool>
+                       </property>
+                      </widget>
+                      <widget class="QLabel" name="divider_middle">
+                       <property name="geometry">
+                        <rect>
+                         <x>230</x>
+                         <y>30</y>
+                         <width>10</width>
+                         <height>581</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgb(158, 119, 237);
+border: 2px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                      </widget>
+                      <widget class="QLabel" name="hsms_title">
+                       <property name="geometry">
+                        <rect>
+                         <x>0</x>
+                         <y>0</y>
+                         <width>232</width>
+                         <height>32</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">font: 500 12pt &quot;Inter Medium&quot;;
+border: 2px solid white;
+border-radius: 2px;
+background-color: rgb(158, 119, 237);</string>
+                       </property>
+                       <property name="text">
+                        <string>HSMs</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                      <widget class="QLabel" name="toolbox_title">
+                       <property name="geometry">
+                        <rect>
+                         <x>238</x>
+                         <y>0</y>
+                         <width>933</width>
+                         <height>32</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">font: 500 12pt &quot;Inter Medium&quot;;
+border: 2px solid white;
+border-radius: 2px;
+background-color: rgb(158, 119, 237);</string>
+                       </property>
+                       <property name="text">
+                        <string>Toolbox</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                      <widget class="QLabel" name="divider_title">
+                       <property name="geometry">
+                        <rect>
+                         <x>230</x>
+                         <y>0</y>
+                         <width>10</width>
+                         <height>32</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgb(158, 119, 237);
+border: 2px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_default">
+                       <property name="geometry">
+                        <rect>
+                         <x>10</x>
+                         <y>50</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_1">
+                       <property name="geometry">
+                        <rect>
+                         <x>120</x>
+                         <y>50</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;
+</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_2">
+                       <property name="geometry">
+                        <rect>
+                         <x>10</x>
+                         <y>120</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_4">
+                       <property name="geometry">
+                        <rect>
+                         <x>10</x>
+                         <y>190</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_6">
+                       <property name="geometry">
+                        <rect>
+                         <x>10</x>
+                         <y>260</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_3">
+                       <property name="geometry">
+                        <rect>
+                         <x>120</x>
+                         <y>120</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_5">
+                       <property name="geometry">
+                        <rect>
+                         <x>120</x>
+                         <y>190</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_7">
+                       <property name="geometry">
+                        <rect>
+                         <x>120</x>
+                         <y>260</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_10">
+                       <property name="geometry">
+                        <rect>
+                         <x>120</x>
+                         <y>400</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_11">
+                       <property name="geometry">
+                        <rect>
+                         <x>10</x>
+                         <y>470</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="pushButton_12">
+                       <property name="geometry">
+                        <rect>
+                         <x>120</x>
+                         <y>330</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_8">
+                       <property name="geometry">
+                        <rect>
+                         <x>10</x>
+                         <y>330</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_12">
+                       <property name="geometry">
+                        <rect>
+                         <x>120</x>
+                         <y>470</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_9">
+                       <property name="geometry">
+                        <rect>
+                         <x>10</x>
+                         <y>400</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_13">
+                       <property name="geometry">
+                        <rect>
+                         <x>10</x>
+                         <y>540</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
+                       </property>
+                      </widget>
+                      <widget class="QPushButton" name="addHSM_14">
+                       <property name="geometry">
+                        <rect>
+                         <x>120</x>
+                         <y>540</y>
+                         <width>91</width>
+                         <height>51</height>
+                        </rect>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgba(255, 255, 255, 70);
+border: 1px solid white;</string>
+                       </property>
+                       <property name="text">
+                        <string>Add HSM</string>
                        </property>
                       </widget>
                      </widget>
@@ -2189,7 +2547,7 @@ background-repeat: no-repeat;</string>
                                 <rect>
                                  <x>0</x>
                                  <y>0</y>
-                                 <width>218</width>
+                                 <width>355</width>
                                  <height>218</height>
                                 </rect>
                                </property>
@@ -3035,7 +3393,7 @@ background-repeat: no-repeat;</string>
                    <string notr="true">font: 9pt &quot;Inter&quot;;</string>
                   </property>
                   <property name="text">
-                   <string>Milestone 1 Build</string>
+                   <string>Milestone 2 Build</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -3060,7 +3418,7 @@ background-repeat: no-repeat;</string>
                    <string notr="true">font: 9pt &quot;Inter&quot;;</string>
                   </property>
                   <property name="text">
-                   <string>v0.1.0</string>
+                   <string>v0.2.0</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
