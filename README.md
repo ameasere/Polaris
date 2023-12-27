@@ -30,7 +30,7 @@
 </p>
 
 <p align="center">
-<img src="https://i.imgur.com/wxsXyLE.png">
+<img src="https://ameasere.com/polaris/images/Dashboard.png">
 </p>
 
 ## Key Features
