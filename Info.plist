@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>polaris</string>
 	<key>CFBundleIconFile</key>
-	<string>icon.ico</string>
+	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>Test</string>
 	<key>CFBundleInfoDictionaryVersion</key>
