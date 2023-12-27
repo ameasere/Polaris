@@ -23,7 +23,7 @@ if platform.system() == "Windows":
     from ctypes import c_int, c_void_p, byref
 
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("polaris.ameasere")
-else:
+elif platform.system() == "Darwin":
     import AppKit
 
     # Change title for Linux and Mac
