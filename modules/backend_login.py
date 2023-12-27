@@ -10,7 +10,10 @@ def login(username, password):
     # Get the response and code - the response should have text, not just <Response [code]>
     response_code = response.status_code
     response_text = response.text
-    return json.loads(response_text), response_code
+    try:
+        return json.loads(response_text), response_code
+    except json.decoder.JSONDecodeError:
+        return response_text, response_code
 
 
 def device_token(username, password, rt=None):
@@ -22,7 +25,10 @@ def device_token(username, password, rt=None):
     # Get the response and code - the response should have text, not just <Response [code]>
     response_code = response.status_code
     response_text = response.text
-    return json.loads(response_text), response_code
+    try:
+        return json.loads(response_text), response_code
+    except json.decoder.JSONDecodeError:
+        return response_text, response_code
 
 
 def token_login(password, token):
@@ -33,7 +39,10 @@ def token_login(password, token):
     # Get the response and code - the response should have text, not just <Response [code]>
     response_code = response.status_code
     response_text = response.text
-    return json.loads(response_text), response_code
+    try:
+        return json.loads(response_text), response_code
+    except json.decoder.JSONDecodeError:
+        return response_text, response_code
 
 
 def two_factor(username, password, code):
@@ -44,4 +53,7 @@ def two_factor(username, password, code):
     # Get the response and code - the response should have text, not just <Response [code]>
     response_code = response.status_code
     response_text = response.text
-    return json.loads(response_text), response_code
+    try:
+        return json.loads(response_text), response_code
+    except json.decoder.JSONDecodeError:
+        return response_text, response_code

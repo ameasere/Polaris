@@ -1,0 +1,1 @@
+python3 -m nuitka --onefile polaris.py --plugin-enable=pyside6 --nofollow-import-to=PyQt5 --disable-console --linux-icon=icon.ico --company-name=ameasere --product-name=Polaris --file-version=0.1.0 --product-version=0.1.0 --noinclude-default-mode=nofollow --nofollow-import-to=tkinter --mingw64 --noinclude-unittest-mode=nofollow

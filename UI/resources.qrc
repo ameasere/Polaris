@@ -7,6 +7,20 @@
     <file>images/images/Polaris.png</file>
   </qresource>
   <qresource prefix="icons">
+    <file>images/icons/italic_purple.png</file>
+    <file>images/icons/italic.png</file>
+    <file>images/icons/key.png</file>
+    <file>images/icons/message-square.png</file>
+    <file>images/icons/smartphone.png</file>
+    <file>images/icons/log-out.png</file>
+    <file>images/icons/arrow-up-right.png</file>
+    <file>images/icons/settings_selected.png</file>
+    <file>images/icons/separator_inactive.png</file>
+    <file>images/icons/arrow-down-left.png</file>
+    <file>images/icons/edit_selected.png</file>
+    <file>images/icons/edit_unselected.png</file>
+    <file>images/icons/user_selected.png</file>
+    <file>images/icons/separator.png</file>
     <file>images/icons/user.png</file>
     <file>images/icons/log-in_purple.png</file>
     <file>images/icons/register_purple.png</file>

@@ -1,0 +1,1 @@
+/usr/local/bin/python3.9 -m nuitka --onefile --macos-create-app-bundle --macos-app-icon=icon.icns --macos-signed-app-name="Test" --macos-sign-identity="Developer ID Application: Leighton Brooks (KQD46H42US)" --macos-app-version="0.2.0" --disable-console --enable-plugin=pyside6 --noinclude-default-mode=nofollow  polaris.py
