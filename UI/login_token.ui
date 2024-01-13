@@ -1390,13 +1390,14 @@ border-radius: 5px;
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>460</y>
-         <width>351</width>
+         <y>461</y>
+         <width>352</width>
          <height>41</height>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">color: rgb(113, 126, 149);
+        <string notr="true">color: #001010;
+border: 1px solid rgb(99, 255, 122);
 border-bottom-left-radius: 20px;
 border-bottom-right-radius: 20px;</string>
        </property>

@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QLineEdit,
     QMainWindow, QPushButton, QSizePolicy, QStackedWidget,
     QVBoxLayout, QWidget)
 from .resources_rc import *
+
 class Ui_TokenLoginWindow(object):
     def setupUi(self, TokenLoginWindow):
         if not TokenLoginWindow.objectName():
@@ -723,7 +724,7 @@ class Ui_TokenLoginWindow(object):
         self.passwordLabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
         self.loginNormalButton = QPushButton(self.login)
         self.loginNormalButton.setObjectName(u"loginNormalButton")
-        self.loginNormalButton.setGeometry(QRect(30, 300, 160, 30))
+        self.loginNormalButton.setGeometry(QRect(29, 300, 161, 30))
         self.loginNormalButton.setMinimumSize(QSize(150, 30))
         self.loginNormalButton.setFont(font3)
         self.loginNormalButton.setCursor(QCursor(Qt.PointingHandCursor))
@@ -739,12 +740,12 @@ class Ui_TokenLoginWindow(object):
 "QPushButton:pressed {	\n"
 "	background-color: rgb(255, 243, 239);\n"
 "	font: 10pt \"Inter Medium\";\n"
-"	icon: url(:/icons/images/icons/register_purple.png);\n"
+"	icon: url(:/icons/images/icons/italic_purple.png);\n"
 "	color: #9e77ed;\n"
 "	border-radius: 5px;\n"
 "}")
         icon3 = QIcon()
-        icon3.addFile(u":/icons/images/icons/register.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/icons/images/icons/italic.png", QSize(), QIcon.Normal, QIcon.Off)
         self.loginNormalButton.setIcon(icon3)
         self.icon_2 = QLabel(self.login)
         self.icon_2.setObjectName(u"icon_2")
@@ -970,8 +971,9 @@ class Ui_TokenLoginWindow(object):
         self.btn_close.setIconSize(QSize(21, 21))
         self.responseLabel = QLabel(self.bgApp)
         self.responseLabel.setObjectName(u"responseLabel")
-        self.responseLabel.setGeometry(QRect(0, 460, 351, 41))
-        self.responseLabel.setStyleSheet(u"color: rgb(113, 126, 149);\n"
+        self.responseLabel.setGeometry(QRect(0, 461, 352, 41))
+        self.responseLabel.setStyleSheet(u"color: #001010;\n"
+"border: 1px solid rgb(99, 255, 122);\n"
 "border-bottom-left-radius: 20px;\n"
 "border-bottom-right-radius: 20px;")
         self.responseLabel.setLineWidth(1)
