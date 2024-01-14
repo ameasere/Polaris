@@ -1263,7 +1263,7 @@ color: rgb(202, 202, 202)</string>
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_logout">
+       <widget class="QPushButton" name="btn_website">
         <property name="geometry">
          <rect>
           <x>34</x>
@@ -1293,12 +1293,12 @@ color: rgb(202, 202, 202)</string>
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Log out&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
-         <string notr="true">#btn_logout {
+         <string notr="true">#btn_website {
 background-color: transparent;
 font: 500 9pt &quot;Be Vietnam Pro&quot;;
 text-align: left;
 color: #A29F9F;
-background-image: url(:/icons/images/icons/log-out.png);
+background-image: url(:/icons/images/icons/globe.png);
 background-position: center center;
 background-repeat: no-repeat;
 background-size: cover; 
@@ -1306,26 +1306,26 @@ padding: 0;
 margin: 0;
 border-radius: 5px;
 }
-#btn_logout:hover {
+#btn_website:hover {
 background-color: #2e3043;
 border-color: rgb(238, 238, 238);
 border: 2px solid;
 font: 500 9pt &quot;Be Vietnam Pro&quot;;
 text-align: left;
 color: #A29F9F;
-background-image: url(:/icons/images/icons/log-out.png);
+background-image: url(:/icons/images/icons/globe.png);
 background-position: center center;
 background-repeat: no-repeat;
 border-radius: 5px;
 border: 1px solid rgba(40, 27, 40, 150);
 }
-#btn_logout:pressed {
+#btn_website:pressed {
 background-color: rgb(93, 93, 93);
 border: 1px solid #2e3043;
 font: 500 9pt &quot;Be Vietnam Pro&quot;;
 text-align: left;
 color: #A29F9F;
-background-image: url(:/icons/images/icons/log-out.png);
+background-image: url(:/icons/images/icons/globe.png);
 background-position: center center;
 background-repeat: no-repeat;
 border-radius: 5px;
@@ -1347,12 +1347,12 @@ border-radius: 5px;
        </widget>
        <zorder>btn_minimize</zorder>
        <zorder>btn_close</zorder>
-       <zorder>profilepic</zorder>
        <zorder>username</zorder>
        <zorder>currentlyloggedin</zorder>
        <zorder>ipaddress</zorder>
-       <zorder>btn_logout</zorder>
+       <zorder>btn_website</zorder>
        <zorder>divider</zorder>
+       <zorder>profilepic</zorder>
       </widget>
       <widget class="QLabel" name="icon_4">
        <property name="geometry">

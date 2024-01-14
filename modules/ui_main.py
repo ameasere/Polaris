@@ -913,18 +913,18 @@ class Ui_MainWindow(object):
 "text-align: left;\n"
 "color: rgb(202, 202, 202)")
         self.ipaddress.setAlignment(Qt.AlignCenter)
-        self.btn_logout = QPushButton(self.ctx_btns)
-        self.btn_logout.setObjectName(u"btn_logout")
-        self.btn_logout.setGeometry(QRect(34, 2, 31, 31))
-        self.btn_logout.setMinimumSize(QSize(10, 10))
-        self.btn_logout.setFont(font1)
-        self.btn_logout.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_logout.setStyleSheet(u"#btn_logout {\n"
+        self.btn_website = QPushButton(self.ctx_btns)
+        self.btn_website.setObjectName(u"btn_website")
+        self.btn_website.setGeometry(QRect(34, 2, 31, 31))
+        self.btn_website.setMinimumSize(QSize(10, 10))
+        self.btn_website.setFont(font1)
+        self.btn_website.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_website.setStyleSheet(u"#btn_website {\n"
 "background-color: transparent;\n"
 "font: 500 9pt \"Be Vietnam Pro\";\n"
 "text-align: left;\n"
 "color: #A29F9F;\n"
-"background-image: url(:/icons/images/icons/log-out.png);\n"
+"background-image: url(:/icons/images/icons/globe.png);\n"
 "background-position: center center;\n"
 "background-repeat: no-repeat;\n"
 "background-size: cover; \n"
@@ -932,40 +932,40 @@ class Ui_MainWindow(object):
 "margin: 0;\n"
 "border-radius: 5px;\n"
 "}\n"
-"#btn_logout:hover {\n"
+"#btn_website:hover {\n"
 "background-color: #2e3043;\n"
 "border-color: rgb(238, 238, 238);\n"
 "border: 2px solid;\n"
 "font: 500 9pt \"Be Vietnam Pro\";\n"
 "text-align: left;\n"
 "color: #A29F9F;\n"
-"background-image: url(:/icons/images/icons/log-out.png);\n"
+"background-image: url(:/icons/images/icons/globe.png);\n"
 "background-position: center center;\n"
 "background-repeat: no-repeat;\n"
 "border-radius: 5px;\n"
 "border: 1px solid rgba(40, 27, 40, 150);\n"
 "}\n"
-"#btn_logout:pressed {\n"
+"#btn_website:pressed {\n"
 "background-color: rgb(93, 93, 93);\n"
 "border: 1px solid #2e3043;\n"
 "font: 500 9pt \"Be Vietnam Pro\";\n"
 "text-align: left;\n"
 "color: #A29F9F;\n"
-"background-image: url(:/icons/images/icons/log-out.png);\n"
-"background-position: cen"
-                        "ter center;\n"
+"background-image: url(:/icons/images/icons/globe.png);\n"
+"background-position: center"
+                        " center;\n"
 "background-repeat: no-repeat;\n"
 "border-radius: 5px;\n"
 "}\n"
 "")
-        self.btn_logout.setIconSize(QSize(21, 21))
+        self.btn_website.setIconSize(QSize(21, 21))
         self.btn_minimize.raise_()
         self.btn_close.raise_()
         self.profilepic.raise_()
         self.username.raise_()
         self.currentlyloggedin.raise_()
         self.ipaddress.raise_()
-        self.btn_logout.raise_()
+        self.btn_website.raise_()
         self.divider.raise_()
         self.icon_4 = QLabel(self.bgApp)
         self.icon_4.setObjectName(u"icon_4")
@@ -1073,7 +1073,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.btn_minimize.setDefault(False)
-        self.btn_logout.setDefault(False)
+        self.btn_website.setDefault(False)
         self.pages.setCurrentIndex(0)
 
 
@@ -1106,9 +1106,9 @@ class Ui_MainWindow(object):
         self.currentlyloggedin.setText(QCoreApplication.translate("MainWindow", u"Currently Logged In At", None))
         self.ipaddress.setText(QCoreApplication.translate("MainWindow", u"8.8.8.8", None))
 #if QT_CONFIG(tooltip)
-        self.btn_logout.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Log out</p></body></html>", None))
+        self.btn_website.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Log out</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
-        self.btn_logout.setText("")
+        self.btn_website.setText("")
         self.icon_4.setText("")
         self.btn_settings.setText(QCoreApplication.translate("MainWindow", u"  Settings", None))
         self.sep4.setText("")

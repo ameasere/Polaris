@@ -7,6 +7,7 @@
     <file>images/images/Polaris.png</file>
   </qresource>
   <qresource prefix="icons">
+    <file>images/icons/globe.png</file>
     <file>images/icons/italic_purple.png</file>
     <file>images/icons/italic.png</file>
     <file>images/icons/key.png</file>

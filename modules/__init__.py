@@ -21,6 +21,8 @@ import webbrowser
 import base64
 import random
 import socket
+import time
+import os
 
 # GUI FILE
 from . ui_main import Ui_MainWindow
