@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
         self.ui.username.setText(self.__response["username"])
 
         self.currentPage = "dashboard"
-        self.ui.pages.setCurrentWidget(self.ui.dashboard)
+        self.ui.pages.setCurrentWidget(self.ui.hsmlist)
 
         self.ui.ctx_btns.hide()
         for child in self.ui.ctx_btns.children():
@@ -103,9 +103,10 @@ class MainWindow(QMainWindow):
         try:
             # IP is the "response" element of JSON from server
             ipaddr = json.loads(requests.get("https://api.ameasere.com/polaris/ip").text)["response"]
-        except:
+        except Exception as e:
             # Get the local IP address instead
             ipaddr = socket.gethostbyname(socket.gethostname())
+            print(repr(e))
 
         self.ui.ipaddress.setText(ipaddr)
 

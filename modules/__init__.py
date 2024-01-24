@@ -23,6 +23,7 @@ import random
 import socket
 import time
 import os
+import requests
 
 # GUI FILE
 from . ui_main import Ui_MainWindow

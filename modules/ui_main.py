@@ -627,7 +627,7 @@ class Ui_MainWindow(object):
 "border-top: 1px solid rgba(128, 96, 167, 80);")
         self.bg3 = QLabel(self.bgApp)
         self.bg3.setObjectName(u"bg3")
-        self.bg3.setGeometry(QRect(311, 231, 951, 471))
+        self.bg3.setGeometry(QRect(311, 241, 951, 461))
         self.bg3.setStyleSheet(u"border-top-left-radius: 20px;\n"
 "border-bottom-right-radius: 20px;\n"
 "background-color: rgba(40, 27, 40, 150);\n"
@@ -961,12 +961,12 @@ class Ui_MainWindow(object):
         self.btn_website.setIconSize(QSize(21, 21))
         self.btn_minimize.raise_()
         self.btn_close.raise_()
-        self.profilepic.raise_()
         self.username.raise_()
         self.currentlyloggedin.raise_()
         self.ipaddress.raise_()
         self.btn_website.raise_()
         self.divider.raise_()
+        self.profilepic.raise_()
         self.icon_4 = QLabel(self.bgApp)
         self.icon_4.setObjectName(u"icon_4")
         self.icon_4.setGeometry(QRect(40, 218, 20, 20))
@@ -1044,20 +1044,187 @@ class Ui_MainWindow(object):
         self.btn_dropdown.setIconSize(QSize(21, 21))
         self.pages = QStackedWidget(self.bgApp)
         self.pages.setObjectName(u"pages")
-        self.pages.setGeometry(QRect(320, 240, 931, 451))
+        self.pages.setGeometry(QRect(320, 250, 931, 441))
         self.pages.setStyleSheet(u"background: transparent;")
-        self.account = QWidget()
-        self.account.setObjectName(u"account")
-        self.pages.addWidget(self.account)
-        self.dashboard = QWidget()
-        self.dashboard.setObjectName(u"dashboard")
-        self.pages.addWidget(self.dashboard)
-        self.documentation = QWidget()
-        self.documentation.setObjectName(u"documentation")
-        self.pages.addWidget(self.documentation)
-        self.settings = QWidget()
-        self.settings.setObjectName(u"settings")
-        self.pages.addWidget(self.settings)
+        self.hsmlist = QWidget()
+        self.hsmlist.setObjectName(u"hsmlist")
+        self.btn_addfirsthsm = QPushButton(self.hsmlist)
+        self.btn_addfirsthsm.setObjectName(u"btn_addfirsthsm")
+        self.btn_addfirsthsm.setGeometry(QRect(10, 10, 421, 121))
+        self.btn_addfirsthsm.setMinimumSize(QSize(120, 15))
+        self.btn_addfirsthsm.setFont(font)
+        self.btn_addfirsthsm.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_addfirsthsm.setStyleSheet(u"#btn_addfirsthsm {\n"
+"background-color: rgba(222, 222, 222, 50);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addfirsthsm:hover {\n"
+"background-color: rgba(222, 222, 222, 90);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addfirsthsm:pressed {\n"
+"background-color: rgba(222, 222, 222, 150);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}")
+        icon2 = QIcon()
+        icon2.addFile(u":/icons/images/icons/cil-plus.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.btn_addfirsthsm.setIcon(icon2)
+        self.btn_addhsm_2 = QPushButton(self.hsmlist)
+        self.btn_addhsm_2.setObjectName(u"btn_addhsm_2")
+        self.btn_addhsm_2.setGeometry(QRect(500, 10, 421, 121))
+        self.btn_addhsm_2.setMinimumSize(QSize(120, 15))
+        self.btn_addhsm_2.setFont(font)
+        self.btn_addhsm_2.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_addhsm_2.setStyleSheet(u"#btn_addhsm_2 {\n"
+"background-color: rgba(222, 222, 222, 50);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_2:hover {\n"
+"background-color: rgba(222, 222, 222, 90);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_2:pressed {\n"
+"background-color: rgba(222, 222, 222, 150);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}")
+        self.btn_addhsm_2.setIcon(icon2)
+        self.btn_addhsm_3 = QPushButton(self.hsmlist)
+        self.btn_addhsm_3.setObjectName(u"btn_addhsm_3")
+        self.btn_addhsm_3.setGeometry(QRect(10, 160, 421, 121))
+        self.btn_addhsm_3.setMinimumSize(QSize(120, 15))
+        self.btn_addhsm_3.setFont(font)
+        self.btn_addhsm_3.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_addhsm_3.setStyleSheet(u"#btn_addhsm_3 {\n"
+"background-color: rgba(222, 222, 222, 50);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_3:hover {\n"
+"background-color: rgba(222, 222, 222, 90);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_3:pressed {\n"
+"background-color: rgba(222, 222, 222, 150);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}")
+        self.btn_addhsm_3.setIcon(icon2)
+        self.btn_addhsm_4 = QPushButton(self.hsmlist)
+        self.btn_addhsm_4.setObjectName(u"btn_addhsm_4")
+        self.btn_addhsm_4.setGeometry(QRect(500, 160, 421, 121))
+        self.btn_addhsm_4.setMinimumSize(QSize(120, 15))
+        self.btn_addhsm_4.setFont(font)
+        self.btn_addhsm_4.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_addhsm_4.setStyleSheet(u"#btn_addhsm_4 {\n"
+"background-color: rgba(222, 222, 222, 50);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_4:hover {\n"
+"background-color: rgba(222, 222, 222, 90);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_4:pressed {\n"
+"background-color: rgba(222, 222, 222, 150);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}")
+        self.btn_addhsm_4.setIcon(icon2)
+        self.btn_addhsm_5 = QPushButton(self.hsmlist)
+        self.btn_addhsm_5.setObjectName(u"btn_addhsm_5")
+        self.btn_addhsm_5.setGeometry(QRect(10, 310, 421, 121))
+        self.btn_addhsm_5.setMinimumSize(QSize(120, 15))
+        self.btn_addhsm_5.setFont(font)
+        self.btn_addhsm_5.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_addhsm_5.setStyleSheet(u"#btn_addhsm_5 {\n"
+"background-color: rgba(222, 222, 222, 50);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_5:hover {\n"
+"background-color: rgba(222, 222, 222, 90);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_5:pressed {\n"
+"background-color: rgba(222, 222, 222, 150);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}")
+        self.btn_addhsm_5.setIcon(icon2)
+        self.btn_addhsm_6 = QPushButton(self.hsmlist)
+        self.btn_addhsm_6.setObjectName(u"btn_addhsm_6")
+        self.btn_addhsm_6.setGeometry(QRect(500, 310, 421, 121))
+        self.btn_addhsm_6.setMinimumSize(QSize(120, 15))
+        self.btn_addhsm_6.setFont(font)
+        self.btn_addhsm_6.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_addhsm_6.setStyleSheet(u"#btn_addhsm_6 {\n"
+"background-color: rgba(222, 222, 222, 50);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_6:hover {\n"
+"background-color: rgba(222, 222, 222, 90);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_addhsm_6:pressed {\n"
+"background-color: rgba(222, 222, 222, 150);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}")
+        self.btn_addhsm_6.setIcon(icon2)
+        self.pages.addWidget(self.hsmlist)
+        self.configurator = QWidget()
+        self.configurator.setObjectName(u"configurator")
+        self.pages.addWidget(self.configurator)
+        self.controlpanel = QWidget()
+        self.controlpanel.setObjectName(u"controlpanel")
+        self.pages.addWidget(self.controlpanel)
         self.dragBar = QFrame(self.bgApp)
         self.dragBar.setObjectName(u"dragBar")
         self.dragBar.setGeometry(QRect(0, 0, 1255, 21))
@@ -1065,6 +1232,136 @@ class Ui_MainWindow(object):
 "background: transparent;")
         self.dragBar.setFrameShape(QFrame.StyledPanel)
         self.dragBar.setFrameShadow(QFrame.Raised)
+        self.btn_hsmlist = QPushButton(self.bgApp)
+        self.btn_hsmlist.setObjectName(u"btn_hsmlist")
+        self.btn_hsmlist.setGeometry(QRect(360, 140, 120, 51))
+        self.btn_hsmlist.setMinimumSize(QSize(120, 15))
+        self.btn_hsmlist.setFont(font)
+        self.btn_hsmlist.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_hsmlist.setStyleSheet(u"#btn_hsmlist {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"color: #fff;\n"
+"border: solid;\n"
+"border-bottom: 2px solid #9e77ed;\n"
+"}\n"
+"#btn_hsmlist:hover {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"color: #fff;\n"
+"border: solid;\n"
+"border-bottom: 2px solid #9e77ed;\n"
+"}\n"
+"#btn_hsmlist:pressed {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"color: #9e77ed;\n"
+"border: solid;\n"
+"border-bottom: 2px solid #9e77ed;\n"
+"}")
+        self.hsmlist_bg = QLabel(self.bgApp)
+        self.hsmlist_bg.setObjectName(u"hsmlist_bg")
+        self.hsmlist_bg.setGeometry(QRect(360, 171, 121, 20))
+        self.hsmlist_bg.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0.494, y1:0, x2:0.494, y2:1, stop:0 rgba(0, 9, 31, 100), stop:1 rgba(157, 122, 222, 80));")
+        self.btn_controlpanel = QPushButton(self.bgApp)
+        self.btn_controlpanel.setObjectName(u"btn_controlpanel")
+        self.btn_controlpanel.setGeometry(QRect(540, 139, 120, 51))
+        self.btn_controlpanel.setMinimumSize(QSize(120, 15))
+        self.btn_controlpanel.setFont(font)
+        self.btn_controlpanel.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_controlpanel.setStyleSheet(u"#btn_controlpanel {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"color: #fff;\n"
+"border: solid;\n"
+"border-bottom: 2px solid #9e77ed;\n"
+"}\n"
+"#btn_controlpanel:hover {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"color: #fff;\n"
+"border: solid;\n"
+"border-bottom: 2px solid #9e77ed;\n"
+"}\n"
+"#btn_controlpanel:pressed {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"color: #9e77ed;\n"
+"border: solid;\n"
+"border-bottom: 2px solid #9e77ed;\n"
+"}")
+        self.controlpanel_bg = QLabel(self.bgApp)
+        self.controlpanel_bg.setObjectName(u"controlpanel_bg")
+        self.controlpanel_bg.setGeometry(QRect(540, 170, 121, 20))
+        self.controlpanel_bg.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0.494, y1:0, x2:0.494, y2:1, stop:0 rgba(0, 9, 31, 100), stop:1 rgba(157, 122, 222, 80));")
+        self.btn_configurator = QPushButton(self.bgApp)
+        self.btn_configurator.setObjectName(u"btn_configurator")
+        self.btn_configurator.setGeometry(QRect(720, 139, 120, 51))
+        self.btn_configurator.setMinimumSize(QSize(120, 15))
+        self.btn_configurator.setFont(font)
+        self.btn_configurator.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_configurator.setStyleSheet(u"#btn_configurator {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"color: #fff;\n"
+"border: solid;\n"
+"border-bottom: 2px solid #9e77ed;\n"
+"}\n"
+"#btn_configurator:hover {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"color: #fff;\n"
+"border: solid;\n"
+"border-bottom: 2px solid #9e77ed;\n"
+"}\n"
+"#btn_configurator:pressed {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"color: #9e77ed;\n"
+"border: solid;\n"
+"border-bottom: 2px solid #9e77ed;\n"
+"}")
+        self.configurator_bg = QLabel(self.bgApp)
+        self.configurator_bg.setObjectName(u"configurator_bg")
+        self.configurator_bg.setGeometry(QRect(720, 170, 121, 20))
+        self.configurator_bg.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:0.494, y1:0, x2:0.494, y2:1, stop:0 rgba(0, 9, 31, 100), stop:1 rgba(157, 122, 222, 80));")
+        self.controlpanel_bg.raise_()
+        self.configurator_bg.raise_()
+        self.hsmlist_bg.raise_()
+        self.bg1.raise_()
+        self.bg2.raise_()
+        self.bg3.raise_()
+        self.logo.raise_()
+        self.btn_dashboard.raise_()
+        self.icon_1.raise_()
+        self.sep1.raise_()
+        self.btn_documentation.raise_()
+        self.icon_2.raise_()
+        self.sep2.raise_()
+        self.sep3.raise_()
+        self.icon_3.raise_()
+        self.btn_account.raise_()
+        self.ctx_btns.raise_()
+        self.icon_4.raise_()
+        self.btn_settings.raise_()
+        self.sep4.raise_()
+        self.creditsLabel.raise_()
+        self.creditsLabel_2.raise_()
+        self.btn_dropdown.raise_()
+        self.pages.raise_()
+        self.dragBar.raise_()
+        self.btn_hsmlist.raise_()
+        self.btn_controlpanel.raise_()
+        self.btn_configurator.raise_()
 
         self.verticalLayout_2.addWidget(self.bgApp)
 
@@ -1115,5 +1412,17 @@ class Ui_MainWindow(object):
         self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"Milestone 3 Build", None))
         self.creditsLabel_2.setText(QCoreApplication.translate("MainWindow", u"0.3.0", None))
         self.btn_dropdown.setText("")
+        self.btn_addfirsthsm.setText(QCoreApplication.translate("MainWindow", u"Add your first HSM", None))
+        self.btn_addhsm_2.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
+        self.btn_addhsm_3.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
+        self.btn_addhsm_4.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
+        self.btn_addhsm_5.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
+        self.btn_addhsm_6.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
+        self.btn_hsmlist.setText(QCoreApplication.translate("MainWindow", u"HSM List", None))
+        self.hsmlist_bg.setText("")
+        self.btn_controlpanel.setText(QCoreApplication.translate("MainWindow", u"Control Panel", None))
+        self.controlpanel_bg.setText("")
+        self.btn_configurator.setText(QCoreApplication.translate("MainWindow", u"Configurator", None))
+        self.configurator_bg.setText("")
     # retranslateUi
 
