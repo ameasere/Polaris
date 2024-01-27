@@ -16,3 +16,8 @@ Thumbs.db
 config
 temp
 .idea
+
+# Python Cache #
+######################
+__pycache__/
+*.py[cod]

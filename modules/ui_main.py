@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.3
+## Created by: Qt User Interface Compiler version 6.6.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -763,8 +763,9 @@ class Ui_MainWindow(object):
         self.ctx_btns.setObjectName(u"ctx_btns")
         self.ctx_btns.setGeometry(QRect(1071, 20, 161, 161))
         self.ctx_btns.setStyleSheet(u"QFrame  {\n"
-"	background-color: rgba(94, 76, 154, 150);\n"
-"	border: 2px solid rgb(181, 181, 181);\n"
+"	background-color: rgba(40, 27, 40);\n"
+"	background: solid;\n"
+"	border: 2px solid rgb(157, 122, 222);\n"
 "	border-radius: 15px;\n"
 "}")
         self.ctx_btns.setFrameShape(QFrame.StyledPanel)
@@ -1050,7 +1051,7 @@ class Ui_MainWindow(object):
         self.hsmlist.setObjectName(u"hsmlist")
         self.btn_addfirsthsm = QPushButton(self.hsmlist)
         self.btn_addfirsthsm.setObjectName(u"btn_addfirsthsm")
-        self.btn_addfirsthsm.setGeometry(QRect(10, 10, 421, 121))
+        self.btn_addfirsthsm.setGeometry(QRect(370, 200, 181, 41))
         self.btn_addfirsthsm.setMinimumSize(QSize(120, 15))
         self.btn_addfirsthsm.setFont(font)
         self.btn_addfirsthsm.setCursor(QCursor(Qt.PointingHandCursor))
@@ -1078,146 +1079,6 @@ class Ui_MainWindow(object):
         icon2 = QIcon()
         icon2.addFile(u":/icons/images/icons/cil-plus.png", QSize(), QIcon.Normal, QIcon.Off)
         self.btn_addfirsthsm.setIcon(icon2)
-        self.btn_addhsm_2 = QPushButton(self.hsmlist)
-        self.btn_addhsm_2.setObjectName(u"btn_addhsm_2")
-        self.btn_addhsm_2.setGeometry(QRect(500, 10, 421, 121))
-        self.btn_addhsm_2.setMinimumSize(QSize(120, 15))
-        self.btn_addhsm_2.setFont(font)
-        self.btn_addhsm_2.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_addhsm_2.setStyleSheet(u"#btn_addhsm_2 {\n"
-"background-color: rgba(222, 222, 222, 50);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_2:hover {\n"
-"background-color: rgba(222, 222, 222, 90);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_2:pressed {\n"
-"background-color: rgba(222, 222, 222, 150);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}")
-        self.btn_addhsm_2.setIcon(icon2)
-        self.btn_addhsm_3 = QPushButton(self.hsmlist)
-        self.btn_addhsm_3.setObjectName(u"btn_addhsm_3")
-        self.btn_addhsm_3.setGeometry(QRect(10, 160, 421, 121))
-        self.btn_addhsm_3.setMinimumSize(QSize(120, 15))
-        self.btn_addhsm_3.setFont(font)
-        self.btn_addhsm_3.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_addhsm_3.setStyleSheet(u"#btn_addhsm_3 {\n"
-"background-color: rgba(222, 222, 222, 50);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_3:hover {\n"
-"background-color: rgba(222, 222, 222, 90);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_3:pressed {\n"
-"background-color: rgba(222, 222, 222, 150);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}")
-        self.btn_addhsm_3.setIcon(icon2)
-        self.btn_addhsm_4 = QPushButton(self.hsmlist)
-        self.btn_addhsm_4.setObjectName(u"btn_addhsm_4")
-        self.btn_addhsm_4.setGeometry(QRect(500, 160, 421, 121))
-        self.btn_addhsm_4.setMinimumSize(QSize(120, 15))
-        self.btn_addhsm_4.setFont(font)
-        self.btn_addhsm_4.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_addhsm_4.setStyleSheet(u"#btn_addhsm_4 {\n"
-"background-color: rgba(222, 222, 222, 50);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_4:hover {\n"
-"background-color: rgba(222, 222, 222, 90);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_4:pressed {\n"
-"background-color: rgba(222, 222, 222, 150);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}")
-        self.btn_addhsm_4.setIcon(icon2)
-        self.btn_addhsm_5 = QPushButton(self.hsmlist)
-        self.btn_addhsm_5.setObjectName(u"btn_addhsm_5")
-        self.btn_addhsm_5.setGeometry(QRect(10, 310, 421, 121))
-        self.btn_addhsm_5.setMinimumSize(QSize(120, 15))
-        self.btn_addhsm_5.setFont(font)
-        self.btn_addhsm_5.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_addhsm_5.setStyleSheet(u"#btn_addhsm_5 {\n"
-"background-color: rgba(222, 222, 222, 50);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_5:hover {\n"
-"background-color: rgba(222, 222, 222, 90);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_5:pressed {\n"
-"background-color: rgba(222, 222, 222, 150);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}")
-        self.btn_addhsm_5.setIcon(icon2)
-        self.btn_addhsm_6 = QPushButton(self.hsmlist)
-        self.btn_addhsm_6.setObjectName(u"btn_addhsm_6")
-        self.btn_addhsm_6.setGeometry(QRect(500, 310, 421, 121))
-        self.btn_addhsm_6.setMinimumSize(QSize(120, 15))
-        self.btn_addhsm_6.setFont(font)
-        self.btn_addhsm_6.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_addhsm_6.setStyleSheet(u"#btn_addhsm_6 {\n"
-"background-color: rgba(222, 222, 222, 50);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_6:hover {\n"
-"background-color: rgba(222, 222, 222, 90);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}\n"
-"#btn_addhsm_6:pressed {\n"
-"background-color: rgba(222, 222, 222, 150);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}")
-        self.btn_addhsm_6.setIcon(icon2)
         self.pages.addWidget(self.hsmlist)
         self.configurator = QWidget()
         self.configurator.setObjectName(u"configurator")
@@ -1413,12 +1274,7 @@ class Ui_MainWindow(object):
         self.creditsLabel_2.setText(QCoreApplication.translate("MainWindow", u"0.3.0", None))
         self.btn_dropdown.setText("")
         self.btn_addfirsthsm.setText(QCoreApplication.translate("MainWindow", u"Add your first HSM", None))
-        self.btn_addhsm_2.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
-        self.btn_addhsm_3.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
-        self.btn_addhsm_4.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
-        self.btn_addhsm_5.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
-        self.btn_addhsm_6.setText(QCoreApplication.translate("MainWindow", u"Add HSM", None))
-        self.btn_hsmlist.setText(QCoreApplication.translate("MainWindow", u"HSM List", None))
+        self.btn_hsmlist.setText(QCoreApplication.translate("MainWindow", u"Overview", None))
         self.hsmlist_bg.setText("")
         self.btn_controlpanel.setText(QCoreApplication.translate("MainWindow", u"Control Panel", None))
         self.controlpanel_bg.setText("")

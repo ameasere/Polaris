@@ -965,8 +965,9 @@ border-radius: 5px;
        </property>
        <property name="styleSheet">
         <string notr="true">QFrame  {
-	background-color: rgba(94, 76, 154, 150);
-	border: 2px solid rgb(181, 181, 181);
+	background-color: rgba(40, 27, 40);
+	background: solid;
+	border: 2px solid rgb(157, 122, 222);
 	border-radius: 15px;
 }</string>
        </property>
@@ -1585,10 +1586,10 @@ text-align: left;</string>
         <widget class="QPushButton" name="btn_addfirsthsm">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>421</width>
-           <height>121</height>
+           <x>370</x>
+           <y>200</y>
+           <width>181</width>
+           <height>41</height>
           </rect>
          </property>
          <property name="minimumSize">
@@ -1633,291 +1634,6 @@ border-radius: 5px;
          </property>
          <property name="text">
           <string>Add your first HSM</string>
-         </property>
-         <property name="icon">
-          <iconset resource="resources.qrc">
-           <normaloff>:/icons/images/icons/cil-plus.png</normaloff>:/icons/images/icons/cil-plus.png</iconset>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btn_addhsm_2">
-         <property name="geometry">
-          <rect>
-           <x>500</x>
-           <y>10</y>
-           <width>421</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>15</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Inter Medium</family>
-           <pointsize>10</pointsize>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">#btn_addhsm_2 {
-background-color: rgba(222, 222, 222, 50);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_2:hover {
-background-color: rgba(222, 222, 222, 90);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_2:pressed {
-background-color: rgba(222, 222, 222, 150);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Add HSM</string>
-         </property>
-         <property name="icon">
-          <iconset resource="resources.qrc">
-           <normaloff>:/icons/images/icons/cil-plus.png</normaloff>:/icons/images/icons/cil-plus.png</iconset>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btn_addhsm_3">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>160</y>
-           <width>421</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>15</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Inter Medium</family>
-           <pointsize>10</pointsize>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">#btn_addhsm_3 {
-background-color: rgba(222, 222, 222, 50);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_3:hover {
-background-color: rgba(222, 222, 222, 90);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_3:pressed {
-background-color: rgba(222, 222, 222, 150);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Add HSM</string>
-         </property>
-         <property name="icon">
-          <iconset resource="resources.qrc">
-           <normaloff>:/icons/images/icons/cil-plus.png</normaloff>:/icons/images/icons/cil-plus.png</iconset>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btn_addhsm_4">
-         <property name="geometry">
-          <rect>
-           <x>500</x>
-           <y>160</y>
-           <width>421</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>15</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Inter Medium</family>
-           <pointsize>10</pointsize>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">#btn_addhsm_4 {
-background-color: rgba(222, 222, 222, 50);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_4:hover {
-background-color: rgba(222, 222, 222, 90);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_4:pressed {
-background-color: rgba(222, 222, 222, 150);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Add HSM</string>
-         </property>
-         <property name="icon">
-          <iconset resource="resources.qrc">
-           <normaloff>:/icons/images/icons/cil-plus.png</normaloff>:/icons/images/icons/cil-plus.png</iconset>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btn_addhsm_5">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>310</y>
-           <width>421</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>15</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Inter Medium</family>
-           <pointsize>10</pointsize>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">#btn_addhsm_5 {
-background-color: rgba(222, 222, 222, 50);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_5:hover {
-background-color: rgba(222, 222, 222, 90);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_5:pressed {
-background-color: rgba(222, 222, 222, 150);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Add HSM</string>
-         </property>
-         <property name="icon">
-          <iconset resource="resources.qrc">
-           <normaloff>:/icons/images/icons/cil-plus.png</normaloff>:/icons/images/icons/cil-plus.png</iconset>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btn_addhsm_6">
-         <property name="geometry">
-          <rect>
-           <x>500</x>
-           <y>310</y>
-           <width>421</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>15</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Inter Medium</family>
-           <pointsize>10</pointsize>
-           <italic>false</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">#btn_addhsm_6 {
-background-color: rgba(222, 222, 222, 50);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_6:hover {
-background-color: rgba(222, 222, 222, 90);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}
-#btn_addhsm_6:pressed {
-background-color: rgba(222, 222, 222, 150);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}</string>
-         </property>
-         <property name="text">
-          <string>Add HSM</string>
          </property>
          <property name="icon">
           <iconset resource="resources.qrc">
@@ -2001,7 +1717,7 @@ border-bottom: 2px solid #9e77ed;
 }</string>
        </property>
        <property name="text">
-        <string>HSM List</string>
+        <string>Overview</string>
        </property>
       </widget>
       <widget class="QLabel" name="hsmlist_bg">

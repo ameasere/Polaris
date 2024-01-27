@@ -182,7 +182,7 @@ class MainWindow(QMainWindow):
                             base64.b64decode(self.settings_unselected_stylesheet).decode("utf-8"))
                         self.ui.sep4.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
                         self.ui.icon_4.setPixmap(QPixmap(":/icons/images/icons/settings.png"))
-                self.ui.pages.setCurrentWidget(self.ui.documentation)  # SET PAGE
+                webbrowser.get().open("https://docs.ameasere.com")  # SET PAGE
                 self.currentPage = "documentation"
                 self.ui.btn_documentation.setStyleSheet(
                     base64.b64decode(self.documentation_selected_stylesheet).decode("utf-8"))
@@ -232,7 +232,7 @@ class MainWindow(QMainWindow):
                             base64.b64decode(self.settings_unselected_stylesheet).decode("utf-8"))
                         self.ui.sep4.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
                         self.ui.icon_4.setPixmap(QPixmap(":/icons/images/icons/settings.png"))
-                self.ui.pages.setCurrentWidget(self.ui.account)
+                webbrowser.get().open("https://ameasere.com/polaris/dashboard")
                 self.currentPage = "account"
                 self.ui.btn_account.setStyleSheet(base64.b64decode(self.account_selected_stylesheet).decode("utf-8"))
                 self.ui.sep3.setPixmap(QPixmap(":/icons/images/icons/separator.png"))
@@ -256,7 +256,7 @@ class MainWindow(QMainWindow):
                             base64.b64decode(self.account_unselected_stylesheet).decode("utf-8"))
                         self.ui.sep3.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
                         self.ui.icon_3.setPixmap(QPixmap(":/icons/images/icons/user.png"))
-                self.ui.pages.setCurrentWidget(self.ui.settings)
+                webbrowser.get().open("https://ameasere.com/polaris/dashboard")
                 self.currentPage = "settings"
                 self.ui.btn_settings.setStyleSheet(base64.b64decode(self.settings_selected_stylesheet).decode("utf-8"))
                 self.ui.sep4.setPixmap(QPixmap(":/icons/images/icons/separator.png"))
