@@ -374,7 +374,7 @@ class LoginWindow(QMainWindow):
             if username == "" or password == "":
                 self.ui.responseLabel.setText("Please fill in all fields.")
                 self.ui.responseLabel.setStyleSheet(
-                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 400 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                 # Start: X = 0, Y = 440, Width = 321, Height = 0
                 # End: X = 0, Y = 370, Width = 321, Height = 41
                 # If the animation is already running, stop it
@@ -402,7 +402,7 @@ class LoginWindow(QMainWindow):
                         f.close()
                     self.ui.responseLabel.setText("Login successful.")
                     self.ui.responseLabel.setStyleSheet(
-                        "background-color: #001010; color: #001010; border-radius: 10px; font: 400 10pt \"Inter Medium\"; border: 1px solid rgb(99, 255, 122);")
+                        "background-color: #001010; color: #001010; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid rgb(99, 255, 122);")
                     self.stopAnimations()
                     self.response_label_animation.start()
                     self.timer = QTimer(self)
@@ -414,7 +414,7 @@ class LoginWindow(QMainWindow):
                     self.ui.pages.setCurrentWidget(self.ui.twofactor)
                     self.ui.twofactor_responselabel.setText(login_response["detail"])
                     self.ui.twofactor_responselabel.setStyleSheet(
-                        "background-color: #001010; color: #e51328; border-radius: 10px; font: 400 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                        "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                     self.stopAnimations()
                     self.twofactor_responselabel_animation.start()
                     self.timer = QTimer(self)
@@ -426,7 +426,7 @@ class LoginWindow(QMainWindow):
                 else:
                     self.ui.responseLabel.setText(login_response["detail"])
                     self.ui.responseLabel.setStyleSheet(
-                        "background-color: #001010; color: #e51328; border-radius: 10px; font: 400 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                        "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                     self.stopAnimations()
                     self.response_label_animation.start()
                     self.timer = QTimer(self)
@@ -537,7 +537,7 @@ class LoginWindow(QMainWindow):
             if password == "":
                 self.ui.responseLabel.setText("Please fill in all fields.")
                 self.ui.responseLabel.setStyleSheet(
-                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 400 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                 # Start: X = 0, Y = 440, Width = 321, Height = 0
                 # End: X = 0, Y = 370, Width = 321, Height = 41
                 # If the animation is already running, stop it
@@ -554,7 +554,7 @@ class LoginWindow(QMainWindow):
                 if code == 200:
                     self.ui.responseLabel.setText("Login successful.")
                     self.ui.responseLabel.setStyleSheet(
-                        "background-color: #001010; color: rgb(99, 255, 122); border-radius: 10px; font: 400 10pt \"Inter Medium\"; border: 1px solid rgb(99, 255, 122);")
+                        "background-color: #001010; color: rgb(99, 255, 122); border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid rgb(99, 255, 122);")
                     self.stopAnimations()
                     self.response_label_animation.start()
                     self.timer = QTimer(self)
@@ -567,7 +567,7 @@ class LoginWindow(QMainWindow):
                         json.dump(config, f)
                         f.close()
                     self.ui.responseLabel.setStyleSheet(
-                        "background-color: #001010; color: #e51328; border-radius: 10px; font: 400 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                        "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                     self.stopAnimations()
                     self.response_label_animation.start()
                     self.timer = QTimer(self)
@@ -614,7 +614,7 @@ class LoginWindow(QMainWindow):
                     response, code = token_login(self.__cached_password, config["token"])
                     self.ui.twofactor_responselabel.setText("Login successful.")
                     self.ui.twofactor_responselabel.setStyleSheet(
-                        "background-color: #001010; color: rgb(99, 255, 122); border-radius: 10px; font: 400 10pt \"Inter Medium\"; border: 1px solid rgb(99, 255, 122);")
+                        "background-color: #001010; color: rgb(99, 255, 122); border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid rgb(99, 255, 122);")
                     self.stopAnimations()
                     self.twofactor_responselabel_animation.start()
                     self.timer = QTimer(self)
@@ -622,7 +622,7 @@ class LoginWindow(QMainWindow):
             else:
                 self.ui.twofactor_responselabel.setText(response["detail"])
                 self.ui.twofactor_responselabel.setStyleSheet(
-                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 400 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                 self.stopAnimations()
                 self.twofactor_responselabel_animation.start()
                 self.timer = QTimer(self)

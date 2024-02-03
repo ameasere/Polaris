@@ -957,7 +957,7 @@ border-radius: 5px;
       <widget class="QFrame" name="ctx_btns">
        <property name="geometry">
         <rect>
-         <x>1071</x>
+         <x>1080</x>
          <y>20</y>
          <width>161</width>
          <height>161</height>
@@ -1527,7 +1527,7 @@ text-align: left;</string>
       <widget class="QPushButton" name="btn_dropdown">
        <property name="geometry">
         <rect>
-         <x>1200</x>
+         <x>1209</x>
          <y>20</y>
          <width>31</width>
          <height>31</height>
@@ -1597,7 +1597,7 @@ text-align: left;</string>
            <property name="geometry">
             <rect>
              <x>370</x>
-             <y>200</y>
+             <y>190</y>
              <width>181</width>
              <height>41</height>
             </rect>
@@ -1871,6 +1871,62 @@ color: white;</string>
            </property>
            <property name="text">
             <string>HSM IP Address</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="add_button">
+           <property name="geometry">
+            <rect>
+             <x>390</x>
+             <y>360</y>
+             <width>151</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Inter Medium</family>
+             <pointsize>10</pointsize>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	background-color: rgb(40, 27, 40);
+	border: 2px solid rgb(157, 122, 222);
+	background: solid;
+	border-radius: 5px;
+	font: 10pt &quot;Inter Medium&quot;;
+}
+QPushButton:hover {
+	background-color: rgba(40, 27, 40, 170);
+	border: 2px solid rgb(157, 122, 222);
+	border-radius: 5px;
+	font: 10pt &quot;Inter Medium&quot;;
+}
+QPushButton:pressed {	
+	background-color: rgb(255, 243, 239);
+	font: 10pt &quot;Inter Medium&quot;;
+	icon: url(:/icons/images/icons/plus_purple.png);
+	color: #9e77ed;
+	border-radius: 5px;
+}</string>
+           </property>
+           <property name="text">
+            <string> Add</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/icons/images/icons/plus.png</normaloff>:/icons/images/icons/plus.png</iconset>
            </property>
           </widget>
          </widget>

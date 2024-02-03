@@ -761,7 +761,7 @@ class Ui_MainWindow(object):
 "}")
         self.ctx_btns = QFrame(self.bgApp)
         self.ctx_btns.setObjectName(u"ctx_btns")
-        self.ctx_btns.setGeometry(QRect(1071, 20, 161, 161))
+        self.ctx_btns.setGeometry(QRect(1080, 20, 161, 161))
         self.ctx_btns.setStyleSheet(u"QFrame  {\n"
 "	background-color: rgb(40, 27, 40);\n"
 "	background: solid;\n"
@@ -1029,7 +1029,7 @@ class Ui_MainWindow(object):
         self.creditsLabel_2.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
         self.btn_dropdown = QPushButton(self.bgApp)
         self.btn_dropdown.setObjectName(u"btn_dropdown")
-        self.btn_dropdown.setGeometry(QRect(1200, 20, 31, 31))
+        self.btn_dropdown.setGeometry(QRect(1209, 20, 31, 31))
         self.btn_dropdown.setMinimumSize(QSize(1, 1))
         font2 = QFont()
         font2.setFamilies([u"Inter Medium 400"])
@@ -1056,7 +1056,7 @@ class Ui_MainWindow(object):
         self.addfirst.setObjectName(u"addfirst")
         self.btn_addfirsthsm = QPushButton(self.addfirst)
         self.btn_addfirsthsm.setObjectName(u"btn_addfirsthsm")
-        self.btn_addfirsthsm.setGeometry(QRect(370, 200, 181, 41))
+        self.btn_addfirsthsm.setGeometry(QRect(370, 190, 181, 41))
         self.btn_addfirsthsm.setMinimumSize(QSize(120, 15))
         self.btn_addfirsthsm.setFont(font)
         self.btn_addfirsthsm.setCursor(QCursor(Qt.PointingHandCursor))
@@ -1149,6 +1149,40 @@ class Ui_MainWindow(object):
         self.hsmiplabel.setObjectName(u"hsmiplabel")
         self.hsmiplabel.setGeometry(QRect(340, 130, 111, 31))
         self.hsmiplabel.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.add_button = QPushButton(self.hsmdetails)
+        self.add_button.setObjectName(u"add_button")
+        self.add_button.setGeometry(QRect(390, 360, 151, 30))
+        self.add_button.setMinimumSize(QSize(150, 30))
+        font3 = QFont()
+        font3.setFamilies([u"Inter Medium"])
+        font3.setPointSize(10)
+        font3.setBold(False)
+        font3.setItalic(False)
+        self.add_button.setFont(font3)
+        self.add_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.add_button.setStyleSheet(u"QPushButton {\n"
+"	background-color: rgb(40, 27, 40);\n"
+"	border: 2px solid rgb(157, 122, 222);\n"
+"	background: solid;\n"
+"	border-radius: 5px;\n"
+"	font: 10pt \"Inter Medium\";\n"
+"}\n"
+"QPushButton:hover {\n"
+"	background-color: rgba(40, 27, 40, 170);\n"
+"	border: 2px solid rgb(157, 122, 222);\n"
+"	border-radius: 5px;\n"
+"	font: 10pt \"Inter Medium\";\n"
+"}\n"
+"QPushButton:pressed {	\n"
+"	background-color: rgb(255, 243, 239);\n"
+"	font: 10pt \"Inter Medium\";\n"
+"	icon: url(:/icons/images/icons/plus_purple.png);\n"
+"	color: #9e77ed;\n"
+"	border-radius: 5px;\n"
+"}")
+        icon3 = QIcon()
+        icon3.addFile(u":/icons/images/icons/plus.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.add_button.setIcon(icon3)
         self.hsmpages.addWidget(self.hsmdetails)
         self.pages.addWidget(self.hsmlist)
         self.configurator = QWidget()
@@ -1362,6 +1396,7 @@ class Ui_MainWindow(object):
         self.hsm_ip.setText("")
         self.hsm_ip.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter the HSM's IP address...", None))
         self.hsmiplabel.setText(QCoreApplication.translate("MainWindow", u"HSM IP Address", None))
+        self.add_button.setText(QCoreApplication.translate("MainWindow", u" Add", None))
         self.btn_hsmlist.setText(QCoreApplication.translate("MainWindow", u"Overview", None))
         self.hsmlist_bg.setText("")
         self.btn_controlpanel.setText(QCoreApplication.translate("MainWindow", u"Control Panel", None))

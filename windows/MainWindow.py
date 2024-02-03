@@ -1,4 +1,68 @@
 from modules import *
+from modules.backend_connect_to_hsm import connect_to_hsm
+
+
+# https://www.pythonguis.com/tutorials/multithreading-pyqt-applications-qthreadpool/
+class WorkerSignals(QObject):
+    '''
+    Defines the signals available from a running worker thread.
+
+    Supported signals are:
+
+    finished
+        No data
+
+    error
+        tuple (exctype, value, traceback.format_exc() )
+
+    result
+        object data returned from processing, anything
+
+    '''
+    finished = Signal()  # QtCore.Signal
+    error = Signal(tuple)
+    result = Signal(object)
+
+
+class Worker(QRunnable):
+    '''
+    Worker thread
+
+    Inherits from QRunnable to handler worker thread setup, signals and wrap-up.
+
+    :param callback: The function callback to run on this worker thread. Supplied args and
+                     kwargs will be passed through to the runner.
+    :type callback: function
+    :param args: Arguments to pass to the callback function
+    :param kwargs: Keywords to pass to the callback function
+
+    '''
+
+    def __init__(self, fn, *args, **kwargs):
+        super(Worker, self).__init__()
+        # Store constructor arguments (re-used for processing)
+        self.fn = fn
+        self.args = args
+        self.kwargs = kwargs
+        self.signals = WorkerSignals()
+
+    @Slot()  # QtCore.Slot
+    def run(self):
+        """
+        Initialise the runner function with passed args, kwargs.
+        """
+
+        # Retrieve args/kwargs here; and fire processing using them
+        try:
+            result = self.fn(*self.args, **self.kwargs)
+        except:
+            trackback_str = traceback.format_exc()
+            exctype, value = sys.exc_info()[:2]
+            self.signals.error.emit((exctype, value, trackback_str))
+        else:
+            self.signals.result.emit(result)  # Return the result of the processing
+        finally:
+            self.signals.finished.emit()  # Done
 
 
 class MainWindow(QMainWindow):
@@ -9,6 +73,7 @@ class MainWindow(QMainWindow):
         self.dragPos = None
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.threadpool = QThreadPool()
         # Get size of screen
         screen = QApplication.primaryScreen()
         size = screen.size()
@@ -73,6 +138,41 @@ class MainWindow(QMainWindow):
         self.ui.btn_close.clicked.connect(self.buttonClick)
         self.ui.btn_minimize.clicked.connect(self.buttonClick)
         self.ui.btn_website.clicked.connect(self.buttonClick)
+        self.ui.btn_addfirsthsm.clicked.connect(self.buttonClick)
+        self.ui.add_button.clicked.connect(self.buttonClick)
+
+        # ANIMATIONS
+        # ///////////////////////////////////////////////////////////////
+
+        self.hsm_name_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_name)
+        self.hsm_username_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_username)
+        self.hsm_password_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_password)
+        self.hsm_ipaddress_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_ip)
+        self.hsm_name_opacity_effect.setOpacity(0)
+        self.hsm_username_opacity_effect.setOpacity(0)
+        self.hsm_password_opacity_effect.setOpacity(0)
+        self.hsm_ipaddress_opacity_effect.setOpacity(0)
+        self.hsm_name_animation = QPropertyAnimation(self.hsm_name_opacity_effect, b"opacity")
+        self.hsm_username_animation = QPropertyAnimation(self.hsm_username_opacity_effect, b"opacity")
+        self.hsm_password_animation = QPropertyAnimation(self.hsm_password_opacity_effect, b"opacity")
+        self.hsm_ipaddress_animation = QPropertyAnimation(self.hsm_ipaddress_opacity_effect, b"opacity")
+        self.hsm_name_animation.setDuration(500)
+        self.hsm_username_animation.setDuration(500)
+        self.hsm_password_animation.setDuration(500)
+        self.hsm_ipaddress_animation.setDuration(500)
+        self.hsm_name_animation.setStartValue(0)
+        self.hsm_username_animation.setStartValue(0)
+        self.hsm_password_animation.setStartValue(0)
+        self.hsm_ipaddress_animation.setStartValue(0)
+        self.hsm_name_animation.setEndValue(1)
+        self.hsm_username_animation.setEndValue(1)
+        self.hsm_password_animation.setEndValue(1)
+        self.hsm_ipaddress_animation.setEndValue(1)
+        self.hsm_name_animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.hsm_username_animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.hsm_password_animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.hsm_ipaddress_animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.hsm_name_animation.finished.connect(lambda: self.ui.hsm_name.setFocus())
 
         # Set on hover
         def enter_handler(_):
@@ -283,7 +383,53 @@ class MainWindow(QMainWindow):
                 self.ui.icon_4.setPixmap(QPixmap(":/icons/images/icons/settings_selected.png"))
         elif btnName == "btn_website":
             webbrowser.get().open("https://ameasere.com/polaris")
+        elif btnName == "btn_addfirsthsm":
+            self.ui.hsmpages.setCurrentWidget(self.ui.hsmdetails)
+            self.hsm_name_animation.start()
+            self.ui.hsm_name.show()
+            self.ui.hsm_name.setGraphicsEffect(self.hsm_name_opacity_effect)
+            self.hsm_username_animation.start()
+            self.ui.hsm_username.show()
+            self.ui.hsm_username.setGraphicsEffect(self.hsm_username_opacity_effect)
+            self.hsm_password_animation.start()
+            self.ui.hsm_password.show()
+            self.ui.hsm_password.setGraphicsEffect(self.hsm_password_opacity_effect)
+            self.hsm_ipaddress_animation.start()
+            self.ui.hsm_ip.show()
+            self.ui.hsm_ip.setGraphicsEffect(self.hsm_ipaddress_opacity_effect)
+            self.ui.hsm_name.setFocus()
+            self.ui.hsm_password.setEchoMode(QLineEdit.Password)
+            self.hsm_name_animation.finished.connect(lambda: self.ui.hsm_name.setGraphicsEffect(None))
+            self.hsm_username_animation.finished.connect(lambda: self.ui.hsm_username.setGraphicsEffect(None))
+            self.hsm_password_animation.finished.connect(lambda: self.ui.hsm_password.setGraphicsEffect(None))
+            self.hsm_ipaddress_animation.finished.connect(lambda: self.ui.hsm_ip.setGraphicsEffect(None))
+            self.hsm_password_animation.finished.connect(lambda: self.updateWindow)
+        elif btnName == "add_button":
+            def is_valid(hsmip):
+                try:
+                    ip_obj = ipaddress.ip_address(hsmip)
+                    return True
+                except ValueError:
+                    return False
+            if self.ui.hsm_ip.text() == "":
+                self.ui.hsm_ip.clear()
+                self.ui.hsm_ip.setPlaceholderText("Please enter the IP address of the HSM")
+                return
+            elif not is_valid(self.ui.hsm_ip.text()):
+                self.ui.hsm_ip.clear()
+                self.ui.hsm_ip.setPlaceholderText("Please enter a valid IP address")
+                return
+            def print_error(etuple):
+                print(etuple[1])
+            worker = Worker(lambda: connect_to_hsm(self.ui.hsm_ip.text()))
+            worker.signals.finished.connect(self.updateWindow)
+            worker.signals.error.connect(print_error)
+            self.threadpool.start(worker)
 
+    def updateWindow(self):
+        # Process events in the event loop
+        self.repaint()
+        QApplication.processEvents()
 
     def fadeout(self):
         # Fade out animation
@@ -296,7 +442,6 @@ class MainWindow(QMainWindow):
         self.timer = QTimer(self)
         self.timer.singleShot(200, lambda: self.fadeOutAnimation.start())
         self.fadeOutAnimation.finished.connect(lambda: self.close())
-
 
     # MOUSE CLICK EVENTS
     # ///////////////////////////////////////////////////////////////

@@ -53,6 +53,7 @@ print_terms() {
   clear
   printf "%*s\n" $(( ($(tput cols) + 24) / 2)) "Terms and Conditions"
   # Print number of dashes depending on the terminal width
+  # shellcheck disable=SC2183
   printf "%*s\n" $(( ($(tput cols) + 24) / 2)) | tr " " "-"
   print_blue "1. Any damage or loss of data as a result of Polaris is not the responsibility of Ameasere. \nAmeasere cannot guarantee that all devices are compatible and stable with Polaris. \n\033[0;31mIf you have any doubt, thoroughly examine the code on our GitHub first."
   print_magenta "► CTRL + Click to open the GitHub link: https://github.com/ameasere/polaris"
@@ -62,6 +63,7 @@ print_terms() {
   echo -e "\n"
   print_blue "3. Your third term here."
   # Add more terms as needed
+  # shellcheck disable=SC2183
   printf "%*s\n" $(( ($(tput cols) + 24) / 2)) | tr " " "-"
   printf "%*s\n" $(( ($(tput cols) + 28) / 2)) "[Y] Agree and Continue    [N] Reject and Terminate"
 }
@@ -69,7 +71,7 @@ print_banner
 loading_icon
 print_terms
 trap '' SIGINT
-read -p "[Y/N]: " terms
+read -r -p "[Y/N]: " terms
 
 check_pre_reqs() {
   # Check if running as root. If not, prompt for sudo password
@@ -98,15 +100,15 @@ check_pre_reqs() {
   if is_package_installed "pacman"; then
     # Arch Linux
     # Run the install command, if it is installed already then DO NOT reinstall
-    sudo pacman -S "openssl" "python3" "unzip" --noconfirm --needed
+    sudo pacman -S "openssl" "python3" "unzip" "ufw" --noconfirm --needed
   elif is_package_installed "apt"; then
     # Debian and Ubuntu
     # Run the install command, if it is installed already then it will skip it
-    sudo apt install "openssl python3 python3-pip python3-venv unzip" -y
+    sudo apt install "openssl python3 python3-pip python3-venv unzip ufw" -y
   elif is_package_installed "dnf"; then
     # Fedora
     # Run the install command, if it is installed already then it will skip it
-    sudo dnf install "openssl python3 python3-pip python3-venv unzip" -y
+    sudo dnf install "openssl python3 python3-pip python3-venv unzip ufw" -y
   else
     print_error "Error: Unsupported distribution. Please install the required dependencies manually."
     exit 1
@@ -136,7 +138,7 @@ download_polaris_driver() {
   else
     print_error "ameasere.com does not resolve to the correct IP address."
     print_yellow "Are you sure you want to continue? [Y/N]"
-    read -p "[Y/N]: " ip_address_check
+    read -r -p "[Y/N]: " ip_address_check
     if [ "$ip_address_check" == "Y" ] || [ "$ip_address_check" == "y" ]; then
       print_success "You have agreed to continue. Continuing..."
       sleep 1
@@ -174,7 +176,7 @@ check_driver_sum() {
   else
     print_error "SHA256 sum of the driver does not match the one on the server."
     print_yellow "Are you sure you want to continue? [Y/N]"
-    read -p "[Y/N]: " driver_sum_check
+    read -r -p "[Y/N]: " driver_sum_check
     if [ "$driver_sum_check" == "Y" ] || [ "$driver_sum_check" == "y" ]; then
       print_success "You have agreed to continue. Continuing..."
       sleep 1
@@ -234,7 +236,7 @@ configure_system() {
   else
     print_error "Polaris driver is not running."
     print_yellow "Are you sure you want to continue? [Y/N]"
-    read -p "[Y/N]: " driver_running_check
+    read -r -p "[Y/N]: " driver_running_check
     if [ "$driver_running_check" == "Y" ] || [ "$driver_running_check" == "y" ]; then
       print_success "You have agreed to continue. Continuing..."
       sleep 1

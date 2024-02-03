@@ -24,6 +24,9 @@ import socket
 import time
 import os
 import requests
+import traceback
+import sys
+import ipaddress
 
 # GUI FILE
 from . ui_main import Ui_MainWindow
@@ -37,3 +40,4 @@ from . app_functions import *
 
 # IMPORT BACKEND
 from . backend_login import *
+from . backend_connect_to_hsm import *
