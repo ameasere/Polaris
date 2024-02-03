@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'login_password.ui'
+## Form generated from reading UI file 'login.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.3
+## Created by: Qt User Interface Compiler version 6.6.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,16 +19,15 @@ from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QLineEdit,
     QMainWindow, QPushButton, QSizePolicy, QStackedWidget,
     QVBoxLayout, QWidget)
 from .resources_rc import *
-
-class Ui_PasswordLoginWindow(object):
-    def setupUi(self, PasswordLoginWindow):
-        if not PasswordLoginWindow.objectName():
-            PasswordLoginWindow.setObjectName(u"PasswordLoginWindow")
-        PasswordLoginWindow.resize(370, 520)
+class Ui_LoginWindow(object):
+    def setupUi(self, LoginWindow):
+        if not LoginWindow.objectName():
+            LoginWindow.setObjectName(u"LoginWindow")
+        LoginWindow.resize(370, 519)
         icon = QIcon()
         icon.addFile(u":/images/images/images/Polaris.png", QSize(), QIcon.Normal, QIcon.Off)
-        PasswordLoginWindow.setWindowIcon(icon)
-        self.styleSheet = QWidget(PasswordLoginWindow)
+        LoginWindow.setWindowIcon(icon)
+        self.styleSheet = QWidget(LoginWindow)
         self.styleSheet.setObjectName(u"styleSheet")
         self.styleSheet.setStyleSheet(u"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "\n"
@@ -672,9 +671,9 @@ class Ui_PasswordLoginWindow(object):
         self.pages.setObjectName(u"pages")
         self.pages.setGeometry(QRect(65, 70, 221, 381))
         self.pages.setStyleSheet(u"background: transparent;")
-        self.login = QWidget()
-        self.login.setObjectName(u"login")
-        self.login_button = QPushButton(self.login)
+        self.password_login = QWidget()
+        self.password_login.setObjectName(u"password_login")
+        self.login_button = QPushButton(self.password_login)
         self.login_button.setObjectName(u"login_button")
         self.login_button.setGeometry(QRect(31, 260, 160, 30))
         self.login_button.setMinimumSize(QSize(150, 30))
@@ -686,13 +685,17 @@ class Ui_PasswordLoginWindow(object):
         self.login_button.setFont(font3)
         self.login_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.login_button.setStyleSheet(u"QPushButton {\n"
-"background-color: #9e77ed;\n"
-"font: 10pt \"Inter Medium\";\n"
-"border-radius: 5px;\n"
+"	background-color: rgb(40, 27, 40);\n"
+"	border: 2px solid rgb(157, 122, 222);\n"
+"	background: solid;\n"
+"	border-radius: 5px;\n"
+"	font: 10pt \"Inter Medium\";\n"
 "}\n"
 "QPushButton:hover {\n"
-"	background-color: rgb(168, 128, 255);\n"
-"	border-radius: 4px;\n"
+"	background-color: rgba(40, 27, 40, 170);\n"
+"	border: 2px solid rgb(157, 122, 222);\n"
+"	border-radius: 5px;\n"
+"	font: 10pt \"Inter Medium\";\n"
 "}\n"
 "QPushButton:pressed {	\n"
 "	background-color: rgb(255, 243, 239);\n"
@@ -704,14 +707,14 @@ class Ui_PasswordLoginWindow(object):
         icon2 = QIcon()
         icon2.addFile(u":/icons/images/icons/login.png", QSize(), QIcon.Normal, QIcon.Off)
         self.login_button.setIcon(icon2)
-        self.password = QLineEdit(self.login)
+        self.password = QLineEdit(self.password_login)
         self.password.setObjectName(u"password")
         self.password.setGeometry(QRect(30, 181, 161, 30))
         self.password.setMinimumSize(QSize(0, 30))
         self.password.setStyleSheet(u"background-color: rgb(33, 37, 43);\n"
 "font: 600 10pt \"Inter Medium\";")
         self.password.setEchoMode(QLineEdit.Password)
-        self.passwordLabel = QLabel(self.login)
+        self.passwordLabel = QLabel(self.password_login)
         self.passwordLabel.setObjectName(u"passwordLabel")
         self.passwordLabel.setGeometry(QRect(30, 160, 151, 20))
         self.passwordLabel.setStyleSheet(u"color: #fff;\n"
@@ -722,20 +725,22 @@ class Ui_PasswordLoginWindow(object):
 "border-radius: 5px;")
         self.passwordLabel.setLineWidth(1)
         self.passwordLabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.register_button = QPushButton(self.login)
+        self.register_button = QPushButton(self.password_login)
         self.register_button.setObjectName(u"register_button")
         self.register_button.setGeometry(QRect(30, 300, 160, 30))
         self.register_button.setMinimumSize(QSize(150, 30))
         self.register_button.setFont(font3)
         self.register_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.register_button.setStyleSheet(u"QPushButton {\n"
-"background-color: rgb(44, 49, 58);\n"
-"font: 10pt \"Inter Medium\";\n"
-"border-radius: 5px;\n"
+"	background-color: rgb(44, 49, 58);\n"
+"	font: 10pt \"Inter Medium\";\n"
+"	border-radius: 5px;\n"
+"	border: 2px solid rgba(222, 222, 222, 150);\n"
 "}\n"
 "QPushButton:hover {\n"
 "	background-color: #47505e;\n"
 "	border-radius: 4px;\n"
+"	border: 2px solid rgba(222, 222, 222, 150);\n"
 "}\n"
 "QPushButton:pressed {	\n"
 "	background-color: rgb(255, 243, 239);\n"
@@ -743,17 +748,18 @@ class Ui_PasswordLoginWindow(object):
 "	icon: url(:/icons/images/icons/register_purple.png);\n"
 "	color: #9e77ed;\n"
 "	border-radius: 5px;\n"
+"	border: 2px solid rgba(222, 222, 222, 150);\n"
 "}")
         icon3 = QIcon()
         icon3.addFile(u":/icons/images/icons/register.png", QSize(), QIcon.Normal, QIcon.Off)
         self.register_button.setIcon(icon3)
-        self.icon_2 = QLabel(self.login)
+        self.icon_2 = QLabel(self.password_login)
         self.icon_2.setObjectName(u"icon_2")
         self.icon_2.setGeometry(QRect(40, 12, 20, 20))
         self.icon_2.setStyleSheet(u"")
         self.icon_2.setPixmap(QPixmap(u":/icons/images/icons/italic_purple.png"))
         self.icon_2.setScaledContents(False)
-        self.btn_dashboard_2 = QPushButton(self.login)
+        self.btn_dashboard_2 = QPushButton(self.password_login)
         self.btn_dashboard_2.setObjectName(u"btn_dashboard_2")
         self.btn_dashboard_2.setGeometry(QRect(60, 10, 120, 21))
         self.btn_dashboard_2.setMinimumSize(QSize(120, 15))
@@ -780,13 +786,13 @@ class Ui_PasswordLoginWindow(object):
 "color: #9e77ed;\n"
 "border-radius: 5px;\n"
 "}")
-        self.username = QLineEdit(self.login)
+        self.username = QLineEdit(self.password_login)
         self.username.setObjectName(u"username")
         self.username.setGeometry(QRect(30, 110, 161, 30))
         self.username.setMinimumSize(QSize(0, 30))
         self.username.setStyleSheet(u"background-color: rgb(33, 37, 43);\n"
 "font: 600 10pt \"Inter Medium\";")
-        self.usernameLabel = QLabel(self.login)
+        self.usernameLabel = QLabel(self.password_login)
         self.usernameLabel.setObjectName(u"usernameLabel")
         self.usernameLabel.setGeometry(QRect(30, 90, 151, 20))
         self.usernameLabel.setStyleSheet(u"color: #fff;\n"
@@ -797,7 +803,116 @@ class Ui_PasswordLoginWindow(object):
 "border-radius: 5px;")
         self.usernameLabel.setLineWidth(1)
         self.usernameLabel.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-        self.pages.addWidget(self.login)
+        self.pages.addWidget(self.password_login)
+        self.token_login = QWidget()
+        self.token_login.setObjectName(u"token_login")
+        self.passwordLabel_3 = QLabel(self.token_login)
+        self.passwordLabel_3.setObjectName(u"passwordLabel_3")
+        self.passwordLabel_3.setGeometry(QRect(30, 100, 151, 20))
+        self.passwordLabel_3.setStyleSheet(u"color: #fff;\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: left;\n"
+"color: #fff;\n"
+"border-radius: 5px;")
+        self.passwordLabel_3.setLineWidth(1)
+        self.passwordLabel_3.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.password_token = QLineEdit(self.token_login)
+        self.password_token.setObjectName(u"password_token")
+        self.password_token.setGeometry(QRect(30, 121, 161, 30))
+        self.password_token.setMinimumSize(QSize(0, 30))
+        self.password_token.setStyleSheet(u"background-color: rgb(33, 37, 43);\n"
+"font: 600 10pt \"Inter Medium\";")
+        self.password_token.setEchoMode(QLineEdit.Password)
+        self.btn_dashboard_3 = QPushButton(self.token_login)
+        self.btn_dashboard_3.setObjectName(u"btn_dashboard_3")
+        self.btn_dashboard_3.setGeometry(QRect(60, 10, 120, 21))
+        self.btn_dashboard_3.setMinimumSize(QSize(120, 15))
+        self.btn_dashboard_3.setFont(font)
+        self.btn_dashboard_3.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_dashboard_3.setStyleSheet(u"#btn_dashboard_3 {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: left;\n"
+"color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_dashboard_3:hover {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: left;\n"
+"color: #fff;\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_dashboard_3:pressed {\n"
+"background-color: transparent;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: left;\n"
+"color: #9e77ed;\n"
+"border-radius: 5px;\n"
+"}")
+        self.loginTokenButton = QPushButton(self.token_login)
+        self.loginTokenButton.setObjectName(u"loginTokenButton")
+        self.loginTokenButton.setGeometry(QRect(31, 260, 160, 30))
+        self.loginTokenButton.setMinimumSize(QSize(150, 30))
+        self.loginTokenButton.setFont(font3)
+        self.loginTokenButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.loginTokenButton.setStyleSheet(u"QPushButton {\n"
+"	background-color: rgb(40, 27, 40);\n"
+"	border: 2px solid rgb(157, 122, 222);\n"
+"	background: solid;\n"
+"	border-radius: 5px;\n"
+"	font: 10pt \"Inter Medium\";\n"
+"}\n"
+"QPushButton:hover {\n"
+"	background-color: rgba(40, 27, 40, 170);\n"
+"	border: 2px solid rgb(157, 122, 222);\n"
+"	border-radius: 5px;\n"
+"	font: 10pt \"Inter Medium\";\n"
+"}\n"
+"QPushButton:pressed {	\n"
+"	background-color: rgb(255, 243, 239);\n"
+"	font: 10pt \"Inter Medium\";\n"
+"	icon: url(:/icons/images/icons/log-in_purple.png);\n"
+"	color: #9e77ed;\n"
+"	border-radius: 5px;\n"
+"}")
+        self.loginTokenButton.setIcon(icon2)
+        self.loginNormalButton = QPushButton(self.token_login)
+        self.loginNormalButton.setObjectName(u"loginNormalButton")
+        self.loginNormalButton.setGeometry(QRect(29, 300, 161, 30))
+        self.loginNormalButton.setMinimumSize(QSize(150, 30))
+        self.loginNormalButton.setFont(font3)
+        self.loginNormalButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.loginNormalButton.setStyleSheet(u"QPushButton {\n"
+"	background-color: rgb(44, 49, 58);\n"
+"	font: 10pt \"Inter Medium\";\n"
+"	border-radius: 5px;\n"
+"	border: 2px solid rgba(222, 222, 222, 150);\n"
+"}\n"
+"QPushButton:hover {\n"
+"	background-color: #47505e;\n"
+"	border-radius: 4px;\n"
+"	border: 2px solid rgba(222, 222, 222, 150);\n"
+"}\n"
+"QPushButton:pressed {	\n"
+"	background-color: rgb(255, 243, 239);\n"
+"	font: 10pt \"Inter Medium\";\n"
+"	icon: url(:/icons/images/icons/italic_purple.png);\n"
+"	color: #9e77ed;\n"
+"	border-radius: 5px;\n"
+"	border: 2px solid rgba(222, 222, 222, 150);\n"
+"}")
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/images/icons/italic.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.loginNormalButton.setIcon(icon4)
+        self.icon_3 = QLabel(self.token_login)
+        self.icon_3.setObjectName(u"icon_3")
+        self.icon_3.setGeometry(QRect(40, 11, 20, 20))
+        self.icon_3.setStyleSheet(u"")
+        self.icon_3.setPixmap(QPixmap(u":/icons/images/icons/key.png"))
+        self.icon_3.setScaledContents(False)
+        self.pages.addWidget(self.token_login)
         self.twofactor = QWidget()
         self.twofactor.setObjectName(u"twofactor")
         self.passwordLabel_2 = QLabel(self.twofactor)
@@ -1013,44 +1128,55 @@ class Ui_PasswordLoginWindow(object):
 
         self.verticalLayout_2.addWidget(self.bgApp)
 
-        PasswordLoginWindow.setCentralWidget(self.styleSheet)
+        LoginWindow.setCentralWidget(self.styleSheet)
 
-        self.retranslateUi(PasswordLoginWindow)
+        self.retranslateUi(LoginWindow)
 
-        self.pages.setCurrentIndex(1)
+        self.pages.setCurrentIndex(0)
         self.btn_minimize.setDefault(False)
 
 
-        QMetaObject.connectSlotsByName(PasswordLoginWindow)
+        QMetaObject.connectSlotsByName(LoginWindow)
     # setupUi
 
-    def retranslateUi(self, PasswordLoginWindow):
-        PasswordLoginWindow.setWindowTitle(QCoreApplication.translate("PasswordLoginWindow", u"Polaris", None))
+    def retranslateUi(self, LoginWindow):
+        LoginWindow.setWindowTitle(QCoreApplication.translate("LoginWindow", u"Polaris", None))
         self.bg1.setText("")
         self.logo.setText("")
-        self.creditsLabel.setText(QCoreApplication.translate("PasswordLoginWindow", u"Milestone 3 Build", None))
-        self.creditsLabel_2.setText(QCoreApplication.translate("PasswordLoginWindow", u"0.3.0", None))
+        self.creditsLabel.setText(QCoreApplication.translate("LoginWindow", u"Milestone 3 Build", None))
+        self.creditsLabel_2.setText(QCoreApplication.translate("LoginWindow", u"0.3.0", None))
         self.btn_dropdown.setText("")
-        self.login_button.setText(QCoreApplication.translate("PasswordLoginWindow", u" Log In", None))
+        self.login_button.setText(QCoreApplication.translate("LoginWindow", u" Log In", None))
         self.password.setInputMask("")
         self.password.setText("")
-        self.password.setPlaceholderText(QCoreApplication.translate("PasswordLoginWindow", u"...", None))
-        self.passwordLabel.setText(QCoreApplication.translate("PasswordLoginWindow", u"Password", None))
+        self.password.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"...", None))
+        self.passwordLabel.setText(QCoreApplication.translate("LoginWindow", u"Password", None))
 #if QT_CONFIG(tooltip)
-        self.register_button.setToolTip(QCoreApplication.translate("PasswordLoginWindow", u"<html><head/><body><p>This will take you to our website.</p></body></html>", None))
+        self.register_button.setToolTip(QCoreApplication.translate("LoginWindow", u"<html><head/><body><p>This will take you to our website.</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
-        self.register_button.setText(QCoreApplication.translate("PasswordLoginWindow", u"  Register", None))
+        self.register_button.setText(QCoreApplication.translate("LoginWindow", u"  Register", None))
         self.icon_2.setText("")
-        self.btn_dashboard_2.setText(QCoreApplication.translate("PasswordLoginWindow", u"  Password Login", None))
+        self.btn_dashboard_2.setText(QCoreApplication.translate("LoginWindow", u"  Password Login", None))
         self.username.setText("")
-        self.username.setPlaceholderText(QCoreApplication.translate("PasswordLoginWindow", u"...", None))
-        self.usernameLabel.setText(QCoreApplication.translate("PasswordLoginWindow", u"Username", None))
-        self.passwordLabel_2.setText(QCoreApplication.translate("PasswordLoginWindow", u"Authenticator code", None))
+        self.username.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"...", None))
+        self.usernameLabel.setText(QCoreApplication.translate("LoginWindow", u"Username", None))
+        self.passwordLabel_3.setText(QCoreApplication.translate("LoginWindow", u"Password", None))
+        self.password_token.setInputMask("")
+        self.password_token.setText("")
+        self.password_token.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"...", None))
+        self.btn_dashboard_3.setText(QCoreApplication.translate("LoginWindow", u"  Token Login", None))
+        self.loginTokenButton.setText(QCoreApplication.translate("LoginWindow", u" Log In", None))
+#if QT_CONFIG(tooltip)
+        self.loginNormalButton.setToolTip(QCoreApplication.translate("LoginWindow", u"<html><head/><body><p>This will take you to our website.</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+        self.loginNormalButton.setText(QCoreApplication.translate("LoginWindow", u"Log In Without Token", None))
+        self.icon_3.setText("")
+        self.passwordLabel_2.setText(QCoreApplication.translate("LoginWindow", u"Authenticator code", None))
         self.twofactor_field.setInputMask("")
         self.twofactor_field.setText("")
-        self.twofactor_field.setPlaceholderText(QCoreApplication.translate("PasswordLoginWindow", u"...", None))
-        self.twofactor_button.setText(QCoreApplication.translate("PasswordLoginWindow", u" Log In", None))
-        self.btn_dashboard.setText(QCoreApplication.translate("PasswordLoginWindow", u"  2-Factor Auth", None))
+        self.twofactor_field.setPlaceholderText(QCoreApplication.translate("LoginWindow", u"...", None))
+        self.twofactor_button.setText(QCoreApplication.translate("LoginWindow", u" Log In", None))
+        self.btn_dashboard.setText(QCoreApplication.translate("LoginWindow", u"  2-Factor Auth", None))
         self.icon_1.setText("")
         self.btn_minimize.setText("")
         self.btn_close.setText("")

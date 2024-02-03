@@ -18,7 +18,7 @@ import json
 # IMPORT / GUI AND MODULES AND WIDGETS
 # ///////////////////////////////////////////////////////////////
 from modules import *
-from windows import FirstRunWindow, TokenLoginWindow
+from windows import LoginWindow
 
 if platform.system() == "Windows":
     import ctypes
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     app.setWindowIcon(QIcon("icon.ico"))
     config = preliminary_config_check()
     if "token" not in config or config["token"] == "":
-        window = FirstRunWindow()
+        window = LoginWindow(window="password")
     else:
-        window = TokenLoginWindow()
+        window = LoginWindow(window="token")
     sys.exit(app.exec())

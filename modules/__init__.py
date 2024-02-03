@@ -27,8 +27,7 @@ import requests
 
 # GUI FILE
 from . ui_main import Ui_MainWindow
-from . ui_password_login import Ui_PasswordLoginWindow
-from . ui_token_login import Ui_TokenLoginWindow
+from . ui_login import Ui_LoginWindow
 
 # APP SETTINGS
 from . app_settings import Settings

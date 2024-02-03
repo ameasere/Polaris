@@ -74,6 +74,26 @@ class MainWindow(QMainWindow):
         self.ui.btn_minimize.clicked.connect(self.buttonClick)
         self.ui.btn_website.clicked.connect(self.buttonClick)
 
+        # Set on hover
+        def enter_handler(_):
+            # If the graphics effect is deleted, set it
+            if self.ui.btn_addfirsthsm.graphicsEffect() is None:
+                self.addfirstshadow = QGraphicsDropShadowEffect(self.ui.btn_addfirsthsm)
+                self.addfirstshadow.setBlurRadius(25)
+                self.addfirstshadow.setXOffset(0)
+                self.addfirstshadow.setYOffset(0)
+                self.addfirstshadow.setColor(QColor(255, 255, 255, 150))
+                self.ui.btn_addfirsthsm.setGraphicsEffect(self.addfirstshadow)
+            else:
+                pass
+
+        # Remove once mouse leaves
+        def leave_handler(_):
+            self.ui.btn_addfirsthsm.setGraphicsEffect(None)
+
+        self.ui.btn_addfirsthsm.enterEvent = enter_handler
+        self.ui.btn_addfirsthsm.leaveEvent = leave_handler
+
         # widgets.settingsTopBtn.hide()
 
         self.paintEvent(None)

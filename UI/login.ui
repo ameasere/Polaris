@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PasswordLoginWindow</class>
- <widget class="QMainWindow" name="PasswordLoginWindow">
+ <class>LoginWindow</class>
+ <widget class="QMainWindow" name="LoginWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>370</width>
-    <height>520</height>
+    <height>519</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -752,9 +752,9 @@ text-align: left;</string>
         <string notr="true">background: transparent;</string>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
-       <widget class="QWidget" name="login">
+       <widget class="QWidget" name="password_login">
         <widget class="QPushButton" name="login_button">
          <property name="geometry">
           <rect>
@@ -783,13 +783,17 @@ text-align: left;</string>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-background-color: #9e77ed;
-font: 10pt &quot;Inter Medium&quot;;
-border-radius: 5px;
+	background-color: rgb(40, 27, 40);
+	border: 2px solid rgb(157, 122, 222);
+	background: solid;
+	border-radius: 5px;
+	font: 10pt &quot;Inter Medium&quot;;
 }
 QPushButton:hover {
-	background-color: rgb(168, 128, 255);
-	border-radius: 4px;
+	background-color: rgba(40, 27, 40, 170);
+	border: 2px solid rgb(157, 122, 222);
+	border-radius: 5px;
+	font: 10pt &quot;Inter Medium&quot;;
 }
 QPushButton:pressed {	
 	background-color: rgb(255, 243, 239);
@@ -897,13 +901,15 @@ border-radius: 5px;</string>
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-background-color: rgb(44, 49, 58);
-font: 10pt &quot;Inter Medium&quot;;
-border-radius: 5px;
+	background-color: rgb(44, 49, 58);
+	font: 10pt &quot;Inter Medium&quot;;
+	border-radius: 5px;
+	border: 2px solid rgba(222, 222, 222, 150);
 }
 QPushButton:hover {
 	background-color: #47505e;
 	border-radius: 4px;
+	border: 2px solid rgba(222, 222, 222, 150);
 }
 QPushButton:pressed {	
 	background-color: rgb(255, 243, 239);
@@ -911,6 +917,7 @@ QPushButton:pressed {
 	icon: url(:/icons/images/icons/register_purple.png);
 	color: #9e77ed;
 	border-radius: 5px;
+	border: 2px solid rgba(222, 222, 222, 150);
 }</string>
          </property>
          <property name="text">
@@ -1047,6 +1054,256 @@ border-radius: 5px;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="token_login">
+        <widget class="QLabel" name="passwordLabel_3">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>100</y>
+           <width>151</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: #fff;
+background-color: transparent;
+font: 600 10pt &quot;Inter Medium&quot;;
+text-align: left;
+color: #fff;
+border-radius: 5px;</string>
+         </property>
+         <property name="lineWidth">
+          <number>1</number>
+         </property>
+         <property name="text">
+          <string>Password</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="password_token">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>121</y>
+           <width>161</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(33, 37, 43);
+font: 600 10pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+         <property name="placeholderText">
+          <string>...</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_dashboard_3">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>10</y>
+           <width>120</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>120</width>
+           <height>15</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Inter Medium</family>
+           <pointsize>10</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">#btn_dashboard_3 {
+background-color: transparent;
+font: 600 10pt &quot;Inter Medium&quot;;
+text-align: left;
+color: #fff;
+border-radius: 5px;
+}
+#btn_dashboard_3:hover {
+background-color: transparent;
+font: 600 10pt &quot;Inter Medium&quot;;
+text-align: left;
+color: #fff;
+border-radius: 5px;
+}
+#btn_dashboard_3:pressed {
+background-color: transparent;
+font: 600 10pt &quot;Inter Medium&quot;;
+text-align: left;
+color: #9e77ed;
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>  Token Login</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="loginTokenButton">
+         <property name="geometry">
+          <rect>
+           <x>31</x>
+           <y>260</y>
+           <width>160</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Inter Medium</family>
+           <pointsize>10</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	background-color: rgb(40, 27, 40);
+	border: 2px solid rgb(157, 122, 222);
+	background: solid;
+	border-radius: 5px;
+	font: 10pt &quot;Inter Medium&quot;;
+}
+QPushButton:hover {
+	background-color: rgba(40, 27, 40, 170);
+	border: 2px solid rgb(157, 122, 222);
+	border-radius: 5px;
+	font: 10pt &quot;Inter Medium&quot;;
+}
+QPushButton:pressed {	
+	background-color: rgb(255, 243, 239);
+	font: 10pt &quot;Inter Medium&quot;;
+	icon: url(:/icons/images/icons/log-in_purple.png);
+	color: #9e77ed;
+	border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string> Log In</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/images/icons/login.png</normaloff>:/icons/images/icons/login.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="loginNormalButton">
+         <property name="geometry">
+          <rect>
+           <x>29</x>
+           <y>300</y>
+           <width>161</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Inter Medium</family>
+           <pointsize>10</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will take you to our website.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	background-color: rgb(44, 49, 58);
+	font: 10pt &quot;Inter Medium&quot;;
+	border-radius: 5px;
+	border: 2px solid rgba(222, 222, 222, 150);
+}
+QPushButton:hover {
+	background-color: #47505e;
+	border-radius: 4px;
+	border: 2px solid rgba(222, 222, 222, 150);
+}
+QPushButton:pressed {	
+	background-color: rgb(255, 243, 239);
+	font: 10pt &quot;Inter Medium&quot;;
+	icon: url(:/icons/images/icons/italic_purple.png);
+	color: #9e77ed;
+	border-radius: 5px;
+	border: 2px solid rgba(222, 222, 222, 150);
+}</string>
+         </property>
+         <property name="text">
+          <string>Log In Without Token</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/images/icons/italic.png</normaloff>:/icons/images/icons/italic.png</iconset>
+         </property>
+        </widget>
+        <widget class="QLabel" name="icon_3">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>11</y>
+           <width>20</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="resources.qrc">:/icons/images/icons/key.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
          </property>
         </widget>
        </widget>

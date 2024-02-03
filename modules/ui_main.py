@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QMainWindow,
-    QPushButton, QSizePolicy, QStackedWidget, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QLineEdit,
+    QMainWindow, QPushButton, QSizePolicy, QStackedWidget,
+    QVBoxLayout, QWidget)
 from .resources_rc import *
 
 class Ui_MainWindow(object):
@@ -763,7 +763,7 @@ class Ui_MainWindow(object):
         self.ctx_btns.setObjectName(u"ctx_btns")
         self.ctx_btns.setGeometry(QRect(1071, 20, 161, 161))
         self.ctx_btns.setStyleSheet(u"QFrame  {\n"
-"	background-color: rgba(40, 27, 40);\n"
+"	background-color: rgb(40, 27, 40);\n"
 "	background: solid;\n"
 "	border: 2px solid rgb(157, 122, 222);\n"
 "	border-radius: 15px;\n"
@@ -895,7 +895,7 @@ class Ui_MainWindow(object):
         self.username.setStyleSheet(u"background-color: transparent;\n"
 "font: 600 10pt \"Inter Medium\";\n"
 "text-align: left;\n"
-"color: #A29F9F;")
+"color: #fff;")
         self.currentlyloggedin = QLabel(self.ctx_btns)
         self.currentlyloggedin.setObjectName(u"currentlyloggedin")
         self.currentlyloggedin.setGeometry(QRect(10, 100, 141, 21))
@@ -912,7 +912,7 @@ class Ui_MainWindow(object):
 "background-color: transparent;\n"
 "font: 600 10pt \"Inter Medium\";\n"
 "text-align: left;\n"
-"color: rgb(202, 202, 202)")
+"color: rgb(255, 255, 255)")
         self.ipaddress.setAlignment(Qt.AlignCenter)
         self.btn_website = QPushButton(self.ctx_btns)
         self.btn_website.setObjectName(u"btn_website")
@@ -1049,7 +1049,12 @@ class Ui_MainWindow(object):
         self.pages.setStyleSheet(u"background: transparent;")
         self.hsmlist = QWidget()
         self.hsmlist.setObjectName(u"hsmlist")
-        self.btn_addfirsthsm = QPushButton(self.hsmlist)
+        self.hsmpages = QStackedWidget(self.hsmlist)
+        self.hsmpages.setObjectName(u"hsmpages")
+        self.hsmpages.setGeometry(QRect(0, 0, 931, 441))
+        self.addfirst = QWidget()
+        self.addfirst.setObjectName(u"addfirst")
+        self.btn_addfirsthsm = QPushButton(self.addfirst)
         self.btn_addfirsthsm.setObjectName(u"btn_addfirsthsm")
         self.btn_addfirsthsm.setGeometry(QRect(370, 200, 181, 41))
         self.btn_addfirsthsm.setMinimumSize(QSize(120, 15))
@@ -1079,6 +1084,72 @@ class Ui_MainWindow(object):
         icon2 = QIcon()
         icon2.addFile(u":/icons/images/icons/cil-plus.png", QSize(), QIcon.Normal, QIcon.Off)
         self.btn_addfirsthsm.setIcon(icon2)
+        self.hsmpages.addWidget(self.addfirst)
+        self.hsmdetails = QWidget()
+        self.hsmdetails.setObjectName(u"hsmdetails")
+        self.hsm_name = QLineEdit(self.hsmdetails)
+        self.hsm_name.setObjectName(u"hsm_name")
+        self.hsm_name.setGeometry(QRect(330, 91, 271, 30))
+        self.hsm_name.setMinimumSize(QSize(0, 30))
+        self.hsm_name.setStyleSheet(u"background: solid rgb(16, 11, 16);\n"
+"border: 2px solid rgb(157, 122, 222);\n"
+"border-radius: 15px;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"color: white;")
+        self.hsmnamelabel = QLabel(self.hsmdetails)
+        self.hsmnamelabel.setObjectName(u"hsmnamelabel")
+        self.hsmnamelabel.setGeometry(QRect(340, 60, 261, 31))
+        self.hsmnamelabel.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.addhsmtitle = QLabel(self.hsmdetails)
+        self.addhsmtitle.setObjectName(u"addhsmtitle")
+        self.addhsmtitle.setGeometry(QRect(0, 0, 931, 51))
+        self.addhsmtitle.setStyleSheet(u"font: 600 16pt \"Inter Medium\";")
+        self.addhsmtitle.setAlignment(Qt.AlignCenter)
+        self.hmsusernamelabel = QLabel(self.hsmdetails)
+        self.hmsusernamelabel.setObjectName(u"hmsusernamelabel")
+        self.hmsusernamelabel.setGeometry(QRect(340, 201, 71, 31))
+        self.hmsusernamelabel.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.hsm_username = QLineEdit(self.hsmdetails)
+        self.hsm_username.setObjectName(u"hsm_username")
+        self.hsm_username.setGeometry(QRect(330, 232, 271, 30))
+        self.hsm_username.setMinimumSize(QSize(0, 30))
+        self.hsm_username.setStyleSheet(u"background: solid rgb(16, 11, 16);\n"
+"border: 2px solid rgb(157, 122, 222);\n"
+"border-radius: 15px;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"color: white;")
+        self.hsm_password = QLineEdit(self.hsmdetails)
+        self.hsm_password.setObjectName(u"hsm_password")
+        self.hsm_password.setGeometry(QRect(330, 303, 271, 30))
+        self.hsm_password.setMinimumSize(QSize(0, 30))
+        self.hsm_password.setStyleSheet(u"background: solid rgb(16, 11, 16);\n"
+"border: 2px solid rgb(157, 122, 222);\n"
+"border-radius: 15px;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"color: white;")
+        self.hsmpasswordlabel = QLabel(self.hsmdetails)
+        self.hsmpasswordlabel.setObjectName(u"hsmpasswordlabel")
+        self.hsmpasswordlabel.setGeometry(QRect(340, 272, 71, 31))
+        self.hsmpasswordlabel.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.hsmusernametooltip = QLabel(self.hsmdetails)
+        self.hsmusernametooltip.setObjectName(u"hsmusernametooltip")
+        self.hsmusernametooltip.setGeometry(QRect(410, 210, 16, 16))
+        self.hsmusernametooltip.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.hsmusernametooltip.setPixmap(QPixmap(u":/icons/images/icons/alert-circle.png"))
+        self.hsm_ip = QLineEdit(self.hsmdetails)
+        self.hsm_ip.setObjectName(u"hsm_ip")
+        self.hsm_ip.setGeometry(QRect(330, 161, 271, 30))
+        self.hsm_ip.setMinimumSize(QSize(0, 30))
+        self.hsm_ip.setStyleSheet(u"background: solid rgb(16, 11, 16);\n"
+"border: 2px solid rgb(157, 122, 222);\n"
+"border-radius: 15px;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"color: white;")
+        self.hsmiplabel = QLabel(self.hsmdetails)
+        self.hsmiplabel.setObjectName(u"hsmiplabel")
+        self.hsmiplabel.setGeometry(QRect(340, 130, 111, 31))
+        self.hsmiplabel.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.hsmpages.addWidget(self.hsmdetails)
         self.pages.addWidget(self.hsmlist)
         self.configurator = QWidget()
         self.configurator.setObjectName(u"configurator")
@@ -1088,7 +1159,7 @@ class Ui_MainWindow(object):
         self.pages.addWidget(self.controlpanel)
         self.dragBar = QFrame(self.bgApp)
         self.dragBar.setObjectName(u"dragBar")
-        self.dragBar.setGeometry(QRect(0, 0, 1255, 21))
+        self.dragBar.setGeometry(QRect(0, 0, 1261, 51))
         self.dragBar.setStyleSheet(u"border: none;\n"
 "background: transparent;")
         self.dragBar.setFrameShape(QFrame.StyledPanel)
@@ -1211,18 +1282,18 @@ class Ui_MainWindow(object):
         self.sep3.raise_()
         self.icon_3.raise_()
         self.btn_account.raise_()
-        self.ctx_btns.raise_()
         self.icon_4.raise_()
         self.btn_settings.raise_()
         self.sep4.raise_()
         self.creditsLabel.raise_()
         self.creditsLabel_2.raise_()
-        self.btn_dropdown.raise_()
         self.pages.raise_()
         self.dragBar.raise_()
         self.btn_hsmlist.raise_()
         self.btn_controlpanel.raise_()
         self.btn_configurator.raise_()
+        self.ctx_btns.raise_()
+        self.btn_dropdown.raise_()
 
         self.verticalLayout_2.addWidget(self.bgApp)
 
@@ -1270,10 +1341,27 @@ class Ui_MainWindow(object):
         self.icon_4.setText("")
         self.btn_settings.setText(QCoreApplication.translate("MainWindow", u"  Settings", None))
         self.sep4.setText("")
-        self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"Milestone 3 Build", None))
+        self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"Milestone 4 Build", None))
         self.creditsLabel_2.setText(QCoreApplication.translate("MainWindow", u"0.3.0", None))
         self.btn_dropdown.setText("")
         self.btn_addfirsthsm.setText(QCoreApplication.translate("MainWindow", u"Add your first HSM", None))
+        self.hsm_name.setText("")
+        self.hsm_name.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Give your HSM a label...", None))
+        self.hsmnamelabel.setText(QCoreApplication.translate("MainWindow", u"HSM Name", None))
+        self.addhsmtitle.setText(QCoreApplication.translate("MainWindow", u"Add your HSM", None))
+        self.hmsusernamelabel.setText(QCoreApplication.translate("MainWindow", u"Username", None))
+        self.hsm_username.setText("")
+        self.hsm_username.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter the account's username...", None))
+        self.hsm_password.setText("")
+        self.hsm_password.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter the account's password...", None))
+        self.hsmpasswordlabel.setText(QCoreApplication.translate("MainWindow", u"Password", None))
+#if QT_CONFIG(tooltip)
+        self.hsmusernametooltip.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>This must be an account in the sudoers file. Do not use the root account here, use an unprivileged account with sudo access restricted by a password.</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
+        self.hsmusernametooltip.setText("")
+        self.hsm_ip.setText("")
+        self.hsm_ip.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter the HSM's IP address...", None))
+        self.hsmiplabel.setText(QCoreApplication.translate("MainWindow", u"HSM IP Address", None))
         self.btn_hsmlist.setText(QCoreApplication.translate("MainWindow", u"Overview", None))
         self.hsmlist_bg.setText("")
         self.btn_controlpanel.setText(QCoreApplication.translate("MainWindow", u"Control Panel", None))

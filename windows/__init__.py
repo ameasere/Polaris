@@ -1,3 +1,2 @@
-from .FirstRunWindow import FirstRunWindow
+from .LoginWindow import LoginWindow
 from .MainWindow import MainWindow
-from .TokenLoginWindow import TokenLoginWindow
