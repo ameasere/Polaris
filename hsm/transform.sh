@@ -104,11 +104,11 @@ check_pre_reqs() {
   elif is_package_installed "apt"; then
     # Debian and Ubuntu
     # Run the install command, if it is installed already then it will skip it
-    sudo apt install "openssl python3 python3-pip python3-venv unzip ufw" -y
+    sudo apt install openssl python3 python3-pip python3-venv unzip ufw -y
   elif is_package_installed "dnf"; then
     # Fedora
     # Run the install command, if it is installed already then it will skip it
-    sudo dnf install "openssl python3 python3-pip python3-venv unzip ufw" -y
+    sudo dnf install openssl python3 python3-pip python3-venv unzip ufw -y
   else
     print_error "Error: Unsupported distribution. Please install the required dependencies manually."
     exit 1
@@ -211,6 +211,8 @@ configure_system() {
   print_yellow "Adding firewall rule to allow incoming connections on port 26555..."
   sleep 1
   sudo ufw allow 26555/tcp
+  sudo ufw allow 22/tcp
+  sudo ufw --force enable
   print_success "Firewall rule added successfully."
   # chmod and chown the driver to 700 and root:root
   sudo chmod 700 polaris_driver/driver.bin
@@ -258,6 +260,10 @@ if [ "$terms" == "Y" ] || [ "$terms" == "y" ]; then
   print_blue "Starting the configuration of the HSM..."
   check_pre_reqs
   install_pip_packages
+  download_polaris_driver
+  check_driver_sum
+  configure_system
+  print_success "Configuration of the HSM is complete."
 elif [ "$terms" == "N" ] || [ "$terms" == "n" ]; then
   print_error "You have rejected the terms and conditions. Configuration of the HSM will not continue."
   exit 1

@@ -46,7 +46,7 @@ if platform.system() == "Windows":
         scale = ctypes.windll.shcore.GetScaleFactorForDevice(0)
         if scale > 1:
             ctypes.windll.shcore.SetProcessDpiAwareness(2)
-            os.environ["QT_FONT_DPI"] = "96"  # FIX Problem for High DPI and Scale above 100%
+            os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"  # FIX Problem for High DPI and Scale above 100%
         else:
             os.environ["QT_FONT_DPI"] = "72"
     except:
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     app.setWindowIcon(QIcon("icon.ico"))
     config = preliminary_config_check()
     if "token" not in config or config["token"] == "":
-        window = LoginWindow(window="password")
+        window = LoginWindow(window="password", config=config)
     else:
-        window = LoginWindow(window="token")
+        window = LoginWindow(window="token", config=config)
     sys.exit(app.exec())

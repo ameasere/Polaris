@@ -6,6 +6,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 import threading
 import os
 import hashlib
+import sys
 
 
 def generate_ecdh_key_pair():
@@ -56,17 +57,21 @@ def handle_client(client_socket):
 
     # Process the decrypted_data as needed
     print(f"Received encrypted data: {encrypted_data}")
+    sys.stdout.flush()  # Journalctl Prints
     print(f"Decrypted data: {decrypted_data}")
+    sys.stdout.flush()  # Journalctl Prints
 
     if decrypted_data == "Hello, HSM":
         encrypted_data = encrypt_data(shared_key, "Hello, Client")
         client_socket.send(encrypted_data)
         print("Sent encrypted data: Hello, Client")
+        sys.stdout.flush()  # Journalctl Prints
         client_socket.close()
         return
 
     if not decrypted_data.startswith("polaris://"):
         print("Invalid data received")
+        sys.stdout.flush()  # Journalctl Prints
         return
 
     # Remove the "polaris://" prefix
@@ -82,6 +87,7 @@ def handle_client(client_socket):
         old_data = data
     else:
         print("Invalid action received")
+        sys.stdout.flush()  # Journalctl Prints
         return
 
     data = "polaris://" + action + ":" + data
@@ -89,6 +95,7 @@ def handle_client(client_socket):
 
     client_socket.send(encrypted_data)
     print(f"Sent encrypted data: polaris://{action}:{old_data}")
+    sys.stdout.flush()  # Journalctl Prints
 
     client_socket.close()
 
@@ -99,10 +106,12 @@ def start_server():
     server.listen(5)
 
     print("Server listening on port 26555")
+    sys.stdout.flush()  # Journalctl Prints
 
     while True:
         client_socket, addr = server.accept()
         print(f"Accepted connection from {addr}")
+        sys.stdout.flush()  # Journalctl Prints
         client_handler = threading.Thread(target=handle_client, args=(client_socket,))
         client_handler.start()
 
