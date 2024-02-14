@@ -66,13 +66,14 @@ class Worker(QRunnable):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, response):
+    def __init__(self, response, config):
         QMainWindow.__init__(self)
         # SET AS GLOBAL WIDGETS
         # ///////////////////////////////////////////////////////////////
         self.dragPos = None
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.config = config
         self.threadpool = QThreadPool()
         # Get size of screen
         screen = QApplication.primaryScreen()
@@ -226,9 +227,14 @@ class MainWindow(QMainWindow):
         except Exception as e:
             # Get the local IP address instead
             ipaddr = socket.gethostbyname(socket.gethostname())
-            print(repr(e))
 
         self.ui.ipaddress.setText(ipaddr)
+
+        if "configuration" not in self.config or len(self.config["configuration"]) == 0:
+            self.ui.hsmpages.setCurrentWidget(self.ui.addfirst)
+        else:
+            self.ui.hsmpages.setCurrentWidget(self.ui.overview)
+
 
         # SHOW APP
         # ///////////////////////////////////////////////////////////////

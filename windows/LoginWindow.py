@@ -4,13 +4,14 @@ from .MainWindow import MainWindow
 
 
 class LoginWindow(QMainWindow):
-    def __init__(self, window):
+    def __init__(self, window, config):
         QMainWindow.__init__(self)
         # SET AS GLOBAL WIDGETS
         # ///////////////////////////////////////////////////////////////
         self.dragPos = None
         self.ui = Ui_LoginWindow()
         self.ui.setupUi(self)
+        self.config = config
         widgets = self.ui
 
         # USE CUSTOM TITLE BAR | USE AS "False" FOR MAC OR LINUX
@@ -629,7 +630,7 @@ class LoginWindow(QMainWindow):
                 self.timer.singleShot(1000, lambda: self.twofactor_responselabel_reverse.start())
 
     def openMainWindow(self, response):
-        self.mainWindow = MainWindow(response)
+        self.mainWindow = MainWindow(response, self.config)
         self.mainWindow.show()
         self.close()
 
