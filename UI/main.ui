@@ -1716,12 +1716,12 @@ color: white;</string>
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-          <widget class="QLabel" name="hmsusernamelabel">
+          <widget class="QLabel" name="hsmmasterpassword">
            <property name="geometry">
             <rect>
              <x>340</x>
              <y>201</y>
-             <width>71</width>
+             <width>111</width>
              <height>31</height>
             </rect>
            </property>
@@ -1729,10 +1729,10 @@ color: white;</string>
             <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
            </property>
            <property name="text">
-            <string>Username</string>
+            <string>Master Password</string>
            </property>
           </widget>
-          <widget class="QLineEdit" name="hsm_username">
+          <widget class="QLineEdit" name="hsm_masterpw">
            <property name="geometry">
             <rect>
              <x>330</x>
@@ -1758,10 +1758,10 @@ color: white;</string>
             <string/>
            </property>
            <property name="placeholderText">
-            <string>Enter the account's username...</string>
+            <string>Enter a master password...</string>
            </property>
           </widget>
-          <widget class="QLineEdit" name="hsm_password">
+          <widget class="QLineEdit" name="hsm_machineid">
            <property name="geometry">
             <rect>
              <x>330</x>
@@ -1786,16 +1786,19 @@ color: white;</string>
            <property name="text">
             <string/>
            </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
            <property name="placeholderText">
-            <string>Enter the account's password...</string>
+            <string/>
            </property>
           </widget>
-          <widget class="QLabel" name="hsmpasswordlabel">
+          <widget class="QLabel" name="hsmmachineid">
            <property name="geometry">
             <rect>
              <x>340</x>
              <y>272</y>
-             <width>71</width>
+             <width>151</width>
              <height>31</height>
             </rect>
            </property>
@@ -1803,29 +1806,7 @@ color: white;</string>
             <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
            </property>
            <property name="text">
-            <string>Password</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="hsmusernametooltip">
-           <property name="geometry">
-            <rect>
-             <x>410</x>
-             <y>210</y>
-             <width>16</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This must be an account in the sudoers file. Do not use the root account here, use an unprivileged account with sudo access restricted by a password.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap resource="resources.qrc">:/icons/images/icons/alert-circle.png</pixmap>
+            <string>Your Machine Identifier</string>
            </property>
           </widget>
           <widget class="QLineEdit" name="hsm_ip">
@@ -1930,6 +1911,7 @@ QPushButton:pressed {
            </property>
           </widget>
          </widget>
+         <widget class="QWidget" name="overview"/>
         </widget>
        </widget>
        <widget class="QWidget" name="configurator"/>

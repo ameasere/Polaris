@@ -38,6 +38,7 @@ def key_exchange(server_socket):
 
 
 def encrypt_data(key, plaintext):
+    # Nonce must be between 8 and 128 bytes
     nonce = os.urandom(12)
     cipher = AESGCM(key)
     ciphertext = cipher.encrypt(nonce, plaintext.encode(), None)
@@ -68,7 +69,7 @@ def send_data(ip, data):
     return (encrypted_response, decrypted_response)
 
 
-def connect_to_hsm(ip_address):
+def connect_to_hsm(ip_address, masterpw, machineid):
     # Try connecting to HSM for 5 seconds - if not, timeout, return "Connection failed"
     try:
         # Connect to HSM
@@ -79,13 +80,22 @@ def connect_to_hsm(ip_address):
         handshake = encrypt_data(handshake_key, "Hello, HSM")
         hsm.send(handshake)
         data = hsm.recv(1024)
+        print(f"Received: {data}")
         decrypted_data = decrypt_data(handshake_key, data)
-        hsm.close()
         if decrypted_data != "Hello, Client":
             raise Exception("Handshake failed")
         else:
-            return decrypted_data
+            print("Handshake successful")
+            creds_encrypted = encrypt_data(handshake_key, f"polaris://masterpw={masterpw}&machineid={machineid}")
+            hsm.send(creds_encrypted)
+            response = hsm.recv(1024)
+            print(f"Received: {response}")
     except TimeoutError:
         raise Exception("Connection to HSM timed out")
-    except socket.error:
+    except socket.error as e:
+        print(traceback.format_exc())
         raise Exception("Connection to HSM failed")
+    except Exception as e:
+        # Traceback
+        print(traceback.format_exc())
+        raise Exception(f"Connection to HSM failed: {e}")
