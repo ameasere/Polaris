@@ -18,8 +18,9 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
+
 class CustomGrip(QWidget):
-    def __init__(self, parent, position, disable_color = False):
+    def __init__(self, parent, position, disable_color=False):
 
         # SETUP UI
         QWidget.__init__(self)
@@ -40,7 +41,9 @@ class CustomGrip(QWidget):
             # RESIZE TOP
             def resize_top(event):
                 delta = event.pos()
-                height = max(self.parent.minimumHeight(), self.parent.height() - delta.y())
+                height = max(
+                    self.parent.minimumHeight(),
+                    self.parent.height() - delta.y())
                 geo = self.parent.geometry()
                 geo.setTop(geo.bottom() - height)
                 self.parent.setGeometry(geo)
@@ -56,7 +59,8 @@ class CustomGrip(QWidget):
         # SHOW BOTTOM GRIP
         elif position == Qt.BottomEdge:
             self.wi.bottom(self)
-            self.setGeometry(0, self.parent.height() - 10, self.parent.width(), 10)
+            self.setGeometry(0, self.parent.height() -
+                             10, self.parent.width(), 10)
             self.setMaximumHeight(10)
 
             # GRIPS
@@ -66,7 +70,9 @@ class CustomGrip(QWidget):
             # RESIZE BOTTOM
             def resize_bottom(event):
                 delta = event.pos()
-                height = max(self.parent.minimumHeight(), self.parent.height() + delta.y())
+                height = max(
+                    self.parent.minimumHeight(),
+                    self.parent.height() + delta.y())
                 self.parent.resize(self.parent.width(), height)
                 event.accept()
             self.wi.bottom.mouseMoveEvent = resize_bottom
@@ -86,7 +92,9 @@ class CustomGrip(QWidget):
             # RESIZE LEFT
             def resize_left(event):
                 delta = event.pos()
-                width = max(self.parent.minimumWidth(), self.parent.width() - delta.x())
+                width = max(
+                    self.parent.minimumWidth(),
+                    self.parent.width() - delta.x())
                 geo = self.parent.geometry()
                 geo.setLeft(geo.right() - width)
                 self.parent.setGeometry(geo)
@@ -100,12 +108,18 @@ class CustomGrip(QWidget):
         # RESIZE RIGHT
         elif position == Qt.RightEdge:
             self.wi.right(self)
-            self.setGeometry(self.parent.width() - 10, 10, 10, self.parent.height())
+            self.setGeometry(
+                self.parent.width() - 10,
+                10,
+                10,
+                self.parent.height())
             self.setMaximumWidth(10)
 
             def resize_right(event):
                 delta = event.pos()
-                width = max(self.parent.minimumWidth(), self.parent.width() + delta.x())
+                width = max(
+                    self.parent.minimumWidth(),
+                    self.parent.width() + delta.x())
                 self.parent.resize(width, self.parent.height())
                 event.accept()
             self.wi.rightgrip.mouseMoveEvent = resize_right
@@ -113,7 +127,6 @@ class CustomGrip(QWidget):
             # ENABLE COLOR
             if disable_color:
                 self.wi.rightgrip.setStyleSheet("background: transparent")
-
 
     def mouseReleaseEvent(self, event):
         self.mousePos = None
@@ -130,6 +143,7 @@ class CustomGrip(QWidget):
 
         elif hasattr(self.wi, 'rightgrip'):
             self.wi.rightgrip.setGeometry(0, 0, 10, self.height() - 20)
+
 
 class Widgets(object):
     def top(self, Form):

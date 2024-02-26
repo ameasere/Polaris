@@ -16,7 +16,8 @@ def check_if_db_exists():
     if not os.path.exists("/etc/polaris/polaris.db"):
         conn = sqlite3.connect("/etc/polaris/polaris.db")
         c = conn.cursor()
-        c.execute("CREATE TABLE machines (mid INTEGER PRIMARY KEY, ip TEXT, name TEXT)")
+        c.execute(
+            "CREATE TABLE machines (mid INTEGER PRIMARY KEY, ip TEXT, name TEXT)")
         c.execute(
             "CREATE TABLE users (uid INTEGER PRIMARY KEY, username TEXT, password TEXT, mid INTEGER, FOREIGN KEY(mid) REFERENCES machines(mid))")
         c.execute(
@@ -61,7 +62,8 @@ def key_exchange(client_socket):
     send_public_key(client_socket, public_key)
 
     received_key = client_socket.recv(4096)
-    peer_public_key = serialization.load_pem_public_key(received_key, backend=default_backend())
+    peer_public_key = serialization.load_pem_public_key(
+        received_key, backend=default_backend())
     shared_key = private_key.exchange(ec.ECDH(), peer_public_key)
 
     return shared_key
@@ -150,7 +152,9 @@ def start_server(c):
         client_socket, addr = server.accept()
         print(f"Accepted connection from {addr}")
         sys.stdout.flush()  # Journalctl Prints
-        client_handler = threading.Thread(target=handle_client, args=(client_socket, c))
+        client_handler = threading.Thread(
+            target=handle_client, args=(
+                client_socket, c))
         client_handler.start()
 
 
@@ -159,9 +163,13 @@ if __name__ == '__main__':
     log_exists = check_if_log_exists()
     now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     if not db_exists:
-        open("/var/log/polaris.log", "w").write(f"[{now}] Database was not found. Creating a new one...\n")
+        open(
+            "/var/log/polaris.log",
+            "w").write(f"[{now}] Database was not found. Creating a new one...\n")
     else:
-        open("/var/log/polaris.log", "w").write(f"[{now}] Database found. Continuing...\n")
+        open(
+            "/var/log/polaris.log",
+            "w").write(f"[{now}] Database found. Continuing...\n")
     conn = sqlite3.connect("/etc/polaris/polaris.db")
     c = conn.cursor()
     start_server(c)

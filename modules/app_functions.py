@@ -18,6 +18,8 @@ from windows import MainWindow
 
 # WITH ACCESS TO MAIN WINDOW WIDGETS
 # ///////////////////////////////////////////////////////////////
+
+
 class AppFunctions(MainWindow):
     def setThemeHack(self):
         Settings.BTN_LEFT_BOX_COLOR = "background-color: #495474;"
@@ -31,8 +33,10 @@ class AppFunctions(MainWindow):
         self.ui.lineEdit.setStyleSheet("background-color: #6272a4;")
         self.ui.pushButton.setStyleSheet("background-color: #6272a4;")
         self.ui.plainTextEdit.setStyleSheet("background-color: #6272a4;")
-        self.ui.tableWidget.setStyleSheet("QScrollBar:vertical { background: #6272a4; } QScrollBar:horizontal { background: #6272a4; }")
-        self.ui.scrollArea.setStyleSheet("QScrollBar:vertical { background: #6272a4; } QScrollBar:horizontal { background: #6272a4; }")
+        self.ui.tableWidget.setStyleSheet(
+            "QScrollBar:vertical { background: #6272a4; } QScrollBar:horizontal { background: #6272a4; }")
+        self.ui.scrollArea.setStyleSheet(
+            "QScrollBar:vertical { background: #6272a4; } QScrollBar:horizontal { background: #6272a4; }")
         self.ui.comboBox.setStyleSheet("background-color: #6272a4;")
         self.ui.horizontalScrollBar.setStyleSheet("background-color: #6272a4;")
         self.ui.verticalScrollBar.setStyleSheet("background-color: #6272a4;")

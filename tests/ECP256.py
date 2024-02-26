@@ -17,7 +17,8 @@ class TestECDHKeyPairGeneration(unittest.TestCase):
     def test_average_time(self):
         with multiprocessing.Pool() as p:
             ecresults = p.map(worker, range(20))
-        print("Average time: ", sum([x for x in ecresults]) / len(ecresults), "ms")
+        print("Average time: ", sum(
+            [x for x in ecresults]) / len(ecresults), "ms")
 
 
 if __name__ == '__main__':

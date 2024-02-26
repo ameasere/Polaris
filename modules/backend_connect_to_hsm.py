@@ -31,7 +31,8 @@ def key_exchange(server_socket):
     send_public_key(server_socket, public_key)
 
     received_key = server_socket.recv(4096)
-    peer_public_key = serialization.load_pem_public_key(received_key, backend=default_backend())
+    peer_public_key = serialization.load_pem_public_key(
+        received_key, backend=default_backend())
     shared_key = private_key.exchange(ec.ECDH(), peer_public_key)
 
     return shared_key
@@ -70,7 +71,8 @@ def send_data(ip, data):
 
 
 def connect_to_hsm(ip_address, masterpw, machineid):
-    # Try connecting to HSM for 5 seconds - if not, timeout, return "Connection failed"
+    # Try connecting to HSM for 5 seconds - if not, timeout, return
+    # "Connection failed"
     try:
         # Connect to HSM
         hsm = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -86,7 +88,8 @@ def connect_to_hsm(ip_address, masterpw, machineid):
             raise Exception("Handshake failed")
         else:
             print("Handshake successful")
-            creds_encrypted = encrypt_data(handshake_key, f"polaris://masterpw={masterpw}&machineid={machineid}")
+            creds_encrypted = encrypt_data(
+                handshake_key, f"polaris://masterpw={masterpw}&machineid={machineid}")
             hsm.send(creds_encrypted)
             response = hsm.recv(1024)
             print(f"Received: {response}")

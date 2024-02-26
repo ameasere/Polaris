@@ -26,7 +26,8 @@ aes_iv = None
 
 def create_keys():
     global public_key, private_key
-    (public_key, private_key) = rsa.newkeys(2048, poolsize=int(psutil.cpu_count()) - 2)
+    (public_key, private_key) = rsa.newkeys(
+        2048, poolsize=int(psutil.cpu_count()) - 2)
     # Save the keys in Redis
     r.set('public_key', public_key.save_pkcs1())
     r.set('private_key', private_key.save_pkcs1())
@@ -35,11 +36,22 @@ def create_keys():
 
 def generate_aes_secret_and_iv():
     global aes_secret, aes_iv
-    aes_secret = ''.join(random.choices(string.ascii_letters + string.digits, k=16)).encode()
-    aes_iv = ''.join(random.choices(string.ascii_letters + string.digits, k=16)).encode()
+    aes_secret = ''.join(
+        random.choices(
+            string.ascii_letters +
+            string.digits,
+            k=16)).encode()
+    aes_iv = ''.join(
+        random.choices(
+            string.ascii_letters +
+            string.digits,
+            k=16)).encode()
     r.set('aes_secret', aes_secret)
     r.set('aes_iv', aes_iv)
-    print(colorama.Fore.GREEN + "AES Secret and IV generated" + colorama.Fore.RESET)
+    print(
+        colorama.Fore.GREEN +
+        "AES Secret and IV generated" +
+        colorama.Fore.RESET)
 
 
 # Start threads to generate keys and AES secret/IV
@@ -60,7 +72,11 @@ async def root():
     cpu_usage = psutil.cpu_percent()
     memory_usage = psutil.virtual_memory().percent
     disk_usage = psutil.disk_usage('/').percent
-    return {'cpu_count': cpu_count, 'cpu_usage': cpu_usage, 'memory_usage': memory_usage, 'disk_usage': disk_usage}
+    return {
+        'cpu_count': cpu_count,
+        'cpu_usage': cpu_usage,
+        'memory_usage': memory_usage,
+        'disk_usage': disk_usage}
 
 
 @app.post("/rsa")
@@ -116,7 +132,11 @@ async def rsa_as_api(request: Request):
     end = time.time()
 
     time_taken = round(end - start, 2)
-    time_taken = str(time_taken) + "s" if time_taken > 1 else str(round(time_taken * 1000, 2)) + "ms"
+    time_taken = str(
+        time_taken) + "s" if time_taken > 1 else str(round(time_taken * 1000, 2)) + "ms"
 
     # Return the encrypted message and signature
-    return {'encrypted_message': encrypted_message, 'signature': signature, 'time_taken': time_taken}
+    return {
+        'encrypted_message': encrypted_message,
+        'signature': signature,
+        'time_taken': time_taken}

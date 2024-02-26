@@ -55,12 +55,13 @@ class Worker(QRunnable):
         # Retrieve args/kwargs here; and fire processing using them
         try:
             result = self.fn(*self.args, **self.kwargs)
-        except:
+        except BaseException:
             trackback_str = traceback.format_exc()
             exctype, value = sys.exc_info()[:2]
             self.signals.error.emit((exctype, value, trackback_str))
         else:
-            self.signals.result.emit(result)  # Return the result of the processing
+            # Return the result of the processing
+            self.signals.result.emit(result)
         finally:
             self.signals.finished.emit()  # Done
 
@@ -90,7 +91,8 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         Settings.ENABLE_CUSTOM_TITLE_BAR = True
         if not Settings.ENABLE_CUSTOM_TITLE_BAR:
-            self.ui.bgApp.setStyleSheet("border-top-left-radius: 0px; border-top-right-radius: 0px;")
+            self.ui.bgApp.setStyleSheet(
+                "border-top-left-radius: 0px; border-top-right-radius: 0px;")
             self.ui.appMargins.setContentsMargins(0, 0, 0, 0)
         else:
             # STANDARD TITLE BAR
@@ -101,7 +103,10 @@ class MainWindow(QMainWindow):
             def moveWindow(event):
                 # MOVE WINDOW
                 if event.buttons() == Qt.LeftButton:
-                    self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+                    self.move(
+                        self.pos() +
+                        event.globalPosition().toPoint() -
+                        self.dragPos)
                     self.dragPos = event.globalPosition().toPoint()
                     event.accept()
 
@@ -146,17 +151,24 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
 
         self.hsm_name_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_name)
-        self.hsm_machineid_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_machineid)
-        self.hsm_masterpw_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_masterpw)
-        self.hsm_ipaddress_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_ip)
+        self.hsm_machineid_opacity_effect = QGraphicsOpacityEffect(
+            self.ui.hsm_machineid)
+        self.hsm_masterpw_opacity_effect = QGraphicsOpacityEffect(
+            self.ui.hsm_masterpw)
+        self.hsm_ipaddress_opacity_effect = QGraphicsOpacityEffect(
+            self.ui.hsm_ip)
         self.hsm_name_opacity_effect.setOpacity(0)
         self.hsm_machineid_opacity_effect.setOpacity(0)
         self.hsm_masterpw_opacity_effect.setOpacity(0)
         self.hsm_ipaddress_opacity_effect.setOpacity(0)
-        self.hsm_name_animation = QPropertyAnimation(self.hsm_name_opacity_effect, b"opacity")
-        self.hsm_machineid_animation = QPropertyAnimation(self.hsm_machineid_opacity_effect, b"opacity")
-        self.hsm_masterpw_animation = QPropertyAnimation(self.hsm_masterpw_opacity_effect, b"opacity")
-        self.hsm_ipaddress_animation = QPropertyAnimation(self.hsm_ipaddress_opacity_effect, b"opacity")
+        self.hsm_name_animation = QPropertyAnimation(
+            self.hsm_name_opacity_effect, b"opacity")
+        self.hsm_machineid_animation = QPropertyAnimation(
+            self.hsm_machineid_opacity_effect, b"opacity")
+        self.hsm_masterpw_animation = QPropertyAnimation(
+            self.hsm_masterpw_opacity_effect, b"opacity")
+        self.hsm_ipaddress_animation = QPropertyAnimation(
+            self.hsm_ipaddress_opacity_effect, b"opacity")
         self.hsm_name_animation.setDuration(500)
         self.hsm_machineid_animation.setDuration(500)
         self.hsm_masterpw_animation.setDuration(500)
@@ -173,13 +185,15 @@ class MainWindow(QMainWindow):
         self.hsm_machineid_animation.setEasingCurve(QEasingCurve.InOutQuart)
         self.hsm_masterpw_animation.setEasingCurve(QEasingCurve.InOutQuart)
         self.hsm_ipaddress_animation.setEasingCurve(QEasingCurve.InOutQuart)
-        self.hsm_name_animation.finished.connect(lambda: self.ui.hsm_name.setFocus())
+        self.hsm_name_animation.finished.connect(
+            lambda: self.ui.hsm_name.setFocus())
 
         # Set on hover
         def enter_handler(_):
             # If the graphics effect is deleted, set it
             if self.ui.btn_addfirsthsm.graphicsEffect() is None:
-                self.addfirstshadow = QGraphicsDropShadowEffect(self.ui.btn_addfirsthsm)
+                self.addfirstshadow = QGraphicsDropShadowEffect(
+                    self.ui.btn_addfirsthsm)
                 self.addfirstshadow.setBlurRadius(25)
                 self.addfirstshadow.setXOffset(0)
                 self.addfirstshadow.setYOffset(0)
@@ -201,7 +215,8 @@ class MainWindow(QMainWindow):
 
         if "stafficon" in self.__response:
             icon = self.__response["stafficon"].encode("utf-8")
-            # Write the image to a file in the temp folder, and set in stylesheet dynamically
+            # Write the image to a file in the temp folder, and set in
+            # stylesheet dynamically
             with open(os.getcwd() + "/temp/icon.png", "wb") as f:
                 f.write(base64.b64decode(icon))
                 f.close()
@@ -219,22 +234,24 @@ class MainWindow(QMainWindow):
             path = path.replace("\\", "/")
             self.ui.profilepic.setPixmap(QPixmap(path))
         else:
-            self.ui.profilepic.setPixmap(QPixmap(":/icons/images/icons/user.png"))
+            self.ui.profilepic.setPixmap(
+                QPixmap(":/icons/images/icons/user.png"))
 
         try:
             # IP is the "response" element of JSON from server
-            ipaddr = json.loads(requests.get("https://api.ameasere.com/polaris/ip").text)["response"]
+            ipaddr = json.loads(
+                requests.get("https://api.ameasere.com/polaris/ip").text)["response"]
         except Exception as e:
             # Get the local IP address instead
             ipaddr = socket.gethostbyname(socket.gethostname())
 
         self.ui.ipaddress.setText(ipaddr)
 
-        if "configuration" not in self.config or len(self.config["configuration"]) == 0:
+        if "configuration" not in self.config or len(
+                self.config["configuration"]) == 0:
             self.ui.hsmpages.setCurrentWidget(self.ui.addfirst)
         else:
             self.ui.hsmpages.setCurrentWidget(self.ui.overview)
-
 
         # SHOW APP
         # ///////////////////////////////////////////////////////////////
@@ -281,12 +298,14 @@ class MainWindow(QMainWindow):
             if self.ctx_btns_state:
                 self.ctx_btns_state = False
                 self.fadeOutChildren()
-                self.ui.btn_dropdown.setIcon(QIcon(":/icons/images/icons/arrow-down-left.png"))
+                self.ui.btn_dropdown.setIcon(
+                    QIcon(":/icons/images/icons/arrow-down-left.png"))
             else:
                 self.ui.ctx_btns.show()
                 self.ctx_btns_state = True
                 self.fadeInChildren()
-                self.ui.btn_dropdown.setIcon(QIcon(":/icons/images/icons/arrow-up-right.png"))
+                self.ui.btn_dropdown.setIcon(
+                    QIcon(":/icons/images/icons/arrow-up-right.png"))
 
         # SHOW NEW PAGE
         if btnName == "btn_documentation":
@@ -294,99 +313,133 @@ class MainWindow(QMainWindow):
                 # Reset stylesheet of the current page's button
                 match self.currentPage:
                     case ("dashboard"):
-                        self.ui.btn_dashboard.setStyleSheet(
-                            base64.b64decode(self.dashboard_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep1.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_1.setPixmap(QPixmap(":/icons/images/icons/home_unselected.png"))
+                        self.ui.btn_dashboard.setStyleSheet(base64.b64decode(
+                            self.dashboard_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep1.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_1.setPixmap(
+                            QPixmap(":/icons/images/icons/home_unselected.png"))
                     case ("account"):
-                        self.ui.btn_account.setStyleSheet(
-                            base64.b64decode(self.account_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep3.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_3.setPixmap(QPixmap(":/icons/images/icons/user.png"))
+                        self.ui.btn_account.setStyleSheet(base64.b64decode(
+                            self.account_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep3.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_3.setPixmap(
+                            QPixmap(":/icons/images/icons/user.png"))
                     case ("settings"):
-                        self.ui.btn_settings.setStyleSheet(
-                            base64.b64decode(self.settings_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep4.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_4.setPixmap(QPixmap(":/icons/images/icons/settings.png"))
+                        self.ui.btn_settings.setStyleSheet(base64.b64decode(
+                            self.settings_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep4.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_4.setPixmap(
+                            QPixmap(":/icons/images/icons/settings.png"))
                 webbrowser.get().open("https://docs.ameasere.com")  # SET PAGE
                 self.currentPage = "documentation"
-                self.ui.btn_documentation.setStyleSheet(
-                    base64.b64decode(self.documentation_selected_stylesheet).decode("utf-8"))
-                self.ui.sep2.setPixmap(QPixmap(":/icons/images/icons/separator.png"))
-                self.ui.icon_2.setPixmap(QPixmap(":/icons/images/icons/edit_selected.png"))
+                self.ui.btn_documentation.setStyleSheet(base64.b64decode(
+                    self.documentation_selected_stylesheet).decode("utf-8"))
+                self.ui.sep2.setPixmap(
+                    QPixmap(":/icons/images/icons/separator.png"))
+                self.ui.icon_2.setPixmap(
+                    QPixmap(":/icons/images/icons/edit_selected.png"))
         elif btnName == "btn_dashboard":
             if self.currentPage != "dashboard":
                 # Reset stylesheet of the current page's button
                 match self.currentPage:
                     case ("documentation"):
-                        self.ui.btn_documentation.setStyleSheet(
-                            base64.b64decode(self.documentation_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep2.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_2.setPixmap(QPixmap(":/icons/images/icons/edit_unselected.png"))
+                        self.ui.btn_documentation.setStyleSheet(base64.b64decode(
+                            self.documentation_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep2.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_2.setPixmap(
+                            QPixmap(":/icons/images/icons/edit_unselected.png"))
                     case ("account"):
-                        self.ui.btn_account.setStyleSheet(
-                            base64.b64decode(self.account_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep3.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_3.setPixmap(QPixmap(":/icons/images/icons/user.png"))
+                        self.ui.btn_account.setStyleSheet(base64.b64decode(
+                            self.account_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep3.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_3.setPixmap(
+                            QPixmap(":/icons/images/icons/user.png"))
                     case ("settings"):
-                        self.ui.btn_settings.setStyleSheet(
-                            base64.b64decode(self.settings_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep4.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_4.setPixmap(QPixmap(":/icons/images/icons/settings.png"))
+                        self.ui.btn_settings.setStyleSheet(base64.b64decode(
+                            self.settings_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep4.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_4.setPixmap(
+                            QPixmap(":/icons/images/icons/settings.png"))
                 self.ui.pages.setCurrentWidget(self.ui.dashboard)
                 self.currentPage = "dashboard"
-                self.ui.btn_dashboard.setStyleSheet(
-                    base64.b64decode(self.dashboard_selected_stylesheet).decode("utf-8"))
-                self.ui.sep1.setPixmap(QPixmap(":/icons/images/icons/separator.png"))
-                self.ui.icon_1.setPixmap(QPixmap(":/icons/images/icons/home_selected.png"))
+                self.ui.btn_dashboard.setStyleSheet(base64.b64decode(
+                    self.dashboard_selected_stylesheet).decode("utf-8"))
+                self.ui.sep1.setPixmap(
+                    QPixmap(":/icons/images/icons/separator.png"))
+                self.ui.icon_1.setPixmap(
+                    QPixmap(":/icons/images/icons/home_selected.png"))
         elif btnName == "btn_account":
             if self.currentPage != "account":
                 # Reset stylesheet of the current page's button
                 match self.currentPage:
                     case ("documentation"):
-                        self.ui.btn_documentation.setStyleSheet(
-                            base64.b64decode(self.documentation_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep2.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_2.setPixmap(QPixmap(":/icons/images/icons/edit_unselected.png"))
+                        self.ui.btn_documentation.setStyleSheet(base64.b64decode(
+                            self.documentation_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep2.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_2.setPixmap(
+                            QPixmap(":/icons/images/icons/edit_unselected.png"))
                     case ("dashboard"):
-                        self.ui.btn_dashboard.setStyleSheet(
-                            base64.b64decode(self.dashboard_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep1.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_1.setPixmap(QPixmap(":/icons/images/icons/home_unselected.png"))
+                        self.ui.btn_dashboard.setStyleSheet(base64.b64decode(
+                            self.dashboard_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep1.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_1.setPixmap(
+                            QPixmap(":/icons/images/icons/home_unselected.png"))
                     case ("settings"):
-                        self.ui.btn_settings.setStyleSheet(
-                            base64.b64decode(self.settings_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep4.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_4.setPixmap(QPixmap(":/icons/images/icons/settings.png"))
+                        self.ui.btn_settings.setStyleSheet(base64.b64decode(
+                            self.settings_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep4.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_4.setPixmap(
+                            QPixmap(":/icons/images/icons/settings.png"))
                 webbrowser.get().open("https://ameasere.com/polaris/dashboard")
                 self.currentPage = "account"
-                self.ui.btn_account.setStyleSheet(base64.b64decode(self.account_selected_stylesheet).decode("utf-8"))
-                self.ui.sep3.setPixmap(QPixmap(":/icons/images/icons/separator.png"))
-                self.ui.icon_3.setPixmap(QPixmap(":/icons/images/icons/user_selected.png"))
+                self.ui.btn_account.setStyleSheet(base64.b64decode(
+                    self.account_selected_stylesheet).decode("utf-8"))
+                self.ui.sep3.setPixmap(
+                    QPixmap(":/icons/images/icons/separator.png"))
+                self.ui.icon_3.setPixmap(
+                    QPixmap(":/icons/images/icons/user_selected.png"))
         elif btnName == "btn_settings":
             if self.currentPage != "settings":
                 # Reset stylesheet of the current page's button
                 match self.currentPage:
                     case ("documentation"):
-                        self.ui.btn_documentation.setStyleSheet(
-                            base64.b64decode(self.documentation_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep2.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_2.setPixmap(QPixmap(":/icons/images/icons/edit_unselected.png"))
+                        self.ui.btn_documentation.setStyleSheet(base64.b64decode(
+                            self.documentation_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep2.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_2.setPixmap(
+                            QPixmap(":/icons/images/icons/edit_unselected.png"))
                     case ("dashboard"):
-                        self.ui.btn_dashboard.setStyleSheet(
-                            base64.b64decode(self.dashboard_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep1.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_1.setPixmap(QPixmap(":/icons/images/icons/home_unselected.png"))
+                        self.ui.btn_dashboard.setStyleSheet(base64.b64decode(
+                            self.dashboard_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep1.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_1.setPixmap(
+                            QPixmap(":/icons/images/icons/home_unselected.png"))
                     case ("account"):
-                        self.ui.btn_account.setStyleSheet(
-                            base64.b64decode(self.account_unselected_stylesheet).decode("utf-8"))
-                        self.ui.sep3.setPixmap(QPixmap(":/icons/images/icons/separator_inactive.png"))
-                        self.ui.icon_3.setPixmap(QPixmap(":/icons/images/icons/user.png"))
+                        self.ui.btn_account.setStyleSheet(base64.b64decode(
+                            self.account_unselected_stylesheet).decode("utf-8"))
+                        self.ui.sep3.setPixmap(
+                            QPixmap(":/icons/images/icons/separator_inactive.png"))
+                        self.ui.icon_3.setPixmap(
+                            QPixmap(":/icons/images/icons/user.png"))
                 webbrowser.get().open("https://ameasere.com/polaris/dashboard")
                 self.currentPage = "settings"
-                self.ui.btn_settings.setStyleSheet(base64.b64decode(self.settings_selected_stylesheet).decode("utf-8"))
-                self.ui.sep4.setPixmap(QPixmap(":/icons/images/icons/separator.png"))
-                self.ui.icon_4.setPixmap(QPixmap(":/icons/images/icons/settings_selected.png"))
+                self.ui.btn_settings.setStyleSheet(base64.b64decode(
+                    self.settings_selected_stylesheet).decode("utf-8"))
+                self.ui.sep4.setPixmap(
+                    QPixmap(":/icons/images/icons/separator.png"))
+                self.ui.icon_4.setPixmap(
+                    QPixmap(":/icons/images/icons/settings_selected.png"))
         elif btnName == "btn_website":
             webbrowser.get().open("https://ameasere.com/polaris")
         elif btnName == "btn_addfirsthsm":
@@ -396,20 +449,27 @@ class MainWindow(QMainWindow):
             self.ui.hsm_name.setGraphicsEffect(self.hsm_name_opacity_effect)
             self.hsm_machineid_animation.start()
             self.ui.hsm_machineid.show()
-            self.ui.hsm_machineid.setGraphicsEffect(self.hsm_machineid_opacity_effect)
+            self.ui.hsm_machineid.setGraphicsEffect(
+                self.hsm_machineid_opacity_effect)
             self.hsm_masterpw_animation.start()
             self.ui.hsm_masterpw.show()
-            self.ui.hsm_masterpw.setGraphicsEffect(self.hsm_masterpw_opacity_effect)
+            self.ui.hsm_masterpw.setGraphicsEffect(
+                self.hsm_masterpw_opacity_effect)
             self.hsm_ipaddress_animation.start()
             self.ui.hsm_ip.show()
             self.ui.hsm_ip.setGraphicsEffect(self.hsm_ipaddress_opacity_effect)
             self.ui.hsm_name.setFocus()
             self.ui.hsm_masterpw.setEchoMode(QLineEdit.Password)
-            self.hsm_name_animation.finished.connect(lambda: self.ui.hsm_name.setGraphicsEffect(None))
-            self.hsm_machineid_animation.finished.connect(lambda: self.ui.hsm_machineid.setGraphicsEffect(None))
-            self.hsm_masterpw_animation.finished.connect(lambda: self.ui.hsm_masterpw.setGraphicsEffect(None))
-            self.hsm_ipaddress_animation.finished.connect(lambda: self.ui.hsm_ip.setGraphicsEffect(None))
-            self.hsm_masterpw_animation.finished.connect(lambda: self.updateWindow)
+            self.hsm_name_animation.finished.connect(
+                lambda: self.ui.hsm_name.setGraphicsEffect(None))
+            self.hsm_machineid_animation.finished.connect(
+                lambda: self.ui.hsm_machineid.setGraphicsEffect(None))
+            self.hsm_masterpw_animation.finished.connect(
+                lambda: self.ui.hsm_masterpw.setGraphicsEffect(None))
+            self.hsm_ipaddress_animation.finished.connect(
+                lambda: self.ui.hsm_ip.setGraphicsEffect(None))
+            self.hsm_masterpw_animation.finished.connect(
+                lambda: self.updateWindow)
 
             uuid = str(uuid4())
             self.ui.hsm_machineid.setText(uuid[:30] + "...")
@@ -422,23 +482,32 @@ class MainWindow(QMainWindow):
                     return False
             if self.ui.hsm_ip.text() == "":
                 self.ui.hsm_ip.clear()
-                self.ui.hsm_ip.setPlaceholderText("Please enter the IP address of the HSM")
+                self.ui.hsm_ip.setPlaceholderText(
+                    "Please enter the IP address of the HSM")
                 return
             elif not is_valid(self.ui.hsm_ip.text()):
                 self.ui.hsm_ip.clear()
-                self.ui.hsm_ip.setPlaceholderText("Please enter a valid IP address")
+                self.ui.hsm_ip.setPlaceholderText(
+                    "Please enter a valid IP address")
                 return
 
-            if any([self.ui.hsm_name.text() == "", self.ui.hsm_masterpw.text() == ""]):
+            if any([self.ui.hsm_name.text() == "",
+                   self.ui.hsm_masterpw.text() == ""]):
                 self.ui.hsm_name.clear()
                 self.ui.hsm_masterpw.clear()
-                self.ui.hsm_name.setPlaceholderText("Please enter the name of the HSM")
-                self.ui.hsm_masterpw.setPlaceholderText("Please enter a master password for your HSM records")
+                self.ui.hsm_name.setPlaceholderText(
+                    "Please enter the name of the HSM")
+                self.ui.hsm_masterpw.setPlaceholderText(
+                    "Please enter a master password for your HSM records")
                 return
 
             def print_error(etuple):
                 print(etuple[1])
-            worker = Worker(lambda: connect_to_hsm(self.ui.hsm_ip.text(), self.ui.hsm_masterpw.text(), self.ui.hsm_machineid.text()))
+            worker = Worker(
+                lambda: connect_to_hsm(
+                    self.ui.hsm_ip.text(),
+                    self.ui.hsm_masterpw.text(),
+                    self.ui.hsm_machineid.text()))
             worker.signals.finished.connect(self.updateWindow)
             worker.signals.error.connect(print_error)
             self.threadpool.start(worker)
@@ -485,7 +554,8 @@ class MainWindow(QMainWindow):
         try:
             if self.usernameLabelAnimation.state() == QAbstractAnimation.Running:
                 self.usernameLabelAnimation.stop()
-                self.usernameLabelAnimation.setCurrentTime(0)  # Reset the animation to the beginning
+                self.usernameLabelAnimation.setCurrentTime(
+                    0)  # Reset the animation to the beginning
 
             if self.profilepicAnimation.state() == QAbstractAnimation.Running:
                 self.profilepicAnimation.stop()
@@ -510,59 +580,75 @@ class MainWindow(QMainWindow):
         except AttributeError:
             pass
 
-        self.username_label_opacity_effect = QGraphicsOpacityEffect(self.ui.username)
+        self.username_label_opacity_effect = QGraphicsOpacityEffect(
+            self.ui.username)
         self.ui.username.setGraphicsEffect(self.username_label_opacity_effect)
         self.username_label_opacity_effect.setOpacity(0)
 
-        self.usernameLabelAnimation = QPropertyAnimation(self.username_label_opacity_effect, b"opacity")
+        self.usernameLabelAnimation = QPropertyAnimation(
+            self.username_label_opacity_effect, b"opacity")
         self.usernameLabelAnimation.setDuration(500)
         self.usernameLabelAnimation.setStartValue(0)
         self.usernameLabelAnimation.setEndValue(1)
         self.usernameLabelAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-        self.usernameLabelAnimation.finished.connect(lambda: self.ui.username.setFocus())
-        self.usernameLabelAnimation.finished.connect(lambda: self.ui.username.setGraphicsEffect(None))
+        self.usernameLabelAnimation.finished.connect(
+            lambda: self.ui.username.setFocus())
+        self.usernameLabelAnimation.finished.connect(
+            lambda: self.ui.username.setGraphicsEffect(None))
 
-        self.ui.profilepic_opacity_effect = QGraphicsOpacityEffect(self.ui.profilepic)
+        self.ui.profilepic_opacity_effect = QGraphicsOpacityEffect(
+            self.ui.profilepic)
         self.ui.profilepic.setGraphicsEffect(self.ui.profilepic_opacity_effect)
         self.ui.profilepic_opacity_effect.setOpacity(0)
 
-        self.profilepicAnimation = QPropertyAnimation(self.ui.profilepic_opacity_effect, b"opacity")
+        self.profilepicAnimation = QPropertyAnimation(
+            self.ui.profilepic_opacity_effect, b"opacity")
         self.profilepicAnimation.setDuration(500)
         self.profilepicAnimation.setStartValue(0)
         self.profilepicAnimation.setEndValue(0.99)
         self.profilepicAnimation.setEasingCurve(QEasingCurve.InOutQuart)
 
-        self.currentlyloggedin_opacity_effect = QGraphicsOpacityEffect(self.ui.currentlyloggedin)
-        self.ui.currentlyloggedin.setGraphicsEffect(self.currentlyloggedin_opacity_effect)
+        self.currentlyloggedin_opacity_effect = QGraphicsOpacityEffect(
+            self.ui.currentlyloggedin)
+        self.ui.currentlyloggedin.setGraphicsEffect(
+            self.currentlyloggedin_opacity_effect)
         self.currentlyloggedin_opacity_effect.setOpacity(0)
 
-        self.currentlyloggedinAnimation = QPropertyAnimation(self.currentlyloggedin_opacity_effect, b"opacity")
+        self.currentlyloggedinAnimation = QPropertyAnimation(
+            self.currentlyloggedin_opacity_effect, b"opacity")
         self.currentlyloggedinAnimation.setDuration(500)
         self.currentlyloggedinAnimation.setStartValue(0)
         self.currentlyloggedinAnimation.setEndValue(1)
         self.currentlyloggedinAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-        self.currentlyloggedinAnimation.finished.connect(lambda: self.ui.currentlyloggedin.setGraphicsEffect(None))
+        self.currentlyloggedinAnimation.finished.connect(
+            lambda: self.ui.currentlyloggedin.setGraphicsEffect(None))
 
-        self.ipaddress_opacity_effect = QGraphicsOpacityEffect(self.ui.ipaddress)
+        self.ipaddress_opacity_effect = QGraphicsOpacityEffect(
+            self.ui.ipaddress)
         self.ui.ipaddress.setGraphicsEffect(self.ipaddress_opacity_effect)
         self.ipaddress_opacity_effect.setOpacity(0)
 
-        self.ipaddressAnimation = QPropertyAnimation(self.ipaddress_opacity_effect, b"opacity")
+        self.ipaddressAnimation = QPropertyAnimation(
+            self.ipaddress_opacity_effect, b"opacity")
         self.ipaddressAnimation.setDuration(500)
         self.ipaddressAnimation.setStartValue(0)
         self.ipaddressAnimation.setEndValue(1)
         self.ipaddressAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-        self.ipaddressAnimation.finished.connect(lambda: self.ui.ipaddress.setGraphicsEffect(None))
+        self.ipaddressAnimation.finished.connect(
+            lambda: self.ui.ipaddress.setGraphicsEffect(None))
 
         self.ui.ctx_btns.show()
-        self.dropdown_geometry_animation = QPropertyAnimation(self.ui.ctx_btns, b"geometry")
+        self.dropdown_geometry_animation = QPropertyAnimation(
+            self.ui.ctx_btns, b"geometry")
         self.dropdown_geometry_animation.setDuration(500)
         # Start at (1232, 0, 0, 0), and extend to (1071, 20, 161, 161)
         self.dropdown_geometry_animation.setStartValue(QRect(1216, 25, 0, 0))
         self.dropdown_geometry_animation.setEndValue(QRect(1071, 20, 161, 161))
-        self.dropdown_geometry_animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.dropdown_geometry_animation.setEasingCurve(
+            QEasingCurve.InOutQuart)
         self.dropdown_geometry_animation.start()
-        self.dropdown_geometry_animation.finished.connect(lambda: children_animations())
+        self.dropdown_geometry_animation.finished.connect(
+            lambda: children_animations())
 
     def fadeOutChildren(self):
         def children_animations():
@@ -577,10 +663,14 @@ class MainWindow(QMainWindow):
         except AttributeError:
             pass
 
-        self.dropdown_geometry_animation_reverse = QPropertyAnimation(self.ui.ctx_btns, b"geometry")
+        self.dropdown_geometry_animation_reverse = QPropertyAnimation(
+            self.ui.ctx_btns, b"geometry")
         self.dropdown_geometry_animation_reverse.setDuration(500)
         # Start at (1071, 20, 161, 161), and extend to (1232, 0, 0, 0)
-        self.dropdown_geometry_animation_reverse.setStartValue(QRect(1071, 20, 161, 161))
-        self.dropdown_geometry_animation_reverse.setEndValue(QRect(1216, 25, 0, 0))
-        self.dropdown_geometry_animation_reverse.setEasingCurve(QEasingCurve.InOutQuart)
+        self.dropdown_geometry_animation_reverse.setStartValue(
+            QRect(1071, 20, 161, 161))
+        self.dropdown_geometry_animation_reverse.setEndValue(
+            QRect(1216, 25, 0, 0))
+        self.dropdown_geometry_animation_reverse.setEasingCurve(
+            QEasingCurve.InOutQuart)
         self.dropdown_geometry_animation_reverse.start()

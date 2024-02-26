@@ -18,7 +18,8 @@ class LoginWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         Settings.ENABLE_CUSTOM_TITLE_BAR = True
         if not Settings.ENABLE_CUSTOM_TITLE_BAR:
-            widgets.bgApp.setStyleSheet("border-top-left-radius: 0px; border-top-right-radius: 0px;")
+            widgets.bgApp.setStyleSheet(
+                "border-top-left-radius: 0px; border-top-right-radius: 0px;")
             self.ui.appMargins.setContentsMargins(0, 0, 0, 0)
             self.ui.btn_minimize.hide()
             self.ui.btn_close.hide()
@@ -32,7 +33,10 @@ class LoginWindow(QMainWindow):
                 # IF MAXIMIZED CHANGE TO NORMAL
                 # MOVE WINDOW
                 if event.buttons() == Qt.LeftButton:
-                    self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+                    self.move(
+                        self.pos() +
+                        event.globalPosition().toPoint() -
+                        self.dragPos)
                     self.dragPos = event.globalPosition().toPoint()
                     event.accept()
 
@@ -68,7 +72,8 @@ class LoginWindow(QMainWindow):
         widgets.loginTokenButton.clicked.connect(self.buttonClick)
 
         self.ui.password.returnPressed.connect(self.ui.loginTokenButton.click)
-        self.ui.password_token.returnPressed.connect(self.ui.loginTokenButton.click)
+        self.ui.password_token.returnPressed.connect(
+            self.ui.loginTokenButton.click)
 
         # widgets.settingsTopBtn.hide()
 
@@ -82,21 +87,27 @@ class LoginWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         if window == "password":
             widgets.pages.setCurrentWidget(widgets.password_login)
-            self.username_label_opacity_effect = QGraphicsOpacityEffect(self.ui.usernameLabel)
-            self.ui.usernameLabel.setGraphicsEffect(self.username_label_opacity_effect)
+            self.username_label_opacity_effect = QGraphicsOpacityEffect(
+                self.ui.usernameLabel)
+            self.ui.usernameLabel.setGraphicsEffect(
+                self.username_label_opacity_effect)
             self.username_label_opacity_effect.setOpacity(0)
 
-            self.usernameLabelAnimation = QPropertyAnimation(self.username_label_opacity_effect, b"opacity")
+            self.usernameLabelAnimation = QPropertyAnimation(
+                self.username_label_opacity_effect, b"opacity")
             self.usernameLabelAnimation.setDuration(500)
             self.usernameLabelAnimation.setStartValue(0)
             self.usernameLabelAnimation.setEndValue(1)
             self.usernameLabelAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-            self.usernameLabelAnimation.finished.connect(lambda: self.ui.username.setFocus())
-            self.usernameLabelAnimation.finished.connect(lambda: self.ui.usernameLabel.setGraphicsEffect(None))
+            self.usernameLabelAnimation.finished.connect(
+                lambda: self.ui.username.setFocus())
+            self.usernameLabelAnimation.finished.connect(
+                lambda: self.ui.usernameLabel.setGraphicsEffect(None))
             self.usernameLabelAnimation.start()
             self.ui.usernameLabel.show()
 
-            self.username_opacity_effect = QGraphicsOpacityEffect(self.ui.username)
+            self.username_opacity_effect = QGraphicsOpacityEffect(
+                self.ui.username)
             self.ui.username.setGraphicsEffect(self.username_opacity_effect)
             self.username_opacity_effect.setOpacity(0)
 
@@ -106,29 +117,37 @@ class LoginWindow(QMainWindow):
             self.username_shadow.setYOffset(0)
             self.username_shadow.setColor(QColor(0, 0, 0, 150))
 
-            self.usernameAnimation = QPropertyAnimation(self.username_opacity_effect, b"opacity")
+            self.usernameAnimation = QPropertyAnimation(
+                self.username_opacity_effect, b"opacity")
             self.usernameAnimation.setDuration(500)
             self.usernameAnimation.setStartValue(0)
             self.usernameAnimation.setEndValue(1)
             self.usernameAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-            self.usernameAnimation.finished.connect(lambda: self.ui.username.setGraphicsEffect(self.username_shadow))
+            self.usernameAnimation.finished.connect(
+                lambda: self.ui.username.setGraphicsEffect(
+                    self.username_shadow))
             self.usernameAnimation.start()
             self.ui.username.show()
 
-            self.password_label_opacity_effect = QGraphicsOpacityEffect(self.ui.passwordLabel)
-            self.ui.passwordLabel.setGraphicsEffect(self.password_label_opacity_effect)
+            self.password_label_opacity_effect = QGraphicsOpacityEffect(
+                self.ui.passwordLabel)
+            self.ui.passwordLabel.setGraphicsEffect(
+                self.password_label_opacity_effect)
             self.password_label_opacity_effect.setOpacity(0)
 
-            self.passwordLabelAnimation = QPropertyAnimation(self.password_label_opacity_effect, b"opacity")
+            self.passwordLabelAnimation = QPropertyAnimation(
+                self.password_label_opacity_effect, b"opacity")
             self.passwordLabelAnimation.setDuration(500)
             self.passwordLabelAnimation.setStartValue(0)
             self.passwordLabelAnimation.setEndValue(1)
             self.passwordLabelAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-            self.passwordLabelAnimation.finished.connect(lambda: self.ui.passwordLabel.setGraphicsEffect(None))
+            self.passwordLabelAnimation.finished.connect(
+                lambda: self.ui.passwordLabel.setGraphicsEffect(None))
             self.passwordLabelAnimation.start()
             self.ui.passwordLabel.show()
 
-            self.password_opacity_effect = QGraphicsOpacityEffect(self.ui.password)
+            self.password_opacity_effect = QGraphicsOpacityEffect(
+                self.ui.password)
             self.ui.password.setGraphicsEffect(self.password_opacity_effect)
             self.password_opacity_effect.setOpacity(0)
 
@@ -138,46 +157,57 @@ class LoginWindow(QMainWindow):
             self.password_shadow.setYOffset(0)
             self.password_shadow.setColor(QColor(0, 0, 0, 150))
 
-            self.passwordAnimation = QPropertyAnimation(self.password_opacity_effect, b"opacity")
-            self.passwordAnimation.setDuration(500)
-            self.passwordAnimation.setStartValue(0)
-            self.passwordAnimation.setEndValue(1)
-            self.passwordAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-            self.passwordAnimation.finished.connect(lambda: self.ui.password.setGraphicsEffect(self.password_shadow))
-            self.passwordAnimation.start()
-            self.ui.password.show()
-        elif window == "token":
-            widgets.pages.setCurrentWidget(widgets.token_login)
-            self.password_label_opacity_effect = QGraphicsOpacityEffect(self.ui.passwordLabel_3)
-            self.ui.passwordLabel.setGraphicsEffect(self.password_label_opacity_effect)
-            self.password_label_opacity_effect.setOpacity(0)
-
-            self.passwordLabelAnimation = QPropertyAnimation(self.password_label_opacity_effect, b"opacity")
-            self.passwordLabelAnimation.setDuration(500)
-            self.passwordLabelAnimation.setStartValue(0)
-            self.passwordLabelAnimation.setEndValue(1)
-            self.passwordLabelAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-            self.passwordLabelAnimation.finished.connect(lambda: self.ui.passwordLabel_3.setGraphicsEffect(None))
-            self.passwordLabelAnimation.start()
-            self.ui.passwordLabel.show()
-
-            self.password_opacity_effect = QGraphicsOpacityEffect(self.ui.password_token)
-            self.ui.password.setGraphicsEffect(self.password_opacity_effect)
-            self.password_opacity_effect.setOpacity(0)
-
-            self.password_shadow = QGraphicsDropShadowEffect(self.ui.password_token)
-            self.password_shadow.setBlurRadius(17)
-            self.password_shadow.setXOffset(0)
-            self.password_shadow.setYOffset(0)
-            self.password_shadow.setColor(QColor(0, 0, 0, 150))
-
-            self.passwordAnimation = QPropertyAnimation(self.password_opacity_effect, b"opacity")
+            self.passwordAnimation = QPropertyAnimation(
+                self.password_opacity_effect, b"opacity")
             self.passwordAnimation.setDuration(500)
             self.passwordAnimation.setStartValue(0)
             self.passwordAnimation.setEndValue(1)
             self.passwordAnimation.setEasingCurve(QEasingCurve.InOutQuart)
             self.passwordAnimation.finished.connect(
-                lambda: self.ui.password_token.setGraphicsEffect(self.password_shadow))
+                lambda: self.ui.password.setGraphicsEffect(
+                    self.password_shadow))
+            self.passwordAnimation.start()
+            self.ui.password.show()
+        elif window == "token":
+            widgets.pages.setCurrentWidget(widgets.token_login)
+            self.password_label_opacity_effect = QGraphicsOpacityEffect(
+                self.ui.passwordLabel_3)
+            self.ui.passwordLabel.setGraphicsEffect(
+                self.password_label_opacity_effect)
+            self.password_label_opacity_effect.setOpacity(0)
+
+            self.passwordLabelAnimation = QPropertyAnimation(
+                self.password_label_opacity_effect, b"opacity")
+            self.passwordLabelAnimation.setDuration(500)
+            self.passwordLabelAnimation.setStartValue(0)
+            self.passwordLabelAnimation.setEndValue(1)
+            self.passwordLabelAnimation.setEasingCurve(QEasingCurve.InOutQuart)
+            self.passwordLabelAnimation.finished.connect(
+                lambda: self.ui.passwordLabel_3.setGraphicsEffect(None))
+            self.passwordLabelAnimation.start()
+            self.ui.passwordLabel.show()
+
+            self.password_opacity_effect = QGraphicsOpacityEffect(
+                self.ui.password_token)
+            self.ui.password.setGraphicsEffect(self.password_opacity_effect)
+            self.password_opacity_effect.setOpacity(0)
+
+            self.password_shadow = QGraphicsDropShadowEffect(
+                self.ui.password_token)
+            self.password_shadow.setBlurRadius(17)
+            self.password_shadow.setXOffset(0)
+            self.password_shadow.setYOffset(0)
+            self.password_shadow.setColor(QColor(0, 0, 0, 150))
+
+            self.passwordAnimation = QPropertyAnimation(
+                self.password_opacity_effect, b"opacity")
+            self.passwordAnimation.setDuration(500)
+            self.passwordAnimation.setStartValue(0)
+            self.passwordAnimation.setEndValue(1)
+            self.passwordAnimation.setEasingCurve(QEasingCurve.InOutQuart)
+            self.passwordAnimation.finished.connect(
+                lambda: self.ui.password_token.setGraphicsEffect(
+                    self.password_shadow))
             self.passwordAnimation.start()
             self.ui.password_token.show()
 
@@ -188,44 +218,63 @@ class LoginWindow(QMainWindow):
         self.backgroundAnimation.setEasingCurve(QEasingCurve.InOutQuart)
         self.backgroundAnimation.start()
 
-        self.backgroundAnimationReverse = QPropertyAnimation(self.ui.bg1, b"geometry")
+        self.backgroundAnimationReverse = QPropertyAnimation(
+            self.ui.bg1, b"geometry")
         self.backgroundAnimationReverse.setDuration(800)
         self.backgroundAnimationReverse.setStartValue(QRect(0, 0, 310, 501))
         self.backgroundAnimationReverse.setEndValue(QRect(0, 0, 31, 501))
         self.backgroundAnimationReverse.setEasingCurve(QEasingCurve.InOutQuart)
 
-        self.response_label_animation = QPropertyAnimation(self.ui.responseLabel, b"geometry")
+        self.response_label_animation = QPropertyAnimation(
+            self.ui.responseLabel, b"geometry")
         self.response_label_animation.setDuration(500)
         self.response_label_animation.setStartValue(QRect(0, 511, 351, 0))
         self.response_label_animation.setEndValue(QRect(0, 460, 351, 41))
         self.response_label_animation.setEasingCurve(QEasingCurve.InBounce)
 
-        self.response_label_animation_reverse = QPropertyAnimation(self.ui.responseLabel, b"geometry")
+        self.response_label_animation_reverse = QPropertyAnimation(
+            self.ui.responseLabel, b"geometry")
         self.response_label_animation_reverse.setDuration(500)
-        self.response_label_animation_reverse.setStartValue(QRect(0, 460, 351, 41))
-        self.response_label_animation_reverse.setEndValue(QRect(0, 511, 351, 0))
-        self.response_label_animation_reverse.setEasingCurve(QEasingCurve.OutBounce)
-        self.response_label_animation_reverse.finished.connect(lambda: self.updateEverything)
+        self.response_label_animation_reverse.setStartValue(
+            QRect(0, 460, 351, 41))
+        self.response_label_animation_reverse.setEndValue(
+            QRect(0, 511, 351, 0))
+        self.response_label_animation_reverse.setEasingCurve(
+            QEasingCurve.OutBounce)
+        self.response_label_animation_reverse.finished.connect(
+            lambda: self.updateEverything)
 
-        self.twofactor_responselabel_animation = QPropertyAnimation(self.ui.twofactor_responselabel, b"geometry")
+        self.twofactor_responselabel_animation = QPropertyAnimation(
+            self.ui.twofactor_responselabel, b"geometry")
         self.twofactor_responselabel_animation.setDuration(500)
-        self.twofactor_responselabel_animation.setStartValue(QRect(0, 511, 351, 0))
-        self.twofactor_responselabel_animation.setEndValue(QRect(0, 460, 351, 41))
-        self.twofactor_responselabel_animation.setEasingCurve(QEasingCurve.InBounce)
+        self.twofactor_responselabel_animation.setStartValue(
+            QRect(0, 511, 351, 0))
+        self.twofactor_responselabel_animation.setEndValue(
+            QRect(0, 460, 351, 41))
+        self.twofactor_responselabel_animation.setEasingCurve(
+            QEasingCurve.InBounce)
 
-        self.twofactor_responselabel_reverse = QPropertyAnimation(self.ui.twofactor_responselabel, b"geometry")
+        self.twofactor_responselabel_reverse = QPropertyAnimation(
+            self.ui.twofactor_responselabel, b"geometry")
         self.twofactor_responselabel_reverse.setDuration(500)
-        self.twofactor_responselabel_reverse.setStartValue(QRect(0, 460, 351, 41))
+        self.twofactor_responselabel_reverse.setStartValue(
+            QRect(0, 460, 351, 41))
         self.twofactor_responselabel_reverse.setEndValue(QRect(0, 511, 351, 0))
-        self.twofactor_responselabel_reverse.setEasingCurve(QEasingCurve.OutBounce)
-        self.twofactor_responselabel_reverse.finished.connect(lambda: self.updateEverything)
+        self.twofactor_responselabel_reverse.setEasingCurve(
+            QEasingCurve.OutBounce)
+        self.twofactor_responselabel_reverse.finished.connect(
+            lambda: self.updateEverything)
 
-        self.twofactor_field_opacity_effect = QGraphicsOpacityEffect(self.ui.twofactor_field)
-        self.ui.twofactor_field.setGraphicsEffect(self.twofactor_field_opacity_effect)
+        self.twofactor_field_opacity_effect = QGraphicsOpacityEffect(
+            self.ui.twofactor_field)
+        self.ui.twofactor_field.setGraphicsEffect(
+            self.twofactor_field_opacity_effect)
         self.twofactor_field_opacity_effect.setOpacity(0)
 
-        self.twofactor_button_opacity_effect = QGraphicsOpacityEffect(self.ui.twofactor_button)
-        self.ui.twofactor_button.setGraphicsEffect(self.twofactor_button_opacity_effect)
+        self.twofactor_button_opacity_effect = QGraphicsOpacityEffect(
+            self.ui.twofactor_button)
+        self.ui.twofactor_button.setGraphicsEffect(
+            self.twofactor_button_opacity_effect)
         self.twofactor_button_opacity_effect.setOpacity(0)
 
         self.tff_shadow = QGraphicsDropShadowEffect(self.ui.twofactor_field)
@@ -240,16 +289,19 @@ class LoginWindow(QMainWindow):
         self.tfb_shadow.setYOffset(0)
         self.tfb_shadow.setColor(QColor(0, 0, 0, 150))
 
-        self.twofactor_field_animation = QPropertyAnimation(self.twofactor_field_opacity_effect, b"opacity")
+        self.twofactor_field_animation = QPropertyAnimation(
+            self.twofactor_field_opacity_effect, b"opacity")
         self.twofactor_field_animation.setDuration(500)
         self.twofactor_field_animation.setStartValue(0)
         self.twofactor_field_animation.setEndValue(1)
         self.twofactor_field_animation.setEasingCurve(QEasingCurve.InOutQuart)
-        self.twofactor_field_animation.finished.connect(lambda: self.ui.twofactor_field.setFocus())
+        self.twofactor_field_animation.finished.connect(
+            lambda: self.ui.twofactor_field.setFocus())
         self.twofactor_field_animation.finished.connect(
             lambda: self.ui.twofactor_field.setGraphicsEffect(self.tff_shadow))
 
-        self.twofactor_button_animation = QPropertyAnimation(self.twofactor_button_opacity_effect, b"opacity")
+        self.twofactor_button_animation = QPropertyAnimation(
+            self.twofactor_button_opacity_effect, b"opacity")
         self.twofactor_button_animation.setDuration(500)
         self.twofactor_button_animation.setStartValue(0)
         self.twofactor_button_animation.setEndValue(1)
@@ -265,7 +317,8 @@ class LoginWindow(QMainWindow):
         self.ui.username.returnPressed.connect(self.ui.login_button.click)
         self.ui.password.returnPressed.connect(self.ui.login_button.click)
 
-        self.ui.twofactor_field.returnPressed.connect(self.ui.twofactor_button.click)
+        self.ui.twofactor_field.returnPressed.connect(
+            self.ui.twofactor_button.click)
 
         self.fadeInAnimation = QPropertyAnimation(self, b"windowOpacity")
         self.fadeInAnimation.setDuration(350)
@@ -288,11 +341,13 @@ class LoginWindow(QMainWindow):
     def stopAnimations(self):
         if self.response_label_animation.state() == QAbstractAnimation.Running:
             self.response_label_animation.stop()
-            self.response_label_animation.setCurrentTime(0)  # Reset the animation to the beginning
+            self.response_label_animation.setCurrentTime(
+                0)  # Reset the animation to the beginning
 
         if self.response_label_animation_reverse.state() == QAbstractAnimation.Running:
             self.response_label_animation_reverse.stop()
-            self.response_label_animation_reverse.setCurrentTime(0)  # Reset the reverse animation to the beginning
+            self.response_label_animation_reverse.setCurrentTime(
+                0)  # Reset the reverse animation to the beginning
 
         if self.twofactor_responselabel_animation.state() == QAbstractAnimation.Running:
             self.twofactor_responselabel_animation.stop()
@@ -330,14 +385,17 @@ class LoginWindow(QMainWindow):
         except AttributeError:
             pass
         self.ui.ctx_btns.show()
-        self.dropdown_geometry_animation = QPropertyAnimation(self.ui.ctx_btns, b"geometry")
+        self.dropdown_geometry_animation = QPropertyAnimation(
+            self.ui.ctx_btns, b"geometry")
         self.dropdown_geometry_animation.setDuration(500)
         # Start at (1232, 0, 0, 0), and extend to (1071, 20, 161, 161)
         self.dropdown_geometry_animation.setStartValue(QRect(326, 15, 0, 0))
         self.dropdown_geometry_animation.setEndValue(QRect(230, 10, 111, 31))
-        self.dropdown_geometry_animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.dropdown_geometry_animation.setEasingCurve(
+            QEasingCurve.InOutQuart)
         self.dropdown_geometry_animation.start()
-        self.dropdown_geometry_animation.finished.connect(lambda: children_animations())
+        self.dropdown_geometry_animation.finished.connect(
+            lambda: children_animations())
 
     def fadeOutChildren(self):
         def children_animations():
@@ -352,12 +410,16 @@ class LoginWindow(QMainWindow):
         except AttributeError:
             pass
 
-        self.dropdown_geometry_animation_reverse = QPropertyAnimation(self.ui.ctx_btns, b"geometry")
+        self.dropdown_geometry_animation_reverse = QPropertyAnimation(
+            self.ui.ctx_btns, b"geometry")
         self.dropdown_geometry_animation_reverse.setDuration(500)
         # Start at (1071, 20, 161, 161), and extend to (1232, 0, 0, 0)
-        self.dropdown_geometry_animation_reverse.setStartValue(QRect(230, 10, 111, 31))
-        self.dropdown_geometry_animation_reverse.setEndValue(QRect(326, 15, 0, 0))
-        self.dropdown_geometry_animation_reverse.setEasingCurve(QEasingCurve.InOutQuart)
+        self.dropdown_geometry_animation_reverse.setStartValue(
+            QRect(230, 10, 111, 31))
+        self.dropdown_geometry_animation_reverse.setEndValue(
+            QRect(326, 15, 0, 0))
+        self.dropdown_geometry_animation_reverse.setEasingCurve(
+            QEasingCurve.InOutQuart)
         self.dropdown_geometry_animation_reverse.start()
 
     # BUTTONS CLICK
@@ -382,7 +444,8 @@ class LoginWindow(QMainWindow):
                 self.stopAnimations()
                 self.response_label_animation.start()
                 self.timer = QTimer(self)
-                self.timer.singleShot(1000, lambda: self.response_label_animation_reverse.start())
+                self.timer.singleShot(
+                    1000, lambda: self.response_label_animation_reverse.start())
             else:
                 login_response, code = login(username, password)
                 if code == 200:
@@ -407,19 +470,22 @@ class LoginWindow(QMainWindow):
                     self.stopAnimations()
                     self.response_label_animation.start()
                     self.timer = QTimer(self)
-                    self.timer.singleShot(1000, lambda: self.successfulLogin(login_response))
+                    self.timer.singleShot(
+                        1000, lambda: self.successfulLogin(login_response))
                 elif "2FA" in login_response["detail"]:
                     # Change to the twofactor page
                     self.__cached_username = username
                     self.__cached_password = password
                     self.ui.pages.setCurrentWidget(self.ui.twofactor)
-                    self.ui.twofactor_responselabel.setText(login_response["detail"])
+                    self.ui.twofactor_responselabel.setText(
+                        login_response["detail"])
                     self.ui.twofactor_responselabel.setStyleSheet(
                         "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                     self.stopAnimations()
                     self.twofactor_responselabel_animation.start()
                     self.timer = QTimer(self)
-                    self.timer.singleShot(1000, lambda: self.twofactor_responselabel_reverse.start())
+                    self.timer.singleShot(
+                        1000, lambda: self.twofactor_responselabel_reverse.start())
                     self.ui.twofactor_field.show()
                     self.ui.twofactor_button.show()
                     self.twofactor_field_animation.start()
@@ -431,74 +497,96 @@ class LoginWindow(QMainWindow):
                     self.stopAnimations()
                     self.response_label_animation.start()
                     self.timer = QTimer(self)
-                    self.timer.singleShot(1000, lambda: self.response_label_animation_reverse.start())
+                    self.timer.singleShot(
+                        1000, lambda: self.response_label_animation_reverse.start())
 
         elif btnName == "loginNormalButton":
             def fade_in_ln_children():
-                self.username_label_opacity_effect = QGraphicsOpacityEffect(self.ui.usernameLabel)
-                self.ui.usernameLabel.setGraphicsEffect(self.username_label_opacity_effect)
+                self.username_label_opacity_effect = QGraphicsOpacityEffect(
+                    self.ui.usernameLabel)
+                self.ui.usernameLabel.setGraphicsEffect(
+                    self.username_label_opacity_effect)
                 self.username_label_opacity_effect.setOpacity(0)
 
-                self.usernameLabelAnimation = QPropertyAnimation(self.username_label_opacity_effect, b"opacity")
+                self.usernameLabelAnimation = QPropertyAnimation(
+                    self.username_label_opacity_effect, b"opacity")
                 self.usernameLabelAnimation.setDuration(500)
                 self.usernameLabelAnimation.setStartValue(0)
                 self.usernameLabelAnimation.setEndValue(1)
-                self.usernameLabelAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-                self.usernameLabelAnimation.finished.connect(lambda: self.ui.username.setFocus())
-                self.usernameLabelAnimation.finished.connect(lambda: self.ui.usernameLabel.setGraphicsEffect(None))
+                self.usernameLabelAnimation.setEasingCurve(
+                    QEasingCurve.InOutQuart)
+                self.usernameLabelAnimation.finished.connect(
+                    lambda: self.ui.username.setFocus())
+                self.usernameLabelAnimation.finished.connect(
+                    lambda: self.ui.usernameLabel.setGraphicsEffect(None))
                 self.usernameLabelAnimation.start()
                 self.ui.usernameLabel.show()
 
-                self.username_opacity_effect = QGraphicsOpacityEffect(self.ui.username)
-                self.ui.username.setGraphicsEffect(self.username_opacity_effect)
+                self.username_opacity_effect = QGraphicsOpacityEffect(
+                    self.ui.username)
+                self.ui.username.setGraphicsEffect(
+                    self.username_opacity_effect)
                 self.username_opacity_effect.setOpacity(0)
 
-                self.username_shadow = QGraphicsDropShadowEffect(self.ui.username)
+                self.username_shadow = QGraphicsDropShadowEffect(
+                    self.ui.username)
                 self.username_shadow.setBlurRadius(17)
                 self.username_shadow.setXOffset(0)
                 self.username_shadow.setYOffset(0)
                 self.username_shadow.setColor(QColor(0, 0, 0, 150))
 
-                self.usernameAnimation = QPropertyAnimation(self.username_opacity_effect, b"opacity")
+                self.usernameAnimation = QPropertyAnimation(
+                    self.username_opacity_effect, b"opacity")
                 self.usernameAnimation.setDuration(500)
                 self.usernameAnimation.setStartValue(0)
                 self.usernameAnimation.setEndValue(1)
                 self.usernameAnimation.setEasingCurve(QEasingCurve.InOutQuart)
                 self.usernameAnimation.finished.connect(
-                    lambda: self.ui.username.setGraphicsEffect(self.username_shadow))
+                    lambda: self.ui.username.setGraphicsEffect(
+                        self.username_shadow))
                 self.usernameAnimation.start()
                 self.ui.username.show()
 
-                self.password_label_opacity_effect = QGraphicsOpacityEffect(self.ui.passwordLabel)
-                self.ui.passwordLabel.setGraphicsEffect(self.password_label_opacity_effect)
+                self.password_label_opacity_effect = QGraphicsOpacityEffect(
+                    self.ui.passwordLabel)
+                self.ui.passwordLabel.setGraphicsEffect(
+                    self.password_label_opacity_effect)
                 self.password_label_opacity_effect.setOpacity(0)
 
-                self.passwordLabelAnimation = QPropertyAnimation(self.password_label_opacity_effect, b"opacity")
+                self.passwordLabelAnimation = QPropertyAnimation(
+                    self.password_label_opacity_effect, b"opacity")
                 self.passwordLabelAnimation.setDuration(500)
                 self.passwordLabelAnimation.setStartValue(0)
                 self.passwordLabelAnimation.setEndValue(1)
-                self.passwordLabelAnimation.setEasingCurve(QEasingCurve.InOutQuart)
-                self.passwordLabelAnimation.finished.connect(lambda: self.ui.passwordLabel.setGraphicsEffect(None))
+                self.passwordLabelAnimation.setEasingCurve(
+                    QEasingCurve.InOutQuart)
+                self.passwordLabelAnimation.finished.connect(
+                    lambda: self.ui.passwordLabel.setGraphicsEffect(None))
                 self.passwordLabelAnimation.start()
                 self.ui.passwordLabel.show()
 
-                self.password_opacity_effect = QGraphicsOpacityEffect(self.ui.password)
-                self.ui.password.setGraphicsEffect(self.password_opacity_effect)
+                self.password_opacity_effect = QGraphicsOpacityEffect(
+                    self.ui.password)
+                self.ui.password.setGraphicsEffect(
+                    self.password_opacity_effect)
                 self.password_opacity_effect.setOpacity(0)
 
-                self.password_shadow = QGraphicsDropShadowEffect(self.ui.password)
+                self.password_shadow = QGraphicsDropShadowEffect(
+                    self.ui.password)
                 self.password_shadow.setBlurRadius(17)
                 self.password_shadow.setXOffset(0)
                 self.password_shadow.setYOffset(0)
                 self.password_shadow.setColor(QColor(0, 0, 0, 150))
 
-                self.passwordAnimation = QPropertyAnimation(self.password_opacity_effect, b"opacity")
+                self.passwordAnimation = QPropertyAnimation(
+                    self.password_opacity_effect, b"opacity")
                 self.passwordAnimation.setDuration(500)
                 self.passwordAnimation.setStartValue(0)
                 self.passwordAnimation.setEndValue(1)
                 self.passwordAnimation.setEasingCurve(QEasingCurve.InOutQuart)
                 self.passwordAnimation.finished.connect(
-                    lambda: self.ui.password.setGraphicsEffect(self.password_shadow))
+                    lambda: self.ui.password.setGraphicsEffect(
+                        self.password_shadow))
                 self.passwordAnimation.start()
                 self.ui.password.show()
                 self.backgroundAnimation.start()
@@ -509,24 +597,32 @@ class LoginWindow(QMainWindow):
 
             def fade_out_ln_children():
                 # Opacity fadeout for passwordLabel_3 and password_token
-                self.password_label_opacity_effect = QGraphicsOpacityEffect(self.ui.passwordLabel_3)
-                self.ui.passwordLabel_3.setGraphicsEffect(self.password_label_opacity_effect)
+                self.password_label_opacity_effect = QGraphicsOpacityEffect(
+                    self.ui.passwordLabel_3)
+                self.ui.passwordLabel_3.setGraphicsEffect(
+                    self.password_label_opacity_effect)
                 self.password_label_opacity_effect.setOpacity(1)
-                self.password_token_opacity_effect = QGraphicsOpacityEffect(self.ui.password_token)
-                self.ui.password_token.setGraphicsEffect(self.password_token_opacity_effect)
+                self.password_token_opacity_effect = QGraphicsOpacityEffect(
+                    self.ui.password_token)
+                self.ui.password_token.setGraphicsEffect(
+                    self.password_token_opacity_effect)
                 self.password_token_opacity_effect.setOpacity(1)
-                self.password_label_animation = QPropertyAnimation(self.password_label_opacity_effect, b"opacity")
+                self.password_label_animation = QPropertyAnimation(
+                    self.password_label_opacity_effect, b"opacity")
                 self.password_label_animation.setDuration(500)
                 self.password_label_animation.setStartValue(1)
                 self.password_label_animation.setEndValue(0)
-                self.password_label_animation.setEasingCurve(QEasingCurve.InOutQuart)
+                self.password_label_animation.setEasingCurve(
+                    QEasingCurve.InOutQuart)
                 self.password_label_animation.start()
                 self.password_label_animation.finished.connect(switchPage)
-                self.password_token_animation = QPropertyAnimation(self.password_token_opacity_effect, b"opacity")
+                self.password_token_animation = QPropertyAnimation(
+                    self.password_token_opacity_effect, b"opacity")
                 self.password_token_animation.setDuration(500)
                 self.password_token_animation.setStartValue(1)
                 self.password_token_animation.setEndValue(0)
-                self.password_token_animation.setEasingCurve(QEasingCurve.InOutQuart)
+                self.password_token_animation.setEasingCurve(
+                    QEasingCurve.InOutQuart)
                 self.backgroundAnimationReverse.start()
                 self.password_token_animation.start()
                 self.password_token_animation.finished.connect(switchPage)
@@ -545,7 +641,8 @@ class LoginWindow(QMainWindow):
                 self.stopAnimations()
                 self.response_label_animation.start()
                 self.timer = QTimer(self)
-                self.timer.singleShot(1000, lambda: self.response_label_animation_reverse.start())
+                self.timer.singleShot(
+                    1000, lambda: self.response_label_animation_reverse.start())
             else:
                 with open(os.getcwd() + "/config/config.json", "r") as f:
                     config = json.load(f)
@@ -559,9 +656,11 @@ class LoginWindow(QMainWindow):
                     self.stopAnimations()
                     self.response_label_animation.start()
                     self.timer = QTimer(self)
-                    self.timer.singleShot(1000, lambda: self.successfulLogin(response))
+                    self.timer.singleShot(
+                        1000, lambda: self.successfulLogin(response))
                 else:
-                    self.ui.responseLabel.setText("Please log in normally to reset your token.")
+                    self.ui.responseLabel.setText(
+                        "Please log in normally to reset your token.")
                     config["token"] = ""
                     config["username"] = ""
                     with open(os.getcwd() + "/config/config.json", "w") as f:
@@ -572,7 +671,8 @@ class LoginWindow(QMainWindow):
                     self.stopAnimations()
                     self.response_label_animation.start()
                     self.timer = QTimer(self)
-                    self.timer.singleShot(1000, lambda: self.response_label_animation_reverse.start())
+                    self.timer.singleShot(
+                        1000, lambda: self.response_label_animation_reverse.start())
 
         elif btnName == "register_button":
             webbrowser.get().open("https://ameasere.com/sign-up.html")
@@ -581,15 +681,18 @@ class LoginWindow(QMainWindow):
             if self.ctx_btns_state:
                 self.ctx_btns_state = False
                 self.fadeOutChildren()
-                self.ui.btn_dropdown.setIcon(QIcon(":/icons/images/icons/arrow-down-left.png"))
+                self.ui.btn_dropdown.setIcon(
+                    QIcon(":/icons/images/icons/arrow-down-left.png"))
             else:
                 self.ui.ctx_btns.show()
                 self.ctx_btns_state = True
                 self.fadeInChildren()
-                self.ui.btn_dropdown.setIcon(QIcon(":/icons/images/icons/arrow-up-right.png"))
+                self.ui.btn_dropdown.setIcon(
+                    QIcon(":/icons/images/icons/arrow-up-right.png"))
 
         elif btnName == "twofactor_button":
-            response, code = two_factor(self.__cached_username, self.__cached_password, self.ui.twofactor_field.text())
+            response, code = two_factor(
+                self.__cached_username, self.__cached_password, self.ui.twofactor_field.text())
             if code == 200:
                 with open(os.getcwd() + "/config/config.json", "r") as f:
                     try:
@@ -600,7 +703,8 @@ class LoginWindow(QMainWindow):
                     if isinstance(response, str):
                         response = json.loads(response)
                 rt = response["2fa_rt"]
-                response, code = device_token(self.__cached_username, self.__cached_password, rt=rt)
+                response, code = device_token(
+                    self.__cached_username, self.__cached_password, rt=rt)
                 if code == 200:
                     if isinstance(response, str):
                         response = json.loads(response)
@@ -612,14 +716,17 @@ class LoginWindow(QMainWindow):
                     with open(os.getcwd() + "/config/config.json", "w") as f:
                         json.dump(config, f)
                         f.close()
-                    response, code = token_login(self.__cached_password, config["token"])
-                    self.ui.twofactor_responselabel.setText("Login successful.")
+                    response, code = token_login(
+                        self.__cached_password, config["token"])
+                    self.ui.twofactor_responselabel.setText(
+                        "Login successful.")
                     self.ui.twofactor_responselabel.setStyleSheet(
                         "background-color: #001010; color: rgb(99, 255, 122); border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid rgb(99, 255, 122);")
                     self.stopAnimations()
                     self.twofactor_responselabel_animation.start()
                     self.timer = QTimer(self)
-                    self.timer.singleShot(1000, lambda: self.successfulLogin(response))
+                    self.timer.singleShot(
+                        1000, lambda: self.successfulLogin(response))
             else:
                 self.ui.twofactor_responselabel.setText(response["detail"])
                 self.ui.twofactor_responselabel.setStyleSheet(
@@ -627,7 +734,8 @@ class LoginWindow(QMainWindow):
                 self.stopAnimations()
                 self.twofactor_responselabel_animation.start()
                 self.timer = QTimer(self)
-                self.timer.singleShot(1000, lambda: self.twofactor_responselabel_reverse.start())
+                self.timer.singleShot(
+                    1000, lambda: self.twofactor_responselabel_reverse.start())
 
     def openMainWindow(self, response):
         self.mainWindow = MainWindow(response, self.config)
@@ -645,14 +753,18 @@ class LoginWindow(QMainWindow):
             # Start after a QTimer of 1 second
             self.timer = QTimer(self)
             self.timer.singleShot(700, lambda: self.fadeOutAnimation.start())
-            self.fadeOutAnimation.finished.connect(lambda: self.openMainWindow(response))
+            self.fadeOutAnimation.finished.connect(
+                lambda: self.openMainWindow(response))
 
-        if self.ui.pages.currentWidget() == self.ui.password_login or self.ui.pages.currentWidget() == self.ui.token_login:
+        if self.ui.pages.currentWidget(
+        ) == self.ui.password_login or self.ui.pages.currentWidget() == self.ui.token_login:
             self.response_label_animation_reverse.start()
-            self.response_label_animation_reverse.finished.connect(lambda: mainWindowOpener())
+            self.response_label_animation_reverse.finished.connect(
+                lambda: mainWindowOpener())
         elif self.ui.pages.currentWidget() == self.ui.twofactor:
             self.twofactor_responselabel_reverse.start()
-            self.twofactor_responselabel_reverse.finished.connect(lambda: mainWindowOpener())
+            self.twofactor_responselabel_reverse.finished.connect(
+                lambda: mainWindowOpener())
 
     # MOUSE CLICK EVENTS
     # ///////////////////////////////////////////////////////////////
