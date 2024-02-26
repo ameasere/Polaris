@@ -1,0 +1,93 @@
+name: test
+
+on:
+  push:
+   paths-ignore:
+     - "docs/**"
+
+jobs:
+  staging:  # too much code bc github doesnt allow for file detection in it's if directory
+    runs-on: ubuntu-latest
+    outputs:
+      continue: ${{ steps.continue.outputs.continue }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: check whether to run
+        id: continue
+        run: |
+          if ! test -f '.github/workflows/setup.yml' && test -f '**/test*.py'; then
+            echo "::set-output name=continue::true"
+          else
+            echo "::set-output name=continue::false"
+          fi
+
+  create-matrix:
+    needs: staging
+    if: fromJson(needs.staging.outputs.continue)
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Install pip & vermin
+        run: |
+          pip install --upgrade pip
+          pip install vermin
+      - name: run vermin
+        id: set-matrix
+        run: |
+          MATRIX=$(python3 .github/workflows/vermin.py)
+          echo "::set-output name=matrix::$MATRIX"
+
+  test:
+    needs: create-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.create-matrix.outputs.matrix) }}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.version }}
+      - name: Install project & dependencies
+        run: |
+          pip install --upgrade pip
+          pip install unittest-xml-reporting
+          if test -f requirements.txt; then
+            echo "::group::Installing requirements.txt"
+            pip install -r requirements.txt
+            echo "::endgroup::"
+          fi
+          if test -f setup.py; then
+            echo "::group::Installing package"
+            pip install .
+            echo "::endgroup::"
+          fi
+      - name: Run unittests
+        # env: add environment variables from secrets here
+        run: |
+          python -m xmlrunner -v --output-file results.xml
+      - name: Upload unittest results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Unittest Results (Python ${{ matrix.version }})
+          path: results.xml
+          retention-days: 1
+
+  publish-test-results:
+    name: Publish test results
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        with:
+          files: artifacts/**/*.xml

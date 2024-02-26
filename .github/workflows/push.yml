@@ -1,0 +1,19 @@
+name: push
+
+on:
+  push:
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    env:
+      FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run Fossa and upload data
+        if: env.FOSSA_API_KEY != '' && steps.setup.continue == 'true'
+        uses: fossa-contrib/fossa-action@v1
+        with:
+          fossa-api-key: ${{ env.FOSSA_API_KEY }}

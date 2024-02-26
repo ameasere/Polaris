@@ -1,0 +1,34 @@
+name: substitute
+
+on:
+  release:
+    types:
+      - "published"
+      - "edited"
+
+jobs:
+  release:
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: substitute '[vermin]' with vermin output
+        if: contains(github.event.release.body, '[vermin]')
+        run: |
+          pip install --upgrade pip
+          pip install vermin
+          VERMIN_OUTPUT=$(vermin --no-parse-comments --no-config-file -q .)
+          BODY="${{ github.event.release.body }}"
+          NEW_BODY=${BODY//"[vermin]"/$VERMIN_OUTPUT}
+          JSON=$(echo '{"body": "'"$NEW_BODY"'"}' | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')
+          curl \
+            -X PATCH \
+            -H "Accept: application/vnd.github.v3+json" \
+            -u ${{ github.event.sender.login }}:${{ secrets.GITHUB_TOKEN }} \
+            ${{ github.event.release.url }} \
+            -d "$JSON"
+    

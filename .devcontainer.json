@@ -1,0 +1,39 @@
+{
+    "name": "polaris",
+    "onCreateCommand": "pip install pylama pipreqs && pipreqs && pip install -r requirements.txt",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "njpwerner.autodocstring",
+                "cschleiden.vscode-github-actions",
+                "eamodio.gitlens",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "bierner.markdown-preview-github-styles",
+                "DavidAnson.vscode-markdownlint",
+                "PKief.material-icon-theme",
+                "ms-python.vscode-pylance",
+                "ms-python.python",
+                "trond-snekvik.simple-rst",
+                "lextudio.restructuredtext"],
+            "settings": {
+                "python.linting.pylintEnabled": false,
+                "python.linting.pylamaEnabled": true,
+                "python.linting.enabled": true,
+                "files.autoSave": "afterDelay",
+                "files.autoSaveDelay": 1000,
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.python"
+                },
+                "python.formatting.autopep8Args": ["--experimental"],
+                "editor.formatOnSave": true,
+                "editor.suggestSelection": "first",
+                "python.languageServer": "Pylance",
+                "workbench.iconTheme": "material-icon-theme",
+                "autoDocstring.docstringFormat": "numpy",
+                "editor.inlineSuggest.enabled": true,
+                "autoDocstring.startOnNewLine": true,
+                "git.enableCommitSigning": true
+            }
+        }
+    }
+}
