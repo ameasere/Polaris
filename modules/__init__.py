@@ -27,7 +27,6 @@ import requests
 import traceback
 import sys
 import ipaddress
-from uuid import uuid4
 
 # GUI FILE
 from . ui_main import Ui_MainWindow

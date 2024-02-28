@@ -7,8 +7,7 @@ def login(username, password):
     payload = json.dumps({"username": username, "password": password})
     headers = {"Content-Type": "application/json"}
     response = requests.post(url, headers=headers, data=payload)
-    # Get the response and code - the response should have text, not just
-    # <Response [code]>
+    # Get the response and code - the response should have text, not just <Response [code]>
     response_code = response.status_code
     response_text = response.text
     try:
@@ -23,8 +22,7 @@ def device_token(username, password, rt=None):
         {"username": username, "password": password, "2fa_rt": rt})
     headers = {"Content-Type": "application/json"}
     response = requests.post(url, headers=headers, data=payload)
-    # Get the response and code - the response should have text, not just
-    # <Response [code]>
+    # Get the response and code - the response should have text, not just <Response [code]>
     response_code = response.status_code
     response_text = response.text
     try:
@@ -38,8 +36,7 @@ def token_login(password, token):
     payload = json.dumps({"password": password, "token": token})
     headers = {"Content-Type": "application/json"}
     response = requests.post(url, headers=headers, data=payload)
-    # Get the response and code - the response should have text, not just
-    # <Response [code]>
+    # Get the response and code - the response should have text, not just <Response [code]>
     response_code = response.status_code
     response_text = response.text
     try:
@@ -50,12 +47,10 @@ def token_login(password, token):
 
 def two_factor(username, password, code):
     url = "https://api.ameasere.com/polaris/2fa"
-    payload = json.dumps(
-        {"username": username, "password": password, "code": code})
+    payload = json.dumps({"username": username, "password": password, "code": code})
     headers = {"Content-Type": "application/json"}
     response = requests.post(url, headers=headers, data=payload)
-    # Get the response and code - the response should have text, not just
-    # <Response [code]>
+    # Get the response and code - the response should have text, not just <Response [code]>
     response_code = response.status_code
     response_text = response.text
     try:

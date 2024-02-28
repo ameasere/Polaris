@@ -24,22 +24,17 @@ if platform.system() == "Windows":
     import ctypes
     from ctypes import c_int, c_void_p, byref
 
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
-        "polaris.ameasere")
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("polaris.ameasere")
 elif platform.system() == "Darwin":
     import AppKit
 
     # Change title for Linux and Mac
     # os.environ["QT_MAC_WANTS_LAYER"] = "1"
     os.environ["QT_SCALE_FACTOR"] = "1"
-    AppKit.NSBundle.mainBundle().infoDictionary(
-    ).setValue_forKey_('Polaris', 'CFBundleName')
-    AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_(
-        'Polaris', 'CFBundleDisplayName')
-    AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_(
-        'polaris.ameasere', 'CFBundleIdentifier')
-    AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_(
-        '0.3.0', 'CFBundleShortVersionString')
+    AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_('Polaris', 'CFBundleName')
+    AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_('Polaris', 'CFBundleDisplayName')
+    AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_('polaris.ameasere', 'CFBundleIdentifier')
+    AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_('0.3.0', 'CFBundleShortVersionString')
 
 # os.environ["QT_LOGGING_RULES"] = "*.debug=false;*.warning=false;*.critical=false"
 
@@ -51,15 +46,13 @@ if platform.system() == "Windows":
         scale = ctypes.windll.shcore.GetScaleFactorForDevice(0)
         if scale > 1:
             ctypes.windll.shcore.SetProcessDpiAwareness(2)
-            # FIX Problem for High DPI and Scale above 100%
-            os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+            os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"  # FIX Problem for High DPI and Scale above 100%
         else:
             os.environ["QT_FONT_DPI"] = "72"
-    except BaseException:
+    except:
         pass
 else:
-    # FIX Problem for High DPI and Scale above 100%
-    os.environ["QT_FONT_DPI"] = "72"
+    os.environ["QT_FONT_DPI"] = "72"  # FIX Problem for High DPI and Scale above 100%
 
 # SET AS GLOBAL WIDGETS
 # ///////////////////////////////////////////////////////////////

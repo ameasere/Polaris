@@ -12,7 +12,6 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-
 class WorkerSignals(QObject):
     '''
     Defines the signals available from a running worker thread.
@@ -65,13 +64,12 @@ class Worker(QRunnable):
         # Retrieve args/kwargs here; and fire processing using them
         try:
             result = self.fn(*self.args, **self.kwargs)
-        except BaseException:
+        except:
             trackback_str = traceback.format_exc()
             exctype, value = sys.exc_info()[:2]
             self.signals.error.emit((exctype, value, trackback_str))
         else:
-            # Return the result of the processing
-            self.signals.result.emit(result)
+            self.signals.result.emit(result)  # Return the result of the processing
         finally:
             self.signals.finished.emit()  # Done
 
@@ -98,8 +96,7 @@ def key_exchange(server_socket):
     send_public_key(server_socket, public_key)
 
     received_key = server_socket.recv(4096)
-    peer_public_key = serialization.load_pem_public_key(
-        received_key, backend=default_backend())
+    peer_public_key = serialization.load_pem_public_key(received_key, backend=default_backend())
     shared_key = private_key.exchange(ec.ECDH(), peer_public_key)
 
     return shared_key
@@ -167,8 +164,7 @@ class MainWindow(QMainWindow):
         ip = self.ip_field.text()
         data = self.text_field.toPlainText()
 
-        # Any other args, kwargs are passed to the run function
-        worker = Worker(send_data, ip, data)
+        worker = Worker(send_data, ip, data)  # Any other args, kwargs are passed to the run function
         worker.signals.result.connect(self.print_output)
         worker.signals.finished.connect(self.thread_complete)
         worker.signals.error.connect(self.print_err)
@@ -184,7 +180,6 @@ class MainWindow(QMainWindow):
 
     def thread_complete(self):
         print("THREAD COMPLETE!")
-
 
 app = QApplication([])
 window = MainWindow()

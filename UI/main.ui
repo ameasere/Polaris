@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/images/images/images/Polaris.png</normaloff>:/images/images/images/Polaris.png</iconset>
+    <normaloff>:/images/images/images/icon.png</normaloff>:/images/images/images/icon.png</iconset>
   </property>
   <widget class="QWidget" name="styleSheet">
    <property name="styleSheet">
@@ -642,25 +642,6 @@ border: 1px solid rgba(128, 96, 167, 80);</string>
        </property>
        <property name="text">
         <string/>
-       </property>
-      </widget>
-      <widget class="QLabel" name="logo">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>30</y>
-         <width>91</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="resources.qrc">:/images/images/Polaris.png</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
        </property>
       </widget>
       <widget class="QPushButton" name="btn_dashboard">
@@ -1491,7 +1472,7 @@ text-align: left;</string>
       <widget class="QLabel" name="creditsLabel_2">
        <property name="geometry">
         <rect>
-         <x>63</x>
+         <x>40</x>
          <y>50</y>
          <width>41</width>
          <height>16</height>
@@ -1716,12 +1697,12 @@ color: white;</string>
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-          <widget class="QLabel" name="hsmmasterpassword">
+          <widget class="QLabel" name="hmsusernamelabel">
            <property name="geometry">
             <rect>
              <x>340</x>
              <y>201</y>
-             <width>111</width>
+             <width>71</width>
              <height>31</height>
             </rect>
            </property>
@@ -1729,10 +1710,10 @@ color: white;</string>
             <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
            </property>
            <property name="text">
-            <string>Master Password</string>
+            <string>Username</string>
            </property>
           </widget>
-          <widget class="QLineEdit" name="hsm_masterpw">
+          <widget class="QLineEdit" name="hsm_username">
            <property name="geometry">
             <rect>
              <x>330</x>
@@ -1758,10 +1739,10 @@ color: white;</string>
             <string/>
            </property>
            <property name="placeholderText">
-            <string>Enter a master password...</string>
+            <string>Enter the account's username...</string>
            </property>
           </widget>
-          <widget class="QLineEdit" name="hsm_machineid">
+          <widget class="QLineEdit" name="hsm_password">
            <property name="geometry">
             <rect>
              <x>330</x>
@@ -1786,19 +1767,16 @@ color: white;</string>
            <property name="text">
             <string/>
            </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
            <property name="placeholderText">
-            <string/>
+            <string>Enter the account's password...</string>
            </property>
           </widget>
-          <widget class="QLabel" name="hsmmachineid">
+          <widget class="QLabel" name="hsmpasswordlabel">
            <property name="geometry">
             <rect>
              <x>340</x>
              <y>272</y>
-             <width>151</width>
+             <width>71</width>
              <height>31</height>
             </rect>
            </property>
@@ -1806,7 +1784,29 @@ color: white;</string>
             <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
            </property>
            <property name="text">
-            <string>Your Machine Identifier</string>
+            <string>Password</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="hsmusernametooltip">
+           <property name="geometry">
+            <rect>
+             <x>410</x>
+             <y>210</y>
+             <width>16</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This must be an account in the sudoers file. Do not use the root account here, use an unprivileged account with sudo access restricted by a password.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="resources.qrc">:/icons/images/icons/alert-circle.png</pixmap>
            </property>
           </widget>
           <widget class="QLineEdit" name="hsm_ip">
@@ -1910,6 +1910,28 @@ QPushButton:pressed {
              <normaloff>:/icons/images/icons/plus.png</normaloff>:/icons/images/icons/plus.png</iconset>
            </property>
           </widget>
+          <widget class="QLabel" name="twofactor_responselabel">
+           <property name="geometry">
+            <rect>
+             <x>290</x>
+             <y>400</y>
+             <width>351</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(113, 126, 149);</string>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
          </widget>
          <widget class="QWidget" name="overview"/>
         </widget>
@@ -1936,6 +1958,25 @@ background: transparent;</string>
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
+       <widget class="QLabel" name="logo">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>-20</y>
+          <width>171</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="resources.qrc">:/images/images/Polaris.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
       </widget>
       <widget class="QPushButton" name="btn_hsmlist">
        <property name="geometry">
@@ -2159,7 +2200,6 @@ border-bottom: 2px solid #9e77ed;
       <zorder>bg1</zorder>
       <zorder>bg2</zorder>
       <zorder>bg3</zorder>
-      <zorder>logo</zorder>
       <zorder>btn_dashboard</zorder>
       <zorder>icon_1</zorder>
       <zorder>sep1</zorder>

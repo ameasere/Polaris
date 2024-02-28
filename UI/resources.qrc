@@ -1,10 +1,10 @@
 <RCC>
   <qresource prefix="images">
+    <file>images/images/icon.png</file>
     <file>images/images/pi4.png</file>
     <file>images/images/pi3.png</file>
     <file>images/images/FAQ-Pattern-01.svg</file>
     <file>images/Polaris.png</file>
-    <file>images/images/Polaris.png</file>
   </qresource>
   <qresource prefix="icons">
     <file>images/icons/plus.png</file>

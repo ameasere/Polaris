@@ -36,61 +36,45 @@ def generate_color_bar(progress):
 
 def update_progress(progress, label):
     bar = generate_color_bar(progress)
-    sys.stdout.write(
-        '\r{} progress: ║{}║ {:.2f}%'.format(
-            label, bar, progress * 100))
+    sys.stdout.write('\r{} progress: ║{}║ {:.2f}%'.format(label, bar, progress * 100))
     sys.stdout.flush()
 
 
 def main_thread():
-    print(
-        colorama.Fore.GREEN +
-        t1_header +
-        "Main thread started" +
-        colorama.Style.RESET_ALL)
+    print(colorama.Fore.GREEN + t1_header + "Main thread started" + colorama.Style.RESET_ALL)
     start = time.time()
-    (public_key, private_key) = rsa.newkeys(2048, poolsize=int(
-        psutil.cpu_count()) - 2 if psutil.cpu_count() > 2 else 1)
+    (public_key, private_key) = rsa.newkeys(2048, poolsize=int(psutil.cpu_count()) - 2 if psutil.cpu_count() > 2 else 1)
     end = time.time()
     # print(colorama.Fore.BLUE + t1_header + "Public key: " + colorama.Style.RESET_ALL + str(public_key))
     # print(colorama.Fore.BLUE + t1_header + "Private key: " + colorama.Style.RESET_ALL + str(private_key))
-    print(colorama.Fore.RED + t1_header + "Time taken to generate keys: " +
-          colorama.Style.RESET_ALL + str(round(end - start, 2)) + " seconds")
+    print(colorama.Fore.RED + t1_header + "Time taken to generate keys: " + colorama.Style.RESET_ALL + str(
+        round(end - start, 2)) + " seconds")
     # Encrypt a string then decrypt it
     message = "Hello World!"
     start_2 = time.time()
     encrypted_message = rsa.encrypt(message.encode(), public_key)
     end_2 = time.time()
     # print(colorama.Fore.BLUE + t1_header + "Encrypted message: " + colorama.Style.RESET_ALL + str(encrypted_message))
-    print(colorama.Fore.RED + t1_header + "Time taken to encrypt: " + \
-          colorama.Style.RESET_ALL + str(round(end_2 - start_2, 2)) + " seconds")
+    print(colorama.Fore.RED + t1_header + "Time taken to encrypt: " + colorama.Style.RESET_ALL + str(
+        round(end_2 - start_2, 2)) + " seconds")
     start_3 = time.time()
     decrypted_message = rsa.decrypt(encrypted_message, private_key)
     end_3 = time.time()
     # print(colorama.Fore.BLUE + t1_header + "Decrypted message: " + colorama.Style.RESET_ALL + str(decrypted_message))
-    print(colorama.Fore.RED + t1_header + "Time taken to decrypt: " + \
-          colorama.Style.RESET_ALL + str(round(end_3 - start_3, 2)) + " seconds")
-    print(
-        colorama.Fore.GREEN +
-        t1_header +
-        "Main thread ended" +
-        colorama.Style.RESET_ALL)
+    print(colorama.Fore.RED + t1_header + "Time taken to decrypt: " + colorama.Style.RESET_ALL + str(
+        round(end_3 - start_3, 2)) + " seconds")
+    print(colorama.Fore.GREEN + t1_header + "Main thread ended" + colorama.Style.RESET_ALL)
 
 
 def secondary_thread():
-    print(
-        colorama.Fore.GREEN +
-        t2_header +
-        "Secondary thread started" +
-        colorama.Style.RESET_ALL)
+    print(colorama.Fore.GREEN + t2_header + "Secondary thread started" + colorama.Style.RESET_ALL)
     start = time.time()
-    (public_key, private_key) = rsa.newkeys(2048, poolsize=int(
-        psutil.cpu_count()) - 2 if psutil.cpu_count() > 2 else 1)
+    (public_key, private_key) = rsa.newkeys(2048, poolsize=int(psutil.cpu_count()) - 2 if psutil.cpu_count() > 2 else 1)
     end = time.time()
     # print(colorama.Fore.BLUE + t2_header + "Public key: " + colorama.Style.RESET_ALL + str(public_key))
     # print(colorama.Fore.BLUE + t2_header + "Private key: " + colorama.Style.RESET_ALL + str(private_key))
-    print(colorama.Fore.RED + t2_header + "Time taken to generate keys: " +
-          colorama.Style.RESET_ALL + str(round(end - start, 2)) + " seconds")
+    print(colorama.Fore.RED + t2_header + "Time taken to generate keys: " + colorama.Style.RESET_ALL + str(
+        round(end - start, 2)) + " seconds")
     # Encrypt a much longer string then decrypt it
     message = "Hello World! " * 2000
     encrypted_message = b''
@@ -115,8 +99,8 @@ def secondary_thread():
     print()
     end_2 = time.time()
     # print(colorama.Fore.BLUE + t2_header + "Encrypted message: " + colorama.Style.RESET_ALL + str(encrypted_message))
-    print(colorama.Fore.RED + t2_header + "Time taken to encrypt: " + \
-          colorama.Style.RESET_ALL + str(round(end_2 - start_2, 2)) + " seconds")
+    print(colorama.Fore.RED + t2_header + "Time taken to encrypt: " + colorama.Style.RESET_ALL + str(
+        round(end_2 - start_2, 2)) + " seconds")
     start_3 = time.time()
     for i in range(0, len(encrypted_message), int(2048 / 8)):
         chunk = encrypted_message[i:i + int(2048 / 8)]
@@ -125,21 +109,16 @@ def secondary_thread():
         update_progress(i / len(encrypted_message), "[T2] Decryption")
         # Delay
         time.sleep(0.05)
-    # If the progress bar doesn't say 100%, then flush the system output and
-    # print the 100% bar
+    # If the progress bar doesn't say 100%, then flush the system output and print the 100% bar
     if i / len(encrypted_message) != 1:
         sys.stdout.flush()
         update_progress(1, "[T2] Decryption")
     print()
     end_3 = time.time()
     # print(colorama.Fore.BLUE + t2_header + "Decrypted message: " + colorama.Style.RESET_ALL + str(decrypted_message))
-    print(colorama.Fore.RED + t2_header + "Time taken to decrypt: " + \
-          colorama.Style.RESET_ALL + str(round(end_3 - start_3, 2)) + " seconds")
-    print(
-        colorama.Fore.GREEN +
-        t2_header +
-        "Secondary thread ended" +
-        colorama.Style.RESET_ALL)
+    print(colorama.Fore.RED + t2_header + "Time taken to decrypt: " + colorama.Style.RESET_ALL + str(
+        round(end_3 - start_3, 2)) + " seconds")
+    print(colorama.Fore.GREEN + t2_header + "Secondary thread ended" + colorama.Style.RESET_ALL)
 
 
 if __name__ == "__main__":

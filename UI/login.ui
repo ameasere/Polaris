@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/images/images/images/Polaris.png</normaloff>:/images/images/images/Polaris.png</iconset>
+    <normaloff>:/images/images/images/icon.png</normaloff>:/images/images/images/icon.png</iconset>
   </property>
   <widget class="QWidget" name="styleSheet">
    <property name="styleSheet">
@@ -608,10 +608,10 @@ border: 1px solid rgba(128, 96, 167, 80);</string>
       <widget class="QLabel" name="logo">
        <property name="geometry">
         <rect>
-         <x>7</x>
-         <y>20</y>
-         <width>91</width>
-         <height>20</height>
+         <x>0</x>
+         <y>-20</y>
+         <width>171</width>
+         <height>101</height>
         </rect>
        </property>
        <property name="text">
@@ -663,8 +663,8 @@ text-align: left;</string>
       <widget class="QLabel" name="creditsLabel_2">
        <property name="geometry">
         <rect>
-         <x>30</x>
-         <y>40</y>
+         <x>40</x>
+         <y>50</y>
          <width>41</width>
          <height>16</height>
         </rect>
@@ -752,7 +752,7 @@ text-align: left;</string>
         <string notr="true">background: transparent;</string>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="password_login">
         <widget class="QPushButton" name="login_button">
