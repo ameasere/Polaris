@@ -1,5 +1,5 @@
 from modules import *
-from modules.backend_connect_to_hsm import connect_to_hsm
+from modules.backend_connect_to_hsm import connect_to_hsm_setup
 
 
 # https://www.pythonguis.com/tutorials/multithreading-pyqt-applications-qthreadpool/
@@ -70,6 +70,8 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
         # SET AS GLOBAL WIDGETS
         # ///////////////////////////////////////////////////////////////
+        self.timer = None
+        self.__machine_identifier = None
         self.dragPos = None
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -146,34 +148,47 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
 
         self.hsm_name_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_name)
-        self.hsm_username_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_username)
-        self.hsm_password_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_password)
+        self.hsm_masterpw_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_masterpw)
+        self.hsm_uuid_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_uuid)
         self.hsm_ipaddress_opacity_effect = QGraphicsOpacityEffect(self.ui.hsm_ip)
         self.hsm_name_opacity_effect.setOpacity(0)
-        self.hsm_username_opacity_effect.setOpacity(0)
-        self.hsm_password_opacity_effect.setOpacity(0)
+        self.hsm_masterpw_opacity_effect.setOpacity(0)
+        self.hsm_uuid_opacity_effect.setOpacity(0)
         self.hsm_ipaddress_opacity_effect.setOpacity(0)
         self.hsm_name_animation = QPropertyAnimation(self.hsm_name_opacity_effect, b"opacity")
-        self.hsm_username_animation = QPropertyAnimation(self.hsm_username_opacity_effect, b"opacity")
-        self.hsm_password_animation = QPropertyAnimation(self.hsm_password_opacity_effect, b"opacity")
+        self.hsm_masterpw_animation = QPropertyAnimation(self.hsm_masterpw_opacity_effect, b"opacity")
+        self.hsm_uuid_animation = QPropertyAnimation(self.hsm_uuid_opacity_effect, b"opacity")
         self.hsm_ipaddress_animation = QPropertyAnimation(self.hsm_ipaddress_opacity_effect, b"opacity")
         self.hsm_name_animation.setDuration(500)
-        self.hsm_username_animation.setDuration(500)
-        self.hsm_password_animation.setDuration(500)
+        self.hsm_masterpw_animation.setDuration(500)
+        self.hsm_uuid_animation.setDuration(500)
         self.hsm_ipaddress_animation.setDuration(500)
         self.hsm_name_animation.setStartValue(0)
-        self.hsm_username_animation.setStartValue(0)
-        self.hsm_password_animation.setStartValue(0)
+        self.hsm_masterpw_animation.setStartValue(0)
+        self.hsm_uuid_animation.setStartValue(0)
         self.hsm_ipaddress_animation.setStartValue(0)
         self.hsm_name_animation.setEndValue(1)
-        self.hsm_username_animation.setEndValue(1)
-        self.hsm_password_animation.setEndValue(1)
+        self.hsm_masterpw_animation.setEndValue(1)
+        self.hsm_uuid_animation.setEndValue(1)
         self.hsm_ipaddress_animation.setEndValue(1)
         self.hsm_name_animation.setEasingCurve(QEasingCurve.InOutQuart)
-        self.hsm_username_animation.setEasingCurve(QEasingCurve.InOutQuart)
-        self.hsm_password_animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.hsm_masterpw_animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.hsm_uuid_animation.setEasingCurve(QEasingCurve.InOutQuart)
         self.hsm_ipaddress_animation.setEasingCurve(QEasingCurve.InOutQuart)
         self.hsm_name_animation.finished.connect(lambda: self.ui.hsm_name.setFocus())
+
+        self.response_label_animation = QPropertyAnimation(self.ui.responselabel, b"geometry")
+        self.response_label_animation.setDuration(500)
+        self.response_label_animation.setStartValue(QRect(290, 471, 351, 0))
+        self.response_label_animation.setEndValue(QRect(290, 400, 351, 41))
+        self.response_label_animation.setEasingCurve(QEasingCurve.InBounce)
+
+        self.response_label_animation_reverse = QPropertyAnimation(self.ui.responselabel, b"geometry")
+        self.response_label_animation_reverse.setDuration(500)
+        self.response_label_animation_reverse.setStartValue(QRect(290, 400, 351, 41))
+        self.response_label_animation_reverse.setEndValue(QRect(290, 471, 351, 0))
+        self.response_label_animation_reverse.setEasingCurve(QEasingCurve.OutBounce)
+        self.response_label_animation_reverse.finished.connect(lambda: self.updateEverything)
 
         # Set on hover
         def enter_handler(_):
@@ -262,6 +277,10 @@ class MainWindow(QMainWindow):
 
         self.settings_selected_stylesheet = "I2J0bl9zZXR0aW5ncyB7CmJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50Owpmb250OiA2MDAgMTBwdCAiSW50ZXIgTWVkaXVtIjsKdGV4dC1hbGlnbjogbGVmdDsKY29sb3I6ICNmZmY7CmJvcmRlci1yYWRpdXM6IDVweDsKfQojYnRuX3NldHRpbmdzOmhvdmVyIHsKYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CmZvbnQ6IDYwMCAxMHB0ICJJbnRlciBNZWRpdW0iOwp0ZXh0LWFsaWduOiBsZWZ0Owpjb2xvcjogI2ZmZjsKYm9yZGVyLXJhZGl1czogNXB4Owp9CiNidG5fc2V0dGluZ3M6cHJlc3NlZCB7CmJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50Owpmb250OiA2MDAgMTBwdCAiSW50ZXIgTWVkaXVtIjsKdGV4dC1hbGlnbjogbGVmdDsKY29sb3I6ICM5ZTc3ZWQ7CmJvcmRlci1yYWRpdXM6IDVweDsKfQ=="
         self.settings_unselected_stylesheet = "I2J0bl9zZXR0aW5ncyB7CmJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50Owpmb250OiA2MDAgMTBwdCAiSW50ZXIgTWVkaXVtIjsKdGV4dC1hbGlnbjogbGVmdDsKY29sb3I6ICNBMjlGOUY7CmJvcmRlci1yYWRpdXM6IDVweDsKfQojYnRuX3NldHRpbmdzOmhvdmVyIHsKYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CmZvbnQ6IDYwMCAxMHB0ICJJbnRlciBNZWRpdW0iOwp0ZXh0LWFsaWduOiBsZWZ0Owpjb2xvcjogI2ZmZjsKYm9yZGVyLXJhZGl1czogNXB4Owp9CiNidG5fc2V0dGluZ3M6cHJlc3NlZCB7CmJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50Owpmb250OiA2MDAgMTBwdCAiSW50ZXIgTWVkaXVtIjsKdGV4dC1hbGlnbjogbGVmdDsKY29sb3I6ICM5ZTc3ZWQ7CmJvcmRlci1yYWRpdXM6IDVweDsKfQ=="
+
+    def updateEverything(self):
+        self.repaint()
+        QApplication.processEvents()
 
     # BUTTONS CLICK
     # Post here your functions for clicked buttons
@@ -394,22 +413,23 @@ class MainWindow(QMainWindow):
             self.hsm_name_animation.start()
             self.ui.hsm_name.show()
             self.ui.hsm_name.setGraphicsEffect(self.hsm_name_opacity_effect)
-            self.hsm_username_animation.start()
-            self.ui.hsm_username.show()
-            self.ui.hsm_username.setGraphicsEffect(self.hsm_username_opacity_effect)
-            self.hsm_password_animation.start()
-            self.ui.hsm_password.show()
-            self.ui.hsm_password.setGraphicsEffect(self.hsm_password_opacity_effect)
+            self.hsm_masterpw_animation.start()
+            self.ui.hsm_masterpw.show()
+            self.ui.hsm_masterpw.setGraphicsEffect(self.hsm_masterpw_opacity_effect)
+            self.hsm_uuid_animation.start()
+            self.ui.hsm_uuid.show()
+            self.ui.hsm_uuid.setGraphicsEffect(self.hsm_uuid_opacity_effect)
             self.hsm_ipaddress_animation.start()
             self.ui.hsm_ip.show()
             self.ui.hsm_ip.setGraphicsEffect(self.hsm_ipaddress_opacity_effect)
             self.ui.hsm_name.setFocus()
-            self.ui.hsm_password.setEchoMode(QLineEdit.Password)
+            self.__machine_identifier = str(uuid4())
+            self.ui.hsm_uuid.setText(self.__machine_identifier[:31] + "...")
             self.hsm_name_animation.finished.connect(lambda: self.ui.hsm_name.setGraphicsEffect(None))
-            self.hsm_username_animation.finished.connect(lambda: self.ui.hsm_username.setGraphicsEffect(None))
-            self.hsm_password_animation.finished.connect(lambda: self.ui.hsm_password.setGraphicsEffect(None))
+            self.hsm_masterpw_animation.finished.connect(lambda: self.ui.hsm_masterpw.setGraphicsEffect(None))
+            self.hsm_uuid_animation.finished.connect(lambda: self.ui.hsm_uuid.setGraphicsEffect(None))
             self.hsm_ipaddress_animation.finished.connect(lambda: self.ui.hsm_ip.setGraphicsEffect(None))
-            self.hsm_password_animation.finished.connect(lambda: self.updateWindow)
+            self.hsm_uuid_animation.finished.connect(lambda: self.updateWindow)
         elif btnName == "add_button":
             def is_valid(hsmip):
                 try:
@@ -417,18 +437,30 @@ class MainWindow(QMainWindow):
                     return True
                 except ValueError:
                     return False
-            if self.ui.hsm_ip.text() == "":
-                self.ui.hsm_ip.clear()
-                self.ui.hsm_ip.setPlaceholderText("Please enter the IP address of the HSM")
+            if any([self.ui.hsm_name.text() == "", self.ui.hsm_masterpw.text() == "", self.ui.hsm_ip.text() == ""]):
+                self.ui.responselabel.setText("Please fill in all fields.")
+                self.ui.responselabel.setStyleSheet(
+                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                self.stopAnimations()
+                self.response_label_animation.start()
+                self.timer = QTimer(self)
+                self.timer.singleShot(1500, lambda: self.response_label_animation_reverse.start())
                 return
             elif not is_valid(self.ui.hsm_ip.text()):
                 self.ui.hsm_ip.clear()
                 self.ui.hsm_ip.setPlaceholderText("Please enter a valid IP address")
+                self.ui.responselabel.setText("Please enter a valid IP address.")
+                self.ui.responselabel.setStyleSheet(
+                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                self.stopAnimations()
+                self.response_label_animation.start()
+                self.timer = QTimer(self)
+                self.timer.singleShot(1500, lambda: self.response_label_animation_reverse.start())
                 return
             def print_error(etuple):
                 print(etuple[1])
-            worker = Worker(lambda: connect_to_hsm(self.ui.hsm_ip.text()))
-            worker.signals.finished.connect(self.updateWindow)
+            worker = Worker(lambda: connect_to_hsm_setup(self.ui.hsm_ip.text(), self.__machine_identifier, self.ui.hsm_masterpw.text(), self.__response["username"]))
+            worker.signals.result.connect(self.setup_finished)
             worker.signals.error.connect(print_error)
             self.threadpool.start(worker)
 
@@ -436,6 +468,61 @@ class MainWindow(QMainWindow):
         # Process events in the event loop
         self.repaint()
         QApplication.processEvents()
+
+    def setup_finished(self, response):
+        def overview_transition():
+            pass
+        if response == "polaris://mid:success":
+            self.ui.responselabel.setText("HSM setup successful.")
+            self.ui.responselabel.setStyleSheet(
+                "background-color: #001010; color: #00ff00; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #00ff00;")
+            self.stopAnimations()
+            self.response_label_animation.start()
+            if "configuration" not in self.config:
+                self.config["configuration"] = []
+            self.config["configuration"].append({"name": self.ui.hsm_name.text(), "ip": self.ui.hsm_ip.text(), "my_uuid": self.__machine_identifier})
+            print(self.config)
+            with open(os.getcwd() + "/config/config.json", "w") as f:
+                f.write(json.dumps(self.config))
+                f.close()
+            self.ui.hsm_name.clear()
+            self.ui.hsm_masterpw.clear()
+            self.ui.hsm_ip.clear()
+            self.ui.hsm_name.setText("Name")
+            self.ui.hsm_masterpw.setText("Master Password")
+            self.ui.hsm_ip.setText("IP Address")
+            self.ui.hsm_uuid.setText("UUID")
+            self.timer = QTimer(self)
+            self.timer.singleShot(1500, lambda: self.response_label_animation_reverse.start())
+            self.timer.singleShot(1500, lambda: overview_transition)
+            # Add HSM to the overview page.
+            # TODO
+        else:
+            self.ui.responselabel.setText("HSM setup failed.")
+            self.ui.responselabel.setStyleSheet(
+                "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+            self.stopAnimations()
+            self.response_label_animation.start()
+            self.timer = QTimer(self)
+            self.timer.singleShot(1500, lambda: self.response_label_animation_reverse.start())
+
+
+    def stopAnimations(self):
+        if self.response_label_animation.state() == QAbstractAnimation.Running:
+            self.response_label_animation.stop()
+            self.response_label_animation.setCurrentTime(0)  # Reset the animation to the beginning
+
+        if self.response_label_animation_reverse.state() == QAbstractAnimation.Running:
+            self.response_label_animation_reverse.stop()
+            self.response_label_animation_reverse.setCurrentTime(0)  # Reset the reverse animation to the beginning
+
+        try:
+            if self.timer is not None:
+                self.timer.stop()
+                self.timer.deleteLater()  # Delete the timer if it's no longer needed
+                self.timer = None
+        except AttributeError:
+            pass
 
     def fadeout(self):
         # Fade out animation

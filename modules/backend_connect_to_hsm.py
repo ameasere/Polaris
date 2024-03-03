@@ -68,13 +68,18 @@ def send_data(ip, data):
     return (encrypted_response, decrypted_response)
 
 
-def connect_to_hsm(ip_address):
+def connector(ip_address):
+    hsm = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    hsm.settimeout(5)
+    hsm.connect((ip_address, 26555))
+    return hsm
+
+
+def connect_to_hsm_setup(ip_address, machine_identifier, master_password, username):
     # Try connecting to HSM for 5 seconds - if not, timeout, return "Connection failed"
     try:
         # Connect to HSM
-        hsm = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        hsm.settimeout(5)
-        hsm.connect((ip_address, 26555))
+        hsm = connector(ip_address)
         handshake_key = key_exchange(hsm)
         handshake = encrypt_data(handshake_key, "Hello, HSM")
         hsm.send(handshake)
@@ -84,7 +89,15 @@ def connect_to_hsm(ip_address):
         if decrypted_data != "Hello, Client":
             raise Exception("Handshake failed")
         else:
-            return decrypted_data
+            hsm = connector(ip_address)
+            handshake_key = key_exchange(hsm)
+            initial_setup = f"polaris://mid:{machine_identifier}/mp:{master_password}/username:{username}"
+            encrypted_setup = encrypt_data(handshake_key, initial_setup)
+            hsm.send(encrypted_setup)
+            response = hsm.recv(1024)
+            decrypted_response = decrypt_data(handshake_key, response)
+            hsm.close()
+            return decrypted_response
     except TimeoutError:
         raise Exception("Connection to HSM timed out")
     except socket.error:

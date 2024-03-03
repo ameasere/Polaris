@@ -207,6 +207,42 @@ configure_system() {
     fi
     print_success "ASLR enabled successfully. This will require a reboot to take effect."
   fi
+  # If log file exists, delete it and create a new one
+  if [ -f /var/log/polaris.log ]; then
+    sudo rm /var/log/polaris.log
+    sudo touch /var/log/polaris.log
+  else
+    sudo touch /var/log/polaris.log
+  fi
+    chown root:root /var/log/polaris.log
+    chmod 640 /var/log/polaris.log
+    systemctl restart rsyslog
+  # Generate the salt for the machine, saving it in file: /etc/polaris/salt
+  print_yellow "Generating the salt for the machine..."
+  sleep 1
+  sudo openssl rand -base64 32 | sudo tee /etc/polaris/salt
+  chmod 640 /etc/polaris/salt
+  chown root:root /etc/polaris/salt
+  print_success "Salt generated successfully."
+  # If /etc/polaris directory exists, the user should choose to keep or replace it
+  if [ -d /etc/polaris ]; then
+    print_yellow "The /etc/polaris directory already exists. Do you want to keep or replace it? [K/R]"
+    read -r -p "[K/R]: " keep_replace
+    if [ "$keep_replace" == "K" ] || [ "$keep_replace" == "k" ]; then
+      print_success "You have chosen to keep the /etc/polaris directory."
+      sleep 1
+    elif [ "$keep_replace" == "R" ] || [ "$keep_replace" == "r" ]; then
+      print_yellow "You have chosen to replace the /etc/polaris directory. Continuing..."
+      sleep 1
+      sudo rm -rf /etc/polaris
+      sudo mkdir /etc/polaris
+    else
+      print_error "Invalid input. Please try again."
+      exit 1
+    fi
+  else
+    sudo mkdir /etc/polaris
+  fi
   # Add firewall rule to allow incoming connections on port 26555
   print_yellow "Adding firewall rule to allow incoming connections on port 26555..."
   sleep 1
