@@ -7,6 +7,16 @@
     <file>images/Polaris.png</file>
   </qresource>
   <qresource prefix="icons">
+    <file>images/icons/ram.png</file>
+    <file>images/icons/gpu.png</file>
+    <file>images/icons/lock.png</file>
+    <file>images/icons/info.png</file>
+    <file>images/icons/cpu.png</file>
+    <file>images/icons/database.png</file>
+    <file>images/icons/hard-drive.png</file>
+    <file>images/icons/authenticated.png</file>
+    <file>images/icons/unauthenticated.png</file>
+    <file>images/icons/server.png</file>
     <file>images/icons/plus.png</file>
     <file>images/icons/plus_purple.png</file>
     <file>images/icons/alert-circle.png</file>

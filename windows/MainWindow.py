@@ -1,5 +1,5 @@
 from modules import *
-from modules.backend_connect_to_hsm import connect_to_hsm_setup
+from modules.backend_connect_to_hsm import connect_to_hsm_setup, ping_hsm, connect_to_hsm_post_setup, statistics_connector
 
 
 # https://www.pythonguis.com/tutorials/multithreading-pyqt-applications-qthreadpool/
@@ -64,19 +64,75 @@ class Worker(QRunnable):
         finally:
             self.signals.finished.emit()  # Done
 
+from threading import Timer
+
+class RepeatedTimer(object):
+    def __init__(self, interval, function, *args, **kwargs):
+        self._timer     = None
+        self.interval   = interval
+        self.function   = function
+        self.args       = args
+        self.kwargs     = kwargs
+        self.is_running = False
+        self.start()
+
+    def _run(self):
+        self.is_running = False
+        self.start()
+        self.function(*self.args, **self.kwargs)
+
+    def start(self):
+        if not self.is_running:
+            self._timer = Timer(self.interval, self._run)
+            self._timer.start()
+            self.is_running = True
+
+    def stop(self):
+        self._timer.cancel()
+        self.is_running = False
+
 
 class MainWindow(QMainWindow):
     def __init__(self, response, config):
         QMainWindow.__init__(self)
         # SET AS GLOBAL WIDGETS
         # ///////////////////////////////////////////////////////////////
+        self.stats = None
+        self.statistics_hsm_connection = None
         self.timer = None
         self.__machine_identifier = None
+        self.__masterpw = None
         self.dragPos = None
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.config = config
         self.threadpool = QThreadPool()
+
+        self.cpu_view = QGraphicsView()
+        self.cpu_view.setAlignment(Qt.AlignRight | Qt.AlignBottom)
+        self.cpu_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.cpu_view.setViewportUpdateMode(QGraphicsView.SmartViewportUpdate)
+        self.ui.cpu_layout.addWidget(self.cpu_view)
+        self.cpu_scene = QGraphicsScene()
+        self.cpu_view.setScene(self.cpu_scene)
+
+        self.gpu_view = QGraphicsView()
+        self.gpu_view.setAlignment(Qt.AlignRight | Qt.AlignBottom)
+        self.gpu_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.gpu_view.setViewportUpdateMode(QGraphicsView.SmartViewportUpdate)
+        self.ui.gpu_layout.addWidget(self.gpu_view)
+        self.gpu_scene = QGraphicsScene()
+        self.gpu_view.setScene(self.gpu_scene)
+
+        self.ram_view = QGraphicsView()
+        self.ram_view.setAlignment(Qt.AlignRight | Qt.AlignBottom)
+        self.ram_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.ram_view.setViewportUpdateMode(QGraphicsView.SmartViewportUpdate)
+        self.ui.ram_layout.addWidget(self.ram_view)
+        self.ram_scene = QGraphicsScene()
+        self.ram_view.setScene(self.ram_scene)
+
+
         # Get size of screen
         screen = QApplication.primaryScreen()
         size = screen.size()
@@ -84,10 +140,9 @@ class MainWindow(QMainWindow):
             self.__response = json.loads(response)
         else:
             self.__response = response
-        # Set size of window to 100px less than screen size in both directions
-        if size.width() - 100 < 1400 or size.height() - 100 < 860:
+        if size.width() - 20 < 1400 or size.height() - 20 < 860:
             # noinspection PyArgumentList
-            self.resize(size.width() - 400, size.height() - 400)
+            self.resize(size.width() - 200, size.height() - 200)
         # USE CUSTOM TITLE BAR | USE AS "False" FOR MAC OR LINUX
         # ///////////////////////////////////////////////////////////////
         Settings.ENABLE_CUSTOM_TITLE_BAR = True
@@ -123,7 +178,58 @@ class MainWindow(QMainWindow):
         self.ui.username.setText(self.__response["username"])
 
         self.currentPage = "dashboard"
-        self.ui.pages.setCurrentWidget(self.ui.hsmlist)
+        if "configuration" not in self.config or len(self.config["configuration"]) == 0:
+            self.ui.pages.setCurrentWidget(self.ui.hsmlist)
+            self.ui.hsmpages.setCurrentWidget(self.ui.addfirst)
+        else:
+            self.ui.pages.setCurrentWidget(self.ui.hsmlist)
+            self.ui.overview_hsm_name.setText(self.config["configuration"][0]["name"])
+            self.ui.overview_mid.setText(self.config["configuration"][0]["my_uuid"])
+
+        def ping_hsm_result():
+            self.ui.overview_auth_label.setText("Online")
+            self.ui.overview_auth_label.setStyleSheet("font: 700 10pt \"Inter Medium\"; color: #12B76A;")
+            self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/authenticated.png"))
+            self.ui.overview_auth_icon.setToolTip("HSM is online.")
+
+        def ping_hsm_error():
+            self.ui.overview_auth_label.setText("Offline")
+            self.ui.overview_auth_label.setStyleSheet("font: 700 10pt \"Inter Medium\"; color: #F04438;")
+            self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/unauthenticated.png"))
+            self.ui.overview_auth_icon.setToolTip("HSM is offline.")
+
+        def set_masterpw():
+            master_pw = self.ui.overview_masterpw_field.text()
+            if master_pw == "":
+                self.ui.responselabel2.setText("Please enter the master password.")
+                self.response_label_2_animation.start()
+                timer = QTimer()
+                timer.singleShot(3000, lambda: self.response_label_2_animation_reverse.start())
+                return
+            else:
+                self.ui.auth_area_border.setStyleSheet("border: 1px solid #12B76A; border-radius: 10px;")
+                self.__masterpw = master_pw
+                self.ui.overview_auth_btn.setText("MP set.")
+                # Make the button not clickable
+                self.ui.overview_auth_btn.setEnabled(False)
+                self.ui.overview_auth_btn.setStyleSheet("background-color: #12B76A; color: white; border: 1px solid #12B76A; border-radius: 10px; border-radius: 5px; font: 600 10pt \"Inter Medium\";")
+                self.ui.overview_auth_btn.setIcon(QIcon(":/icons/images/icons/authenticated.png"))
+                self.ui.overview_masterpw_field.setReadOnly(True)
+                self.ui.overview_icon_4.setToolTip("Master password is set. You need to restart to change this.")
+
+        # Try to ping the HSM to determine if it is online or not.
+        self.ui.auth_area_border.setStyleSheet("border: 1px solid #F04438; border-radius: 10px;")
+        worker = Worker(ping_hsm, self.config["configuration"][0]["ip"])
+        self.threadpool.start(worker)
+        worker.signals.result.connect(ping_hsm_result)
+        worker.signals.error.connect(ping_hsm_error)
+
+        self.ui.overview_auth_btn.clicked.connect(set_masterpw)
+
+        self.statistics_worker = Worker(statistics_connector, self.config["configuration"][0]["ip"])
+        self.threadpool.start(self.statistics_worker)
+        self.statistics_worker.signals.result.connect(self.statistics_handler)
+        self.statistics_worker.signals.error.connect(self.statistics_error_handler)
 
         self.ui.ctx_btns.hide()
         for child in self.ui.ctx_btns.children():
@@ -190,6 +296,19 @@ class MainWindow(QMainWindow):
         self.response_label_animation_reverse.setEasingCurve(QEasingCurve.OutBounce)
         self.response_label_animation_reverse.finished.connect(lambda: self.updateEverything)
 
+        self.response_label_2_animation = QPropertyAnimation(self.ui.responselabel, b"geometry")
+        self.response_label_2_animation.setDuration(500)
+        self.response_label_2_animation.setStartValue(QRect(290, 471, 351, 0))
+        self.response_label_2_animation.setEndValue(QRect(290, 400, 351, 41))
+        self.response_label_2_animation.setEasingCurve(QEasingCurve.InBounce)
+
+        self.response_label_2_animation_reverse = QPropertyAnimation(self.ui.responselabel, b"geometry")
+        self.response_label_2_animation_reverse.setDuration(500)
+        self.response_label_2_animation_reverse.setStartValue(QRect(290, 400, 351, 41))
+        self.response_label_2_animation_reverse.setEndValue(QRect(290, 471, 351, 0))
+        self.response_label_2_animation_reverse.setEasingCurve(QEasingCurve.OutBounce)
+        self.response_label_2_animation_reverse.finished.connect(lambda: self.updateEverything)
+
         # Set on hover
         def enter_handler(_):
             # If the graphics effect is deleted, set it
@@ -249,7 +368,6 @@ class MainWindow(QMainWindow):
             self.ui.hsmpages.setCurrentWidget(self.ui.addfirst)
         else:
             self.ui.hsmpages.setCurrentWidget(self.ui.overview)
-
 
         # SHOW APP
         # ///////////////////////////////////////////////////////////////
@@ -437,6 +555,7 @@ class MainWindow(QMainWindow):
                     return True
                 except ValueError:
                     return False
+
             if any([self.ui.hsm_name.text() == "", self.ui.hsm_masterpw.text() == "", self.ui.hsm_ip.text() == ""]):
                 self.ui.responselabel.setText("Please fill in all fields.")
                 self.ui.responselabel.setStyleSheet(
@@ -457,9 +576,18 @@ class MainWindow(QMainWindow):
                 self.timer = QTimer(self)
                 self.timer.singleShot(1500, lambda: self.response_label_animation_reverse.start())
                 return
+
             def print_error(etuple):
-                print(etuple[1])
-            worker = Worker(lambda: connect_to_hsm_setup(self.ui.hsm_ip.text(), self.__machine_identifier, self.ui.hsm_masterpw.text(), self.__response["username"]))
+                self.ui.responselabel.setText("An error occurred. Please try again.")
+                self.ui.responselabel.setStyleSheet(
+                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                self.stopAnimations()
+                self.response_label_animation.start()
+                self.timer = QTimer(self)
+                self.timer.singleShot(1500, lambda: self.response_label_animation_reverse.start())
+
+            worker = Worker(lambda: connect_to_hsm_setup(self.ui.hsm_ip.text(), self.__machine_identifier,
+                                                         self.ui.hsm_masterpw.text(), self.__response["username"]))
             worker.signals.result.connect(self.setup_finished)
             worker.signals.error.connect(print_error)
             self.threadpool.start(worker)
@@ -469,9 +597,103 @@ class MainWindow(QMainWindow):
         self.repaint()
         QApplication.processEvents()
 
+    def statistics_handler(self, result):
+        self.statistics_hsm_connection = result
+        self.stats = RepeatedTimer(1, self.hsm_statistics)
+        self.stats.start()
+
+    def hsm_statistics(self):
+        try:
+            statistics = str(self.statistics_hsm_connection.recv(1024))
+            statistics = statistics.replace("polaris://", "").split("/")
+            cpu_statistics = statistics[0]
+            cpu_percent = float(cpu_statistics.split(":")[1])
+            gpu_statistics = statistics[1]
+            gpu_percent = float(gpu_statistics.split(":")[1])
+            ram_statistics = statistics[2]
+            ram_percent = float(ram_statistics.split(":")[1])
+            current_cpu = str(int(cpu_percent)) + "%"
+            current_gpu = str(int(gpu_percent)) + "%"
+            current_ram = str(int(ram_percent)) + "%"
+            self.ui.overview_cpu_current.setText(current_cpu)
+            self.ui.overview_gpu_current.setText(current_gpu)
+            self.ui.overview_ram_current.setText(current_ram)
+            print(f"CPU: {cpu_percent}, GPU: {gpu_percent}, RAM: {ram_percent}")
+            cpu_x = len(self.cpu_scene.items()) * 5
+            gpu_x = len(self.gpu_scene.items()) * 5
+            ram_x = len(self.ram_scene.items()) * 5
+
+            # Calculate the height of the bar based on CPU percentage
+            cpu_bar_height = (self.cpu_view.height() - 5) * (cpu_percent / 100)
+            gpu_bar_height = (self.gpu_view.height() - 5) * (gpu_percent / 100)
+            ram_bar_height = (self.ram_view.height() - 5) * (ram_percent / 100)
+            if cpu_bar_height < 1:
+                cpu_bar_height = 1
+            if gpu_bar_height < 1:
+                gpu_bar_height = 1
+            if ram_bar_height < 1:
+                ram_bar_height = 1
+            # Sort the items based on their x-coordinate
+            cpu_items = sorted(self.cpu_scene.items(), key=lambda x: x.rect().x())
+            gpu_items = sorted(self.gpu_scene.items(), key=lambda x: x.rect().x())
+            ram_items = sorted(self.ram_scene.items(), key=lambda x: x.rect().x())
+
+            # Remove the first item if the total width of all bars exceeds the view width
+            while len(cpu_items) * 5 > self.cpu_view.width() - 30:
+                item = cpu_items.pop(0)
+                self.cpu_scene.removeItem(item)
+                for item in cpu_items:
+                    item.setRect(QRectF(item.rect().x() - 5, item.rect().y(), item.rect().width(), item.rect().height()))
+                cpu_x = (len(cpu_items) * 5) - 5
+
+            while len(gpu_items) * 5 > self.gpu_view.width() - 30:
+                item = gpu_items.pop(0)
+                self.gpu_scene.removeItem(item)
+                for item in gpu_items:
+                    item.setRect(QRectF(item.rect().x() - 5, item.rect().y(), item.rect().width(), item.rect().height()))
+                gpu_x = (len(gpu_items) * 5) - 5
+
+            while len(ram_items) * 5 > self.ram_view.width() - 30:
+                item = ram_items.pop(0)
+                self.ram_scene.removeItem(item)
+                for item in ram_items:
+                    item.setRect(QRectF(item.rect().x() - 5, item.rect().y(), item.rect().width(), item.rect().height()))
+                ram_x = (len(ram_items) * 5) - 5
+
+            # Draw a bar representing CPU usage
+            try:
+                cpu_bar = QGraphicsRectItem(cpu_x, self.cpu_view.height() - cpu_bar_height, 5, cpu_bar_height)
+                # Set brush with 9e77ed
+                cpu_bar.setBrush(QColor("#9e77ed"))
+                self.cpu_scene.addItem(cpu_bar)
+                self.cpu_scene.update(self.cpu_scene.sceneRect())
+                print(f"Bar added at x: {cpu_x}, height: {cpu_bar_height}")
+
+                gpu_bar = QGraphicsRectItem(gpu_x, self.gpu_view.height() - gpu_bar_height, 5, gpu_bar_height)
+                gpu_bar.setBrush(QColor("#9e77ed"))
+                self.gpu_scene.addItem(gpu_bar)
+                self.gpu_scene.update(self.gpu_scene.sceneRect())
+                print(f"Bar added at x: {gpu_x}, height: {gpu_bar_height}")
+
+                ram_bar = QGraphicsRectItem(ram_x, self.ram_view.height() - ram_bar_height, 5, ram_bar_height)
+                ram_bar.setBrush(QColor("#9e77ed"))
+                self.ram_scene.addItem(ram_bar)
+                self.ram_scene.update(self.ram_scene.sceneRect())
+                print(f"Bar added at x: {ram_x}, height: {ram_bar_height}")
+
+            except Exception as e:
+                print(e)
+        except TimeoutError:
+            print("Timeout error occurred.")
+
+    def statistics_error_handler(self, etuple):
+        self.statistics_hsm_connection = None
+        print(etuple)
+
     def setup_finished(self, response):
         def overview_transition():
-            pass
+            self.ui.hsmpages.setCurrentWidget(self.ui.overview)
+
         if response == "polaris://mid:success":
             self.ui.responselabel.setText("HSM setup successful.")
             self.ui.responselabel.setStyleSheet(
@@ -480,7 +702,8 @@ class MainWindow(QMainWindow):
             self.response_label_animation.start()
             if "configuration" not in self.config:
                 self.config["configuration"] = []
-            self.config["configuration"].append({"name": self.ui.hsm_name.text(), "ip": self.ui.hsm_ip.text(), "my_uuid": self.__machine_identifier})
+            self.config["configuration"].append(
+                {"name": self.ui.hsm_name.text(), "ip": self.ui.hsm_ip.text(), "my_uuid": self.__machine_identifier})
             print(self.config)
             with open(os.getcwd() + "/config/config.json", "w") as f:
                 f.write(json.dumps(self.config))
@@ -505,7 +728,6 @@ class MainWindow(QMainWindow):
             self.response_label_animation.start()
             self.timer = QTimer(self)
             self.timer.singleShot(1500, lambda: self.response_label_animation_reverse.start())
-
 
     def stopAnimations(self):
         if self.response_label_animation.state() == QAbstractAnimation.Running:

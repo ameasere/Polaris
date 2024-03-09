@@ -75,6 +75,58 @@ def connector(ip_address):
     return hsm
 
 
+def statistics_connector(ip_address):
+    hsm = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    hsm.settimeout(5)
+    hsm.connect((ip_address, 26556))
+    return hsm
+
+
+def ping_hsm(ip_address):
+    try:
+        hsm = connector(ip_address)
+        handshake_key = key_exchange(hsm)
+        handshake = encrypt_data(handshake_key, "Hello, HSM")
+        hsm.send(handshake)
+        data = hsm.recv(1024)
+        decrypted_data = decrypt_data(handshake_key, data)
+        hsm.close()
+        if decrypted_data != "Hello, Client":
+            raise Exception("Handshake failed")
+        else:
+            return True
+    except TimeoutError:
+        raise Exception("Connection to HSM timed out")
+    except socket.error:
+        raise Exception("Connection to HSM failed")
+
+
+def connect_to_hsm_post_setup(ip_address, machine_identifier, master_password, username, action_string):
+    try:
+        hsm = connector(ip_address)
+        handshake_key = key_exchange(hsm)
+        handshake = encrypt_data(handshake_key, "Hello, HSM")
+        hsm.send(handshake)
+        data = hsm.recv(1024)
+        decrypted_data = decrypt_data(handshake_key, data)
+        hsm.close()
+        if decrypted_data != "Hello, Client":
+            raise Exception("Handshake failed")
+        else:
+            hsm = connector(ip_address)
+            handshake_key = key_exchange(hsm)
+            encrypted_setup = encrypt_data(handshake_key, action_string)
+            hsm.send(encrypted_setup)
+            response = hsm.recv(1024)
+            decrypted_response = decrypt_data(handshake_key, response)
+            hsm.close()
+            return decrypted_response
+    except TimeoutError:
+        raise Exception("Connection to HSM timed out")
+    except socket.error:
+        raise Exception("Connection to HSM failed")
+
+
 def connect_to_hsm_setup(ip_address, machine_identifier, master_password, username):
     # Try connecting to HSM for 5 seconds - if not, timeout, return "Connection failed"
     try:

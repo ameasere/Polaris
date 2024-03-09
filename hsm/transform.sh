@@ -100,15 +100,15 @@ check_pre_reqs() {
   if is_package_installed "pacman"; then
     # Arch Linux
     # Run the install command, if it is installed already then DO NOT reinstall
-    sudo pacman -S "openssl" "python3" "unzip" "ufw" --noconfirm --needed
+    sudo pacman -S "openssl" "python3" "unzip" "ufw" "jq" --noconfirm --needed
   elif is_package_installed "apt"; then
     # Debian and Ubuntu
     # Run the install command, if it is installed already then it will skip it
-    sudo apt install openssl python3 python3-pip python3-venv unzip ufw -y
+    sudo apt install openssl python3 python3-pip python3-venv unzip ufw jq -y
   elif is_package_installed "dnf"; then
     # Fedora
     # Run the install command, if it is installed already then it will skip it
-    sudo dnf install openssl python3 python3-pip python3-venv unzip ufw -y
+    sudo dnf install openssl python3 python3-pip python3-venv unzip ufw jq -y
   else
     print_error "Error: Unsupported distribution. Please install the required dependencies manually."
     exit 1
@@ -132,8 +132,10 @@ download_polaris_driver() {
   print_magenta "! Ensure your DNS is not poisoned or hijacked, and that any hosts file is not modified. !"
   sleep 3
   ip_address=$(ping -c 3 ameasere.com | grep -oP "\d+\.\d+\.\d+\.\d+" | head -1)
-  ip_from_dns=$(dig +short ameasere.com | head -1)
-  if [ "$ip_address" == "$ip_from_dns" ]; then
+  ips_from_dns=$(dig +short ameasere.com | head -2)
+  first_ip=$(echo "$ips_from_dns" | head -1)
+  second_ip=$(echo "$ips_from_dns" | tail -1)
+  if [ "$ip_address" == "$first_ip" ] || [ "$ip_address" == "$second_ip" ]; then
     print_success "ameasere.com resolves to the correct IP address."
   else
     print_error "ameasere.com does not resolve to the correct IP address."
@@ -220,7 +222,11 @@ configure_system() {
   # Generate the salt for the machine, saving it in file: /etc/polaris/salt
   print_yellow "Generating the salt for the machine..."
   sleep 1
-  sudo openssl rand -base64 32 | sudo tee /etc/polaris/salt
+  # Make /etc/polaris directory if it doesn't exist
+  sudo mkdir -p /etc/polaris
+  # curl -s https://api.drand.sh/52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971/public/latest | jq -r '.randomness' | head -c 32 | sudo tee /etc/polaris/salt
+  # DO NOT PRINT THIS TO CONSOLE
+  curl -s https://api.drand.sh/52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971/public/latest | jq -r '.randomness' | head -c 32 | sudo tee /etc/polaris/salt > /dev/null
   chmod 640 /etc/polaris/salt
   chown root:root /etc/polaris/salt
   print_success "Salt generated successfully."
@@ -247,7 +253,8 @@ configure_system() {
   print_yellow "Adding firewall rule to allow incoming connections on port 26555..."
   sleep 1
   sudo ufw allow 26555/tcp
-  sudo ufw allow 22/tcp
+  sudo ufw allow 26556/tcp
+  #sudo ufw deny 22/tcp // Disable this for testing purposes only, so you don't get locked out!
   sudo ufw --force enable
   print_success "Firewall rule added successfully."
   # chmod and chown the driver to 700 and root:root

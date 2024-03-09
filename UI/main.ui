@@ -1463,7 +1463,7 @@ color: rgba(162, 159, 159, 150);
 text-align: left;</string>
        </property>
        <property name="text">
-        <string>Milestone 4 Build</string>
+        <string>Milestone 5 Build</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1499,7 +1499,7 @@ color: rgba(162, 159, 159, 120);
 text-align: left;</string>
        </property>
        <property name="text">
-        <string>0.3.0</string>
+        <string>0.5.0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1658,6 +1658,9 @@ color: white;</string>
            <property name="text">
             <string/>
            </property>
+           <property name="maxLength">
+            <number>15</number>
+           </property>
            <property name="placeholderText">
             <string>Give your HSM a label...</string>
            </property>
@@ -1738,6 +1741,9 @@ color: white;</string>
            <property name="text">
             <string/>
            </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
            <property name="placeholderText">
             <string>Create the HSM's master password...</string>
            </property>
@@ -1814,6 +1820,9 @@ color: white;</string>
            </property>
            <property name="text">
             <string/>
+           </property>
+           <property name="maxLength">
+            <number>15</number>
            </property>
            <property name="placeholderText">
             <string>Enter the HSM's IP address...</string>
@@ -1914,7 +1923,636 @@ QPushButton:pressed {
            </property>
           </widget>
          </widget>
-         <widget class="QWidget" name="overview"/>
+         <widget class="QWidget" name="overview">
+          <widget class="QLabel" name="overview_icon">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>31</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="resources.qrc">:/icons/images/icons/server.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_hsm_name">
+           <property name="geometry">
+            <rect>
+             <x>45</x>
+             <y>9</y>
+             <width>171</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string>[Placeholder]</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="overview_auth_btn">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>210</y>
+             <width>160</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Inter Medium</family>
+             <pointsize>10</pointsize>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+background-color: #9e77ed;
+font: 600 10pt &quot;Inter Medium&quot;;
+border-radius: 5px;
+}
+QPushButton:hover {
+	background-color: rgb(168, 128, 255);
+	border-radius: 4px;
+}
+QPushButton:pressed {	
+	background-color: rgb(255, 243, 239);
+	font: 600 10pt &quot;Inter Medium&quot;;
+	icon: url(:/icons/images/icons/log-in_purple.png);
+	color: #9e77ed;
+	border-radius: 5px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string> Set</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/icons/images/icons/lock.png</normaloff>:/icons/images/icons/lock.png</iconset>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_mp_label">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>129</y>
+             <width>151</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: transparent;
+font: 600 10pt &quot;Inter Medium&quot;;
+text-align: left;
+color: #fff;
+border-radius: 5px;</string>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="text">
+            <string>Master Password</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="overview_masterpw_field">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>150</y>
+             <width>161</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(33, 37, 43);
+font: 600 10pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="inputMask">
+            <string/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+           <property name="placeholderText">
+            <string>Enter your MP here...</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_auth_icon">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>80</y>
+             <width>16</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="resources.qrc">:/icons/images/icons/unauthenticated.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_auth_label">
+           <property name="geometry">
+            <rect>
+             <x>37</x>
+             <y>80</y>
+             <width>121</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 10pt &quot;Inter Medium&quot;;
+color: #F04438;</string>
+           </property>
+           <property name="text">
+            <string>Offline</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="auth_area_border">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>119</y>
+             <width>181</width>
+             <height>141</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: 1px solid #F04438;
+border-radius: 10px;</string>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_icon_3">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>10</y>
+             <width>31</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="resources.qrc">:/icons/images/icons/cpu.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_cpu">
+           <property name="geometry">
+            <rect>
+             <x>435</x>
+             <y>9</y>
+             <width>41</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string>CPU</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_mid">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>50</y>
+             <width>281</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 10pt &quot;Inter Medium&quot;;
+color: #fff</string>
+           </property>
+           <property name="text">
+            <string>5d4e36bd-025e-4872-a09d-2ec3b1f31497</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_icon_4">
+           <property name="geometry">
+            <rect>
+             <x>130</x>
+             <y>130</y>
+             <width>16</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Upon logging in, you need to set the master password for this machine to authenticate yourself to the HSM.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="resources.qrc">:/icons/images/icons/info.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="responselabel2">
+           <property name="geometry">
+            <rect>
+             <x>290</x>
+             <y>400</y>
+             <width>351</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(113, 126, 149);</string>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="cpu_area_border">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>50</y>
+             <width>521</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: 1px solid #9e77ed;
+border-radius: 10px;</string>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>409</x>
+             <y>60</y>
+             <width>501</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="cpu_layout"/>
+          </widget>
+          <widget class="QLabel" name="overview_cpu_current">
+           <property name="geometry">
+            <rect>
+             <x>870</x>
+             <y>10</y>
+             <width>41</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;
+color: #9e77ed;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_cpu_2">
+           <property name="geometry">
+            <rect>
+             <x>790</x>
+             <y>10</y>
+             <width>71</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Current:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_gpu">
+           <property name="geometry">
+            <rect>
+             <x>435</x>
+             <y>139</y>
+             <width>41</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string>GPU</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="gpu_area_border">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>180</y>
+             <width>521</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: 1px solid #9e77ed;
+border-radius: 10px;</string>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_2">
+           <property name="geometry">
+            <rect>
+             <x>409</x>
+             <y>190</y>
+             <width>501</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="gpu_layout"/>
+          </widget>
+          <widget class="QLabel" name="overview_icon_5">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>140</y>
+             <width>31</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="resources.qrc">:/icons/images/icons/gpu.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_cpu_4">
+           <property name="geometry">
+            <rect>
+             <x>790</x>
+             <y>140</y>
+             <width>71</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Current:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_gpu_current">
+           <property name="geometry">
+            <rect>
+             <x>870</x>
+             <y>140</y>
+             <width>41</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;
+color: #9e77ed;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_icon_6">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>270</y>
+             <width>31</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="resources.qrc">:/icons/images/icons/ram.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_ram">
+           <property name="geometry">
+            <rect>
+             <x>435</x>
+             <y>269</y>
+             <width>41</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string>RAM</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_ram_2">
+           <property name="geometry">
+            <rect>
+             <x>790</x>
+             <y>270</y>
+             <width>71</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Current:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QWidget" name="verticalLayoutWidget_3">
+           <property name="geometry">
+            <rect>
+             <x>410</x>
+             <y>320</y>
+             <width>501</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="ram_layout"/>
+          </widget>
+          <widget class="QLabel" name="overview_ram_current">
+           <property name="geometry">
+            <rect>
+             <x>870</x>
+             <y>270</y>
+             <width>41</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;
+color: #9e77ed;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+          <widget class="QLabel" name="gpu_area_border_2">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>310</y>
+             <width>521</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: 1px solid #9e77ed;
+border-radius: 10px;</string>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <zorder>auth_area_border</zorder>
+          <zorder>overview_icon</zorder>
+          <zorder>overview_hsm_name</zorder>
+          <zorder>overview_auth_btn</zorder>
+          <zorder>overview_mp_label</zorder>
+          <zorder>overview_masterpw_field</zorder>
+          <zorder>overview_auth_icon</zorder>
+          <zorder>overview_auth_label</zorder>
+          <zorder>overview_icon_3</zorder>
+          <zorder>overview_cpu</zorder>
+          <zorder>overview_mid</zorder>
+          <zorder>overview_icon_4</zorder>
+          <zorder>responselabel2</zorder>
+          <zorder>cpu_area_border</zorder>
+          <zorder>verticalLayoutWidget</zorder>
+          <zorder>overview_cpu_current</zorder>
+          <zorder>overview_cpu_2</zorder>
+          <zorder>overview_gpu</zorder>
+          <zorder>gpu_area_border</zorder>
+          <zorder>verticalLayoutWidget_2</zorder>
+          <zorder>overview_icon_5</zorder>
+          <zorder>overview_cpu_4</zorder>
+          <zorder>overview_gpu_current</zorder>
+          <zorder>overview_icon_6</zorder>
+          <zorder>overview_ram</zorder>
+          <zorder>overview_ram_2</zorder>
+          <zorder>verticalLayoutWidget_3</zorder>
+          <zorder>overview_ram_current</zorder>
+          <zorder>gpu_area_border_2</zorder>
+         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="configurator"/>
