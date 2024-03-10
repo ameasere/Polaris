@@ -664,7 +664,7 @@ border: 1px solid rgba(128, 96, 167, 80);</string>
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <bold>true</bold>
+         <fontweight>DemiBold</fontweight>
         </font>
        </property>
        <property name="cursor">
@@ -761,7 +761,7 @@ border-radius: 5px;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <bold>true</bold>
+         <fontweight>DemiBold</fontweight>
         </font>
        </property>
        <property name="cursor">
@@ -902,7 +902,7 @@ border-radius: 5px;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <bold>true</bold>
+         <fontweight>DemiBold</fontweight>
         </font>
        </property>
        <property name="cursor">
@@ -978,7 +978,7 @@ border-radius: 5px;
           <family>Be Vietnam Pro</family>
           <pointsize>9</pointsize>
           <italic>false</italic>
-          <bold>false</bold>
+          <fontweight>Medium</fontweight>
          </font>
         </property>
         <property name="cursor">
@@ -1057,7 +1057,7 @@ border-radius: 5px;
           <family>Be Vietnam Pro</family>
           <pointsize>9</pointsize>
           <italic>false</italic>
-          <bold>false</bold>
+          <fontweight>Medium</fontweight>
          </font>
         </property>
         <property name="cursor">
@@ -1180,7 +1180,7 @@ border-radius: 5px;
           <family>Inter Medium</family>
           <pointsize>10</pointsize>
           <italic>false</italic>
-          <bold>true</bold>
+          <fontweight>DemiBold</fontweight>
          </font>
         </property>
         <property name="cursor">
@@ -1265,7 +1265,7 @@ color: rgb(255, 255, 255)</string>
           <family>Be Vietnam Pro</family>
           <pointsize>9</pointsize>
           <italic>false</italic>
-          <bold>false</bold>
+          <fontweight>Medium</fontweight>
          </font>
         </property>
         <property name="cursor">
@@ -1378,7 +1378,7 @@ border-radius: 5px;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <bold>true</bold>
+         <fontweight>DemiBold</fontweight>
         </font>
        </property>
        <property name="cursor">
@@ -1453,7 +1453,7 @@ border-radius: 5px;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <bold>true</bold>
+         <fontweight>DemiBold</fontweight>
         </font>
        </property>
        <property name="styleSheet">
@@ -1489,7 +1489,7 @@ text-align: left;</string>
          <family>Be Vietnam Pro</family>
          <pointsize>9</pointsize>
          <italic>false</italic>
-         <bold>false</bold>
+         <fontweight>Medium</fontweight>
         </font>
        </property>
        <property name="styleSheet">
@@ -1594,7 +1594,7 @@ text-align: left;</string>
              <family>Inter Medium</family>
              <pointsize>10</pointsize>
              <italic>false</italic>
-             <bold>true</bold>
+             <fontweight>DemiBold</fontweight>
             </font>
            </property>
            <property name="cursor">
@@ -1982,7 +1982,7 @@ QPushButton:pressed {
              <family>Inter Medium</family>
              <pointsize>10</pointsize>
              <italic>false</italic>
-             <bold>true</bold>
+             <fontweight>DemiBold</fontweight>
             </font>
            </property>
            <property name="cursor">
@@ -2500,7 +2500,7 @@ color: #9e77ed;</string>
             <string/>
            </property>
           </widget>
-          <widget class="QLabel" name="gpu_area_border_2">
+          <widget class="QLabel" name="ram_area_border">
            <property name="geometry">
             <rect>
              <x>400</x>
@@ -2551,7 +2551,7 @@ border-radius: 10px;</string>
           <zorder>overview_ram_2</zorder>
           <zorder>verticalLayoutWidget_3</zorder>
           <zorder>overview_ram_current</zorder>
-          <zorder>gpu_area_border_2</zorder>
+          <zorder>ram_area_border</zorder>
          </widget>
         </widget>
        </widget>
@@ -2617,7 +2617,7 @@ background: transparent;</string>
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <bold>true</bold>
+         <fontweight>DemiBold</fontweight>
         </font>
        </property>
        <property name="cursor">
@@ -2689,7 +2689,7 @@ border-bottom: 2px solid #9e77ed;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <bold>true</bold>
+         <fontweight>DemiBold</fontweight>
         </font>
        </property>
        <property name="cursor">
@@ -2761,7 +2761,7 @@ border-bottom: 2px solid #9e77ed;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <bold>true</bold>
+         <fontweight>DemiBold</fontweight>
         </font>
        </property>
        <property name="cursor">

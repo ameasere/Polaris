@@ -311,6 +311,35 @@ class MainWindow(QMainWindow):
         self.response_label_2_animation_reverse.setEasingCurve(QEasingCurve.OutBounce)
         self.response_label_2_animation_reverse.finished.connect(lambda: self.updateEverything)
 
+        # Shadow to make auth_area_border feel 3D
+        self.auth_area_border_shadow = QGraphicsDropShadowEffect(self.ui.auth_area_border)
+        self.auth_area_border_shadow.setBlurRadius(25)
+        self.auth_area_border_shadow.setXOffset(0)
+        self.auth_area_border_shadow.setYOffset(0)
+        self.auth_area_border_shadow.setColor(QColor(255, 255, 255, 150))
+        self.ui.auth_area_border.setGraphicsEffect(self.auth_area_border_shadow)
+
+        self.cpu_area_border_shadow = QGraphicsDropShadowEffect(self.ui.cpu_area_border)
+        self.cpu_area_border_shadow.setBlurRadius(25)
+        self.cpu_area_border_shadow.setXOffset(0)
+        self.cpu_area_border_shadow.setYOffset(0)
+        self.cpu_area_border_shadow.setColor(QColor(255, 255, 255, 150))
+        self.ui.cpu_area_border.setGraphicsEffect(self.cpu_area_border_shadow)
+
+        self.gpu_area_border_shadow = QGraphicsDropShadowEffect(self.ui.gpu_area_border)
+        self.gpu_area_border_shadow.setBlurRadius(25)
+        self.gpu_area_border_shadow.setXOffset(0)
+        self.gpu_area_border_shadow.setYOffset(0)
+        self.gpu_area_border_shadow.setColor(QColor(255, 255, 255, 150))
+        self.ui.gpu_area_border.setGraphicsEffect(self.gpu_area_border_shadow)
+
+        self.ram_area_border_shadow = QGraphicsDropShadowEffect(self.ui.ram_area_border)
+        self.ram_area_border_shadow.setBlurRadius(25)
+        self.ram_area_border_shadow.setXOffset(0)
+        self.ram_area_border_shadow.setYOffset(0)
+        self.ram_area_border_shadow.setColor(QColor(255, 255, 255, 150))
+        self.ui.ram_area_border.setGraphicsEffect(self.ram_area_border_shadow)
+
         # Set on hover
         def enter_handler(_):
             # If the graphics effect is deleted, set it
@@ -691,21 +720,20 @@ class MainWindow(QMainWindow):
 
     def setup_finished(self, response):
         def overview_transition():
+            print("Transitioning to overview page.")
             self.ui.hsmpages.setCurrentWidget(self.ui.overview)
-            self.ui.overview_hsm_name.setText(self.ui.hsm_name.text())
+            self.ui.overview_hsm_name.setText(self.config["configuration"][0]["name"])
             self.ui.overview_mid.setText(self.__machine_identifier)
             self.ui.overview_auth_label.setText("Online")
             self.ui.overview_auth_label.setStyleSheet("font: 700 10pt \"Inter Medium\"; color: #12B76A;")
             self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/authenticated.png"))
             self.ui.overview_auth_icon.setToolTip("HSM is online.")
-            self.networker = NetworkWorker(self.ui.hsm_ip.text())
+            self.networker = NetworkWorker(self.config["configuration"][0]["ip"])
             self.statsthread = QThread()
             self.networker.moveToThread(self.statsthread)
             self.statsthread.started.connect(self.networker.run)
             self.networker.progress_signal.connect(self.hsm_statistics)
             self.statsthread.start()
-            # Change page to overview
-            self.ui.hsmlist.setCurrentWidget(self.ui.overview)
 
         if response == "polaris://mid:success":
             self.ui.responselabel.setText("HSM setup successful.")
@@ -729,9 +757,7 @@ class MainWindow(QMainWindow):
             self.ui.hsm_uuid.setText("UUID")
             self.timer = QTimer(self)
             self.timer.singleShot(1500, lambda: self.response_label_animation_reverse.start())
-            self.timer.singleShot(1500, lambda: overview_transition)
-            # Add HSM to the overview page.
-            # TODO
+            self.timer.singleShot(2000, overview_transition)
         else:
             self.ui.responselabel.setText("HSM setup failed.")
             self.ui.responselabel.setStyleSheet(
