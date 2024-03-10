@@ -11,13 +11,13 @@ jobs:
       - run:
           name: Install Pip, nuitka, imageio, patchelf, pyside6 and ccache
           command: |
-            brew install python3
+            brew install python3 patchelf
             python3 -m pip install nuitka zstandard ordered-set imageio pyside6 psutil requests cryptography
-            brew install patchelf
+            python -m pip install --upgrade pip
       - run:
           name: Run custom nuitka command
           command: |
-            python3 -m nuitka --onefile --macos-create-app-bundle --macos-app-icon=icon.ico --disable-console --enable-plugin=pyside6 --noinclude-default-mode=nofollow polaris.py
+            python3 -m nuitka --onefile --macos-create-app-bundle --macos-app-icon=icon.ico --disable-console --enable-plugin=pyside6 --noinclude-default-mode=nofollow --static-libpython=no polaris.py
 workflows:
   version: 2
   build-and-test:
