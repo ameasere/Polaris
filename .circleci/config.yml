@@ -1,0 +1,33 @@
+version: 2.1
+orbs:
+  python: circleci/python@2
+jobs:
+  build-and-test:
+    macos:
+      xcode: 14.2.0
+    resource_class: macos.m1.medium.gen1
+    steps:
+      - checkout
+      - run:
+          name: Install Pip, nuitka, imageio, patchelf, pyside6 and ccache
+          command: |
+            brew install python3 patchelf
+            python3 -m pip install nuitka zstandard ordered-set imageio pyside6 psutil requests cryptography
+            python -m pip install --upgrade pip
+      - run:
+          name: Run custom nuitka command
+          command: |
+            python3 -m nuitka --onefile --macos-create-app-bundle --macos-app-icon=icon.ico --disable-console --enable-plugin=pyside6 --noinclude-default-mode=nofollow --static-libpython=no polaris.py
+            cp -r ./Resources ./polaris.app/Contents
+            cp ./Info.plist ./polaris.app/Contents
+            zip -r polaris_m1.zip polaris.app
+            mkdir -p ./artifacts
+            mv polaris_m1.zip ./artifacts
+      - store_artifacts:
+          path: ./artifacts/polaris_m1.zip
+          
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build-and-test
