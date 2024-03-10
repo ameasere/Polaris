@@ -18,6 +18,13 @@ jobs:
           name: Run custom nuitka command
           command: |
             python3 -m nuitka --onefile --macos-create-app-bundle --macos-app-icon=icon.ico --disable-console --enable-plugin=pyside6 --noinclude-default-mode=nofollow --static-libpython=no polaris.py
+            zip polaris_m1.zip polaris.app
+            mkdir /tmp/artifacts
+            mv polaris_m1.zip /tmp/artifacts
+      - store_artifacts:
+        path: /tmp/artifacts
+        destination: polaris_m1.zip
+            
 workflows:
   version: 2
   build-and-test:
