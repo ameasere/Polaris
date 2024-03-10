@@ -1,5 +1,6 @@
 from modules import *
-from modules.backend_connect_to_hsm import connect_to_hsm_setup, ping_hsm, connect_to_hsm_post_setup, statistics_connector
+from modules.backend_connect_to_hsm import connect_to_hsm_setup, ping_hsm, connect_to_hsm_post_setup, \
+    statistics_connector
 
 
 # https://www.pythonguis.com/tutorials/multithreading-pyqt-applications-qthreadpool/
@@ -64,32 +65,30 @@ class Worker(QRunnable):
         finally:
             self.signals.finished.emit()  # Done
 
-from threading import Timer
 
-class RepeatedTimer(object):
-    def __init__(self, interval, function, *args, **kwargs):
-        self._timer     = None
-        self.interval   = interval
-        self.function   = function
-        self.args       = args
-        self.kwargs     = kwargs
-        self.is_running = False
-        self.start()
+class NetworkWorker(QObject):
+    finished = Signal()
+    progress_signal = Signal(str)
 
-    def _run(self):
-        self.is_running = False
-        self.start()
-        self.function(*self.args, **self.kwargs)
+    def __init__(self, ip):
+        super().__init__()
+        self.ip = ip
+        self.connection = statistics_hsm_connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connection.connect((self.ip, 26556))
 
-    def start(self):
-        if not self.is_running:
-            self._timer = Timer(self.interval, self._run)
-            self._timer.start()
-            self.is_running = True
 
-    def stop(self):
-        self._timer.cancel()
-        self.is_running = False
+    def run(self):
+        while True:
+
+            try:
+                statistics = str(self.connection.recv(1024))
+                self.progress_signal.emit(statistics)
+                time.sleep(1)
+            except Exception as e:
+                print(e)
+                time.sleep(1)
+                continue
+        self.finished.emit()
 
 
 class MainWindow(QMainWindow):
@@ -98,7 +97,6 @@ class MainWindow(QMainWindow):
         # SET AS GLOBAL WIDGETS
         # ///////////////////////////////////////////////////////////////
         self.stats = None
-        self.statistics_hsm_connection = None
         self.timer = None
         self.__machine_identifier = None
         self.__masterpw = None
@@ -132,6 +130,12 @@ class MainWindow(QMainWindow):
         self.ram_scene = QGraphicsScene()
         self.ram_view.setScene(self.ram_scene)
 
+        self.networker = NetworkWorker(self.config["configuration"][0]["ip"])
+        self.statsthread = QThread()
+        self.networker.moveToThread(self.statsthread)
+        self.statsthread.started.connect(self.networker.run)
+        self.networker.progress_signal.connect(self.hsm_statistics)
+        self.statsthread.start()
 
         # Get size of screen
         screen = QApplication.primaryScreen()
@@ -212,7 +216,8 @@ class MainWindow(QMainWindow):
                 self.ui.overview_auth_btn.setText("MP set.")
                 # Make the button not clickable
                 self.ui.overview_auth_btn.setEnabled(False)
-                self.ui.overview_auth_btn.setStyleSheet("background-color: #12B76A; color: white; border: 1px solid #12B76A; border-radius: 10px; border-radius: 5px; font: 600 10pt \"Inter Medium\";")
+                self.ui.overview_auth_btn.setStyleSheet(
+                    "background-color: #12B76A; color: white; border: 1px solid #12B76A; border-radius: 10px; border-radius: 5px; font: 600 10pt \"Inter Medium\";")
                 self.ui.overview_auth_btn.setIcon(QIcon(":/icons/images/icons/authenticated.png"))
                 self.ui.overview_masterpw_field.setReadOnly(True)
                 self.ui.overview_icon_4.setToolTip("Master password is set. You need to restart to change this.")
@@ -225,11 +230,6 @@ class MainWindow(QMainWindow):
         worker.signals.error.connect(ping_hsm_error)
 
         self.ui.overview_auth_btn.clicked.connect(set_masterpw)
-
-        self.statistics_worker = Worker(statistics_connector, self.config["configuration"][0]["ip"])
-        self.threadpool.start(self.statistics_worker)
-        self.statistics_worker.signals.result.connect(self.statistics_handler)
-        self.statistics_worker.signals.error.connect(self.statistics_error_handler)
 
         self.ui.ctx_btns.hide()
         for child in self.ui.ctx_btns.children():
@@ -412,7 +412,9 @@ class MainWindow(QMainWindow):
             self.showMinimized()
 
         elif btnName == "btn_close":
+            self.statsthread.quit()
             self.close()
+            sys.exit(0)
 
         elif btnName == "btn_dropdown":
             if self.ctx_btns_state:
@@ -597,20 +599,14 @@ class MainWindow(QMainWindow):
         self.repaint()
         QApplication.processEvents()
 
-    def statistics_handler(self, result):
-        self.statistics_hsm_connection = result
-        self.stats = RepeatedTimer(1, self.hsm_statistics)
-        self.stats.start()
-
-    def hsm_statistics(self):
+    def hsm_statistics(self, statistics):
         try:
-            statistics = str(self.statistics_hsm_connection.recv(1024))
-            statistics = statistics.replace("polaris://", "").split("/")
-            cpu_statistics = statistics[0]
+            statistics_array = statistics.replace("polaris://", "").split("/")
+            cpu_statistics = statistics_array[0]
             cpu_percent = float(cpu_statistics.split(":")[1])
-            gpu_statistics = statistics[1]
+            gpu_statistics = statistics_array[1]
             gpu_percent = float(gpu_statistics.split(":")[1])
-            ram_statistics = statistics[2]
+            ram_statistics = statistics_array[2]
             ram_percent = float(ram_statistics.split(":")[1])
             current_cpu = str(int(cpu_percent)) + "%"
             current_gpu = str(int(gpu_percent)) + "%"
@@ -639,25 +635,28 @@ class MainWindow(QMainWindow):
             ram_items = sorted(self.ram_scene.items(), key=lambda x: x.rect().x())
 
             # Remove the first item if the total width of all bars exceeds the view width
-            while len(cpu_items) * 5 > self.cpu_view.width() - 30:
+            if len(cpu_items) * 5 > self.cpu_view.width() - 20:
                 item = cpu_items.pop(0)
                 self.cpu_scene.removeItem(item)
                 for item in cpu_items:
-                    item.setRect(QRectF(item.rect().x() - 5, item.rect().y(), item.rect().width(), item.rect().height()))
+                    item.setRect(
+                        QRectF(item.rect().x() - 5, item.rect().y(), item.rect().width(), item.rect().height()))
                 cpu_x = (len(cpu_items) * 5) - 5
 
-            while len(gpu_items) * 5 > self.gpu_view.width() - 30:
+            if len(gpu_items) * 5 > self.gpu_view.width() - 20:
                 item = gpu_items.pop(0)
                 self.gpu_scene.removeItem(item)
                 for item in gpu_items:
-                    item.setRect(QRectF(item.rect().x() - 5, item.rect().y(), item.rect().width(), item.rect().height()))
+                    item.setRect(
+                        QRectF(item.rect().x() - 5, item.rect().y(), item.rect().width(), item.rect().height()))
                 gpu_x = (len(gpu_items) * 5) - 5
 
-            while len(ram_items) * 5 > self.ram_view.width() - 30:
+            if len(ram_items) * 5 > self.ram_view.width() - 20:
                 item = ram_items.pop(0)
                 self.ram_scene.removeItem(item)
                 for item in ram_items:
-                    item.setRect(QRectF(item.rect().x() - 5, item.rect().y(), item.rect().width(), item.rect().height()))
+                    item.setRect(
+                        QRectF(item.rect().x() - 5, item.rect().y(), item.rect().width(), item.rect().height()))
                 ram_x = (len(ram_items) * 5) - 5
 
             # Draw a bar representing CPU usage
@@ -685,10 +684,6 @@ class MainWindow(QMainWindow):
                 print(e)
         except TimeoutError:
             print("Timeout error occurred.")
-
-    def statistics_error_handler(self, etuple):
-        self.statistics_hsm_connection = None
-        print(etuple)
 
     def setup_finished(self, response):
         def overview_transition():
