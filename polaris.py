@@ -34,7 +34,7 @@ elif platform.system() == "Darwin":
     AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_('Polaris', 'CFBundleName')
     AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_('Polaris', 'CFBundleDisplayName')
     AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_('polaris.ameasere', 'CFBundleIdentifier')
-    AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_('0.3.0', 'CFBundleShortVersionString')
+    AppKit.NSBundle.mainBundle().infoDictionary().setValue_forKey_('0.5.0', 'CFBundleShortVersionString')
 
 # os.environ["QT_LOGGING_RULES"] = "*.debug=false;*.warning=false;*.critical=false"
 
