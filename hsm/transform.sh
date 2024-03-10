@@ -222,8 +222,6 @@ configure_system() {
   # Generate the salt for the machine, saving it in file: /etc/polaris/salt
   print_yellow "Generating the salt for the machine..."
   sleep 1
-  # Make /etc/polaris directory if it doesn't exist
-  sudo mkdir -p /etc/polaris
   # curl -s https://api.drand.sh/52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971/public/latest | jq -r '.randomness' | head -c 32 | sudo tee /etc/polaris/salt
   # DO NOT PRINT THIS TO CONSOLE
   curl -s https://api.drand.sh/52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971/public/latest | jq -r '.randomness' | head -c 32 | sudo tee /etc/polaris/salt > /dev/null
@@ -241,13 +239,13 @@ configure_system() {
       print_yellow "You have chosen to replace the /etc/polaris directory. Continuing..."
       sleep 1
       sudo rm -rf /etc/polaris
-      sudo mkdir /etc/polaris
+      sudo mkdir -p /etc/polaris
     else
       print_error "Invalid input. Please try again."
       exit 1
     fi
   else
-    sudo mkdir /etc/polaris
+    sudo mkdir -p /etc/polaris
   fi
   # Add firewall rule to allow incoming connections on port 26555
   print_yellow "Adding firewall rule to allow incoming connections on port 26555..."
