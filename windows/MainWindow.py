@@ -130,13 +130,6 @@ class MainWindow(QMainWindow):
         self.ram_scene = QGraphicsScene()
         self.ram_view.setScene(self.ram_scene)
 
-        self.networker = NetworkWorker(self.config["configuration"][0]["ip"])
-        self.statsthread = QThread()
-        self.networker.moveToThread(self.statsthread)
-        self.statsthread.started.connect(self.networker.run)
-        self.networker.progress_signal.connect(self.hsm_statistics)
-        self.statsthread.start()
-
         # Get size of screen
         screen = QApplication.primaryScreen()
         size = screen.size()
@@ -189,6 +182,12 @@ class MainWindow(QMainWindow):
             self.ui.pages.setCurrentWidget(self.ui.hsmlist)
             self.ui.overview_hsm_name.setText(self.config["configuration"][0]["name"])
             self.ui.overview_mid.setText(self.config["configuration"][0]["my_uuid"])
+            self.networker = NetworkWorker(self.config["configuration"][0]["ip"])
+            self.statsthread = QThread()
+            self.networker.moveToThread(self.statsthread)
+            self.statsthread.started.connect(self.networker.run)
+            self.networker.progress_signal.connect(self.hsm_statistics)
+            self.statsthread.start()
 
         def ping_hsm_result():
             self.ui.overview_auth_label.setText("Online")
@@ -224,10 +223,13 @@ class MainWindow(QMainWindow):
 
         # Try to ping the HSM to determine if it is online or not.
         self.ui.auth_area_border.setStyleSheet("border: 1px solid #F04438; border-radius: 10px;")
-        worker = Worker(ping_hsm, self.config["configuration"][0]["ip"])
-        self.threadpool.start(worker)
-        worker.signals.result.connect(ping_hsm_result)
-        worker.signals.error.connect(ping_hsm_error)
+        if "configuration" not in self.config or len(self.config["configuration"]) == 0:
+            ping_hsm_error()
+        else:
+            worker = Worker(ping_hsm, self.config["configuration"][0]["ip"])
+            self.threadpool.start(worker)
+            worker.signals.result.connect(ping_hsm_result)
+            worker.signals.error.connect(ping_hsm_error)
 
         self.ui.overview_auth_btn.clicked.connect(set_masterpw)
 
@@ -412,7 +414,9 @@ class MainWindow(QMainWindow):
             self.showMinimized()
 
         elif btnName == "btn_close":
-            self.statsthread.quit()
+            if hasattr(self, "statsthread"):
+                self.statsthread.quit()
+                self.statsthread.wait(deadline=1000)
             self.close()
             sys.exit(0)
 
@@ -688,6 +692,20 @@ class MainWindow(QMainWindow):
     def setup_finished(self, response):
         def overview_transition():
             self.ui.hsmpages.setCurrentWidget(self.ui.overview)
+            self.ui.overview_hsm_name.setText(self.ui.hsm_name.text())
+            self.ui.overview_mid.setText(self.__machine_identifier)
+            self.ui.overview_auth_label.setText("Online")
+            self.ui.overview_auth_label.setStyleSheet("font: 700 10pt \"Inter Medium\"; color: #12B76A;")
+            self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/authenticated.png"))
+            self.ui.overview_auth_icon.setToolTip("HSM is online.")
+            self.networker = NetworkWorker(self.ui.hsm_ip.text())
+            self.statsthread = QThread()
+            self.networker.moveToThread(self.statsthread)
+            self.statsthread.started.connect(self.networker.run)
+            self.networker.progress_signal.connect(self.hsm_statistics)
+            self.statsthread.start()
+            # Change page to overview
+            self.ui.hsmlist.setCurrentWidget(self.ui.overview)
 
         if response == "polaris://mid:success":
             self.ui.responselabel.setText("HSM setup successful.")
@@ -699,7 +717,6 @@ class MainWindow(QMainWindow):
                 self.config["configuration"] = []
             self.config["configuration"].append(
                 {"name": self.ui.hsm_name.text(), "ip": self.ui.hsm_ip.text(), "my_uuid": self.__machine_identifier})
-            print(self.config)
             with open(os.getcwd() + "/config/config.json", "w") as f:
                 f.write(json.dumps(self.config))
                 f.close()
