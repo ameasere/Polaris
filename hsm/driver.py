@@ -13,7 +13,7 @@ import sqlite3
 import time
 import subprocess
 import psutil
-from multiprocessing import Process
+from multiprocessing import Pool
 
 
 def check_if_db_exists():
@@ -112,22 +112,22 @@ def handle_client(client_socket):
     shared_key = key_exchange(client_socket)
     encrypted_data = client_socket.recv(1024)
     if len(encrypted_data) == 0:
-        print(f"Connection closed by {client_socket.getpeername()}")
+        print(f"[{time.ctime()}] Connection closed by {client_socket.getpeername()}")
         logger(f"Connection closed by {client_socket.getpeername()}")
         client_socket.close()
         return
     decrypted_data = decrypt_data(shared_key, encrypted_data)
 
     # Process the decrypted_data as needed
-    print(f"Received encrypted data: {encrypted_data}")
+    print(f"[{time.ctime()}] Received encrypted data: {encrypted_data}")
     sys.stdout.flush()  # Journalctl Prints
-    print(f"Decrypted data: {decrypted_data}")
+    print(f"[{time.ctime()}] Decrypted data: {decrypted_data}")
     sys.stdout.flush()  # Journalctl Prints
 
     if decrypted_data == "Hello, HSM":
         encrypted_data = encrypt_data(shared_key, "Hello, Client")
         client_socket.send(encrypted_data)
-        print("Sent encrypted data: Hello, Client")
+        print(f"[{time.ctime()}] Sent encrypted data: Hello, Client")
         logger(f"Sent encrypted data: Hello, Client to {client_socket.getpeername()}")
         sys.stdout.flush()  # Journalctl Prints
         client_socket.close()
@@ -138,7 +138,7 @@ def handle_client(client_socket):
         mid = decrypted_data.replace("polaris://mid:", "").split("/")[0]
         mp = decrypted_data.replace("polaris://mid:", "").split("/")[1]
         username = decrypted_data.replace("polaris://mid:", "").split("/")[2]
-        print(f"Received: {mid}, {mp}, {username}")
+        print(f"[{time.ctime()}] Received: {mid}, {mp}, {username}")
         logger(f"Received: {mid}, {mp}, {username} from {client_socket.getpeername()}")
         sys.stdout.flush()  # Journalctl Prints
         try:
@@ -152,13 +152,13 @@ def handle_client(client_socket):
             conn.commit()
             encrypted_data = encrypt_data(shared_key, "polaris://mid:success")
             client_socket.send(encrypted_data)
-            print("Sent encrypted data: polaris://mid:success")
+            print(f"[{time.ctime()}] Sent encrypted data: polaris://mid:success")
             logger(f"Sent encrypted data: polaris://mid:success to {client_socket.getpeername()}")
             sys.stdout.flush()  # Journalctl Prints
         except sqlite3.IntegrityError:
             encrypted_data = encrypt_data(shared_key, "polaris://mid:failure")
             client_socket.send(encrypted_data)
-            print("Sent encrypted data: polaris://mid:failure")
+            print(f"[{time.ctime()}] Sent encrypted data: polaris://mid:failure")
             logger(f"Sent encrypted data: polaris://mid:failure to {client_socket.getpeername()}")
             sys.stdout.flush()
         client_socket.close()
@@ -169,7 +169,7 @@ def handle_client(client_socket):
         return
 
     if not decrypted_data.startswith("polaris://"):
-        print("Invalid data received")
+        print(f"[{time.ctime()}] Invalid data received")
         sys.stdout.flush()  # Journalctl Prints
         return
 
@@ -185,7 +185,7 @@ def handle_client(client_socket):
         data = h.hexdigest()
         old_data = data
     else:
-        print("Invalid action received")
+        print(f"[{time.ctime()}] Invalid action received")
         sys.stdout.flush()  # Journalctl Prints
         return
 
@@ -193,7 +193,7 @@ def handle_client(client_socket):
     encrypted_data = encrypt_data(shared_key, data)
 
     client_socket.send(encrypted_data)
-    print(f"Sent encrypted data: polaris://{action}:{old_data}")
+    print(f"[{time.ctime()}] Sent encrypted data: polaris://{action}:{old_data}")
     sys.stdout.flush()  # Journalctl Prints
 
 
@@ -225,55 +225,90 @@ def handle_statistics_client(client_socket):
 
 
 def start_server():
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(('0.0.0.0', 26555))
-    server.listen(5)
+    try:
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.bind(('0.0.0.0', 26555))
+        server.listen(5)
 
-    print(f"[{time.ctime()}] Server listening on port 26555")
-    logger(f"Server listening on port 26555")
-    sys.stdout.flush()  # Journalctl Prints
-
-    while True:
-        client_socket, addr = server.accept()
-        print(f"[{time.ctime()}] Accepted connection from {addr}")
+        print(f"[{time.ctime()}] Server listening on port 26555")
+        logger(f"Server listening on port 26555")
         sys.stdout.flush()  # Journalctl Prints
-        client_handler = threading.Thread(target=handle_client, args=(client_socket,))
-        client_handler.start()
+
+        while True:
+            client_socket, addr = server.accept()
+            print(f"[{time.ctime()}] Accepted connection from {addr}")
+            sys.stdout.flush()  # Journalctl Prints
+            client_handler = threading.Thread(target=handle_client, args=(client_socket,))
+            client_handler.start()
+    except KeyboardInterrupt:
+        print(f"[{time.ctime()}] Server stopped by the user.")
+        sys.stdout.flush()
+        logger(f"Server stopped by the user.")
+        server.close()
+        sys.exit(0)
+    except Exception as e:
+        print(f"[{time.ctime()}] An error occurred: {e}")
+        sys.stdout.flush()
+        logger(f"An error occurred: {e}")
+        logger(traceback.format_exc())
 
 
 def start_statistics_server():
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(('0.0.0.0', 26556))
-    server.listen(5)
+    try:
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.bind(('0.0.0.0', 26556))
+        server.listen(5)
 
-    print(f"[{time.ctime()}] Statistics Server listening on port 26556")
-    logger(f"Statistics Server listening on port 26556")
-    sys.stdout.flush()  # Journalctl Prints
+        print(f"[{time.ctime()}] Statistics Server listening on port 26556")
+        logger(f"Statistics Server listening on port 26556")
+        sys.stdout.flush()  # Journalctl Prints
 
-    while True:
-        client_socket, addr = server.accept()
-        print(f"[{time.ctime()}] Accepted connection from {addr}")
+        while True:
+            client_socket, addr = server.accept()
+            print(f"[{time.ctime()}] Accepted connection from {addr}")
+            sys.stdout.flush()
+            client_handler = threading.Thread(target=handle_statistics_client, args=(client_socket,))
+            client_handler.start()
+    except KeyboardInterrupt:
+        print(f"[{time.ctime()}] Statistics Server stopped by the user.")
         sys.stdout.flush()
-        client_handler = threading.Thread(target=handle_statistics_client, args=(client_socket,))
-        client_handler.start()
+        logger(f"Statistics Server stopped by the user.")
+        server.close()
+        sys.exit(0)
+    except Exception as e:
+        print(f"[{time.ctime()}] An error occurred: {e}")
+        sys.stdout.flush()
+        logger(f"An error occurred: {e}")
+        logger(traceback.format_exc())
+
+
+def muted_initializer():
+    sys.stderr = open(os.devnull, "w")
 
 
 if __name__ == '__main__':
     db_exists = check_if_db_exists()
     log_exists = check_if_log_exists()
+    pool = None
     if not db_exists:
         logger(f"Database not found. Creating a new database...")
     else:
         logger(f"Database found. Continuing with the existing database...")
     try:
-        server_process = Process(target=start_server)
-        server_process.start()
-        statistics_server_process = Process(target=start_statistics_server)
-        statistics_server_process.start()
+        with Pool(initializer=muted_initializer) as pool:
+            pool.apply_async(start_server)
+            pool.apply_async(start_statistics_server)
+            while True:
+                time.sleep(1)
     except KeyboardInterrupt:
         print(f"[{time.ctime()}] Server stopped by the user.")
         sys.stdout.flush()
         logger(f"Server stopped by the user.")
+        if pool:
+            # Kill all threads in the pool and hard exit
+            pool.terminate()
+            pool.join()
+        sys.exit(0)
     except Exception as e:
         print(f"[{time.ctime()}] An error occurred: {e}")
         sys.stdout.flush()

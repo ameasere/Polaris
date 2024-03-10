@@ -10,11 +10,8 @@ import traceback
 
 
 def generate_ecdh_key_pair():
-    start = time.time()
     private_key = ec.generate_private_key(ec.SECP256R1(), default_backend())
     public_key = private_key.public_key()
-    end = time.time()
-    print(f"Time Taken: {end - start}")
     return private_key, public_key
 
 

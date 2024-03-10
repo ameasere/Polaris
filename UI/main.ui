@@ -664,7 +664,7 @@ border: 1px solid rgba(128, 96, 167, 80);</string>
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <fontweight>DemiBold</fontweight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="cursor">
@@ -761,7 +761,7 @@ border-radius: 5px;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <fontweight>DemiBold</fontweight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="cursor">
@@ -902,7 +902,7 @@ border-radius: 5px;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <fontweight>DemiBold</fontweight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="cursor">
@@ -978,7 +978,7 @@ border-radius: 5px;
           <family>Be Vietnam Pro</family>
           <pointsize>9</pointsize>
           <italic>false</italic>
-          <fontweight>Medium</fontweight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="cursor">
@@ -1057,7 +1057,7 @@ border-radius: 5px;
           <family>Be Vietnam Pro</family>
           <pointsize>9</pointsize>
           <italic>false</italic>
-          <fontweight>Medium</fontweight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="cursor">
@@ -1180,7 +1180,7 @@ border-radius: 5px;
           <family>Inter Medium</family>
           <pointsize>10</pointsize>
           <italic>false</italic>
-          <fontweight>DemiBold</fontweight>
+          <bold>true</bold>
          </font>
         </property>
         <property name="cursor">
@@ -1265,7 +1265,7 @@ color: rgb(255, 255, 255)</string>
           <family>Be Vietnam Pro</family>
           <pointsize>9</pointsize>
           <italic>false</italic>
-          <fontweight>Medium</fontweight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="cursor">
@@ -1378,7 +1378,7 @@ border-radius: 5px;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <fontweight>DemiBold</fontweight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="cursor">
@@ -1453,7 +1453,7 @@ border-radius: 5px;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <fontweight>DemiBold</fontweight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="styleSheet">
@@ -1489,7 +1489,7 @@ text-align: left;</string>
          <family>Be Vietnam Pro</family>
          <pointsize>9</pointsize>
          <italic>false</italic>
-         <fontweight>Medium</fontweight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
@@ -1594,7 +1594,7 @@ text-align: left;</string>
              <family>Inter Medium</family>
              <pointsize>10</pointsize>
              <italic>false</italic>
-             <fontweight>DemiBold</fontweight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="cursor">
@@ -1982,7 +1982,7 @@ QPushButton:pressed {
              <family>Inter Medium</family>
              <pointsize>10</pointsize>
              <italic>false</italic>
-             <fontweight>DemiBold</fontweight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="cursor">
@@ -2215,10 +2215,10 @@ color: #fff</string>
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QLabel" name="responselabel2">
+          <widget class="QLabel" name="overview_responselabel">
            <property name="geometry">
             <rect>
-             <x>290</x>
+             <x>0</x>
              <y>400</y>
              <width>351</width>
              <height>41</height>
@@ -2310,8 +2310,8 @@ color: #9e77ed;</string>
           <widget class="QLabel" name="overview_gpu">
            <property name="geometry">
             <rect>
-             <x>435</x>
-             <y>139</y>
+             <x>436</x>
+             <y>119</y>
              <width>41</width>
              <height>31</height>
             </rect>
@@ -2326,8 +2326,8 @@ color: #9e77ed;</string>
           <widget class="QLabel" name="gpu_area_border">
            <property name="geometry">
             <rect>
-             <x>400</x>
-             <y>180</y>
+             <x>401</x>
+             <y>160</y>
              <width>521</width>
              <height>61</height>
             </rect>
@@ -2349,8 +2349,8 @@ border-radius: 10px;</string>
           <widget class="QWidget" name="verticalLayoutWidget_2">
            <property name="geometry">
             <rect>
-             <x>409</x>
-             <y>190</y>
+             <x>410</x>
+             <y>170</y>
              <width>501</width>
              <height>41</height>
             </rect>
@@ -2360,8 +2360,8 @@ border-radius: 10px;</string>
           <widget class="QLabel" name="overview_icon_5">
            <property name="geometry">
             <rect>
-             <x>400</x>
-             <y>140</y>
+             <x>401</x>
+             <y>120</y>
              <width>31</width>
              <height>31</height>
             </rect>
@@ -2382,8 +2382,8 @@ border-radius: 10px;</string>
           <widget class="QLabel" name="overview_cpu_4">
            <property name="geometry">
             <rect>
-             <x>790</x>
-             <y>140</y>
+             <x>791</x>
+             <y>120</y>
              <width>71</width>
              <height>31</height>
             </rect>
@@ -2401,8 +2401,8 @@ border-radius: 10px;</string>
           <widget class="QLabel" name="overview_gpu_current">
            <property name="geometry">
             <rect>
-             <x>870</x>
-             <y>140</y>
+             <x>871</x>
+             <y>120</y>
              <width>41</width>
              <height>31</height>
             </rect>
@@ -2419,7 +2419,7 @@ color: #9e77ed;</string>
            <property name="geometry">
             <rect>
              <x>400</x>
-             <y>270</y>
+             <y>230</y>
              <width>31</width>
              <height>31</height>
             </rect>
@@ -2441,7 +2441,7 @@ color: #9e77ed;</string>
            <property name="geometry">
             <rect>
              <x>435</x>
-             <y>269</y>
+             <y>229</y>
              <width>41</width>
              <height>31</height>
             </rect>
@@ -2457,7 +2457,7 @@ color: #9e77ed;</string>
            <property name="geometry">
             <rect>
              <x>790</x>
-             <y>270</y>
+             <y>230</y>
              <width>71</width>
              <height>31</height>
             </rect>
@@ -2476,7 +2476,7 @@ color: #9e77ed;</string>
            <property name="geometry">
             <rect>
              <x>410</x>
-             <y>320</y>
+             <y>280</y>
              <width>501</width>
              <height>41</height>
             </rect>
@@ -2487,7 +2487,7 @@ color: #9e77ed;</string>
            <property name="geometry">
             <rect>
              <x>870</x>
-             <y>270</y>
+             <y>230</y>
              <width>41</width>
              <height>31</height>
             </rect>
@@ -2504,7 +2504,7 @@ color: #9e77ed;</string>
            <property name="geometry">
             <rect>
              <x>400</x>
-             <y>310</y>
+             <y>270</y>
              <width>521</width>
              <height>61</height>
             </rect>
@@ -2523,6 +2523,141 @@ border-radius: 10px;</string>
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
+          <widget class="QProgressBar" name="disk_progress_bar">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>380</y>
+             <width>521</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QProgressBar {
+background-color: rgb(40, 27, 40);
+border: 2px solid rgb(157, 122, 222);
+color: #fff;
+border-radius: 10px;
+text-align: center;
+font: 57 10pt &quot;Inter Medium&quot;;
+}
+QProgressBar::chunk{
+border-radius: 10px;
+background-color: qlineargradient(spread:pad, x1:0.931, y1:1, x2:1, y2:1, stop:0.704545 rgba(158, 119, 237, 255), stop:1 rgba(40, 27, 40, 255))
+}</string>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_icon_7">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>340</y>
+             <width>31</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="resources.qrc">:/icons/images/icons/hard-drive.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_disk_current">
+           <property name="geometry">
+            <rect>
+             <x>870</x>
+             <y>340</y>
+             <width>41</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;
+color: #9e77ed;</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_ram_3">
+           <property name="geometry">
+            <rect>
+             <x>790</x>
+             <y>340</y>
+             <width>71</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Current:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="overview_ram_4">
+           <property name="geometry">
+            <rect>
+             <x>435</x>
+             <y>339</y>
+             <width>41</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Disk</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="last_update_label">
+           <property name="geometry">
+            <rect>
+             <x>510</x>
+             <y>409</y>
+             <width>411</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 11pt &quot;Inter Medium&quot;;
+color: #9e77ed;</string>
+           </property>
+           <property name="text">
+            <string>[Placeholder]</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="last_update_label_2">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>409</y>
+             <width>91</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 700 11pt &quot;Inter Medium&quot;;
+color: #fff;</string>
+           </property>
+           <property name="text">
+            <string>Last update:</string>
+           </property>
+          </widget>
           <zorder>auth_area_border</zorder>
           <zorder>overview_icon</zorder>
           <zorder>overview_hsm_name</zorder>
@@ -2535,7 +2670,7 @@ border-radius: 10px;</string>
           <zorder>overview_cpu</zorder>
           <zorder>overview_mid</zorder>
           <zorder>overview_icon_4</zorder>
-          <zorder>responselabel2</zorder>
+          <zorder>overview_responselabel</zorder>
           <zorder>cpu_area_border</zorder>
           <zorder>verticalLayoutWidget</zorder>
           <zorder>overview_cpu_current</zorder>
@@ -2552,6 +2687,13 @@ border-radius: 10px;</string>
           <zorder>verticalLayoutWidget_3</zorder>
           <zorder>overview_ram_current</zorder>
           <zorder>ram_area_border</zorder>
+          <zorder>disk_progress_bar</zorder>
+          <zorder>overview_icon_7</zorder>
+          <zorder>overview_disk_current</zorder>
+          <zorder>overview_ram_3</zorder>
+          <zorder>overview_ram_4</zorder>
+          <zorder>last_update_label</zorder>
+          <zorder>last_update_label_2</zorder>
          </widget>
         </widget>
        </widget>
@@ -2617,7 +2759,7 @@ background: transparent;</string>
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <fontweight>DemiBold</fontweight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="cursor">
@@ -2689,7 +2831,7 @@ border-bottom: 2px solid #9e77ed;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <fontweight>DemiBold</fontweight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="cursor">
@@ -2761,7 +2903,7 @@ border-bottom: 2px solid #9e77ed;
          <family>Inter Medium</family>
          <pointsize>10</pointsize>
          <italic>false</italic>
-         <fontweight>DemiBold</fontweight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="cursor">

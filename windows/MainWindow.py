@@ -69,25 +69,51 @@ class Worker(QRunnable):
 class NetworkWorker(QObject):
     finished = Signal()
     progress_signal = Signal(str)
+    exception_signal = Signal(str)
 
     def __init__(self, ip):
         super().__init__()
         self.ip = ip
-        self.connection = statistics_hsm_connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.connection.connect((self.ip, 26556))
+        self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            self.connection.connect((self.ip, 26556))
+            self.connected = True
+        except Exception as e:
+            print(e)
+            self.connected = False
+            self.exception_signal.emit(str(e))
 
+    def connect_to_server(self):
+        try:
+            self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.connection.connect((self.ip, 26556))
+            self.connected = True
+        except Exception as e:
+            self.exception_signal.emit(str(e))
+            time.sleep(1)
 
     def run(self):
         while True:
+            if not self.connected:
+                self.connect_to_server()
 
             try:
-                statistics = str(self.connection.recv(1024))
+                statistics = self.connection.recv(1024).decode("utf-8")
+                if not statistics:
+                    self.connected = False
+                    self.connection.close()
+                    self.exception_signal.emit("Connection lost. Reconnecting...")
+                    time.sleep(1)
+                    continue
                 self.progress_signal.emit(statistics)
                 time.sleep(1)
             except Exception as e:
-                print(e)
+                self.connected = False
+                self.connection.close()
+                self.exception_signal.emit(str(e))
                 time.sleep(1)
                 continue
+
         self.finished.emit()
 
 
@@ -105,6 +131,8 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.config = config
         self.threadpool = QThreadPool()
+        self.time_since_update = 0
+        self.ui.last_update_label.setText("Never")
 
         self.cpu_view = QGraphicsView()
         self.cpu_view.setAlignment(Qt.AlignRight | Qt.AlignBottom)
@@ -187,6 +215,7 @@ class MainWindow(QMainWindow):
             self.networker.moveToThread(self.statsthread)
             self.statsthread.started.connect(self.networker.run)
             self.networker.progress_signal.connect(self.hsm_statistics)
+            self.networker.exception_signal.connect(self.hsm_statistics_error)
             self.statsthread.start()
 
         def ping_hsm_result():
@@ -204,7 +233,8 @@ class MainWindow(QMainWindow):
         def set_masterpw():
             master_pw = self.ui.overview_masterpw_field.text()
             if master_pw == "":
-                self.ui.responselabel2.setText("Please enter the master password.")
+                self.ui.overview_responselabel.setText("Please enter the master password.")
+                self.ui.overview_responselabel.setStyleSheet("background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                 self.response_label_2_animation.start()
                 timer = QTimer()
                 timer.singleShot(3000, lambda: self.response_label_2_animation_reverse.start())
@@ -220,6 +250,11 @@ class MainWindow(QMainWindow):
                 self.ui.overview_auth_btn.setIcon(QIcon(":/icons/images/icons/authenticated.png"))
                 self.ui.overview_masterpw_field.setReadOnly(True)
                 self.ui.overview_icon_4.setToolTip("Master password is set. You need to restart to change this.")
+                self.ui.overview_responselabel.setText("Master password set.")
+                self.ui.overview_responselabel.setStyleSheet("background-color: #001010; color: #12B76A; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #12B76A;")
+                self.response_label_2_animation.start()
+                timer = QTimer()
+                timer.singleShot(3000, lambda: self.response_label_2_animation_reverse.start())
 
         # Try to ping the HSM to determine if it is online or not.
         self.ui.auth_area_border.setStyleSheet("border: 1px solid #F04438; border-radius: 10px;")
@@ -298,16 +333,16 @@ class MainWindow(QMainWindow):
         self.response_label_animation_reverse.setEasingCurve(QEasingCurve.OutBounce)
         self.response_label_animation_reverse.finished.connect(lambda: self.updateEverything)
 
-        self.response_label_2_animation = QPropertyAnimation(self.ui.responselabel, b"geometry")
+        self.response_label_2_animation = QPropertyAnimation(self.ui.overview_responselabel, b"geometry")
         self.response_label_2_animation.setDuration(500)
-        self.response_label_2_animation.setStartValue(QRect(290, 471, 351, 0))
-        self.response_label_2_animation.setEndValue(QRect(290, 400, 351, 41))
+        self.response_label_2_animation.setStartValue(QRect(0, 471, 351, 0))
+        self.response_label_2_animation.setEndValue(QRect(0, 400, 351, 41))
         self.response_label_2_animation.setEasingCurve(QEasingCurve.InBounce)
 
-        self.response_label_2_animation_reverse = QPropertyAnimation(self.ui.responselabel, b"geometry")
+        self.response_label_2_animation_reverse = QPropertyAnimation(self.ui.overview_responselabel, b"geometry")
         self.response_label_2_animation_reverse.setDuration(500)
-        self.response_label_2_animation_reverse.setStartValue(QRect(290, 400, 351, 41))
-        self.response_label_2_animation_reverse.setEndValue(QRect(290, 471, 351, 0))
+        self.response_label_2_animation_reverse.setStartValue(QRect(0, 400, 351, 41))
+        self.response_label_2_animation_reverse.setEndValue(QRect(0, 471, 351, 0))
         self.response_label_2_animation_reverse.setEasingCurve(QEasingCurve.OutBounce)
         self.response_label_2_animation_reverse.finished.connect(lambda: self.updateEverything)
 
@@ -633,7 +668,22 @@ class MainWindow(QMainWindow):
         QApplication.processEvents()
 
     def hsm_statistics(self, statistics):
+        if self.ui.overview_auth_label.text() == "Offline":
+            self.ui.overview_auth_label.setText("Online")
+            self.ui.overview_auth_label.setStyleSheet("font: 700 10pt \"Inter Medium\"; color: #12B76A;")
+            self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/authenticated.png"))
+            self.ui.overview_auth_icon.setToolTip("HSM is online.")
         try:
+            if statistics == "b''":
+                self.hsm_statistics_error("No statistics received.")
+                return
+            self.time_since_update = 0
+            # Get time now in DD/MM/YYYY HH:MM:SS format
+            now = datetime.now()
+            current_time = now.strftime("%d/%m/%Y %H:%M:%S")
+            self.last_updated = now
+            self.update_time = f"{self.time_since_update} seconds ago ({current_time})"
+            self.ui.last_update_label.setText(self.update_time)
             statistics_array = statistics.replace("polaris://", "").split("/")
             cpu_statistics = statistics_array[0]
             cpu_percent = float(cpu_statistics.split(":")[1])
@@ -641,13 +691,16 @@ class MainWindow(QMainWindow):
             gpu_percent = float(gpu_statistics.split(":")[1])
             ram_statistics = statistics_array[2]
             ram_percent = float(ram_statistics.split(":")[1])
+            disk_statistics = statistics_array[3].replace("'", "")
+            disk_percent = float(disk_statistics.split(":")[1])
             current_cpu = str(int(cpu_percent)) + "%"
             current_gpu = str(int(gpu_percent)) + "%"
             current_ram = str(int(ram_percent)) + "%"
+            current_disk = str(int(disk_percent)) + "%"
             self.ui.overview_cpu_current.setText(current_cpu)
             self.ui.overview_gpu_current.setText(current_gpu)
             self.ui.overview_ram_current.setText(current_ram)
-            print(f"CPU: {cpu_percent}, GPU: {gpu_percent}, RAM: {ram_percent}")
+            self.ui.overview_disk_current.setText(current_disk)
             cpu_x = len(self.cpu_scene.items()) * 5
             gpu_x = len(self.gpu_scene.items()) * 5
             ram_x = len(self.ram_scene.items()) * 5
@@ -699,24 +752,39 @@ class MainWindow(QMainWindow):
                 cpu_bar.setBrush(QColor("#9e77ed"))
                 self.cpu_scene.addItem(cpu_bar)
                 self.cpu_scene.update(self.cpu_scene.sceneRect())
-                print(f"Bar added at x: {cpu_x}, height: {cpu_bar_height}")
 
                 gpu_bar = QGraphicsRectItem(gpu_x, self.gpu_view.height() - gpu_bar_height, 5, gpu_bar_height)
                 gpu_bar.setBrush(QColor("#9e77ed"))
                 self.gpu_scene.addItem(gpu_bar)
                 self.gpu_scene.update(self.gpu_scene.sceneRect())
-                print(f"Bar added at x: {gpu_x}, height: {gpu_bar_height}")
 
                 ram_bar = QGraphicsRectItem(ram_x, self.ram_view.height() - ram_bar_height, 5, ram_bar_height)
                 ram_bar.setBrush(QColor("#9e77ed"))
                 self.ram_scene.addItem(ram_bar)
                 self.ram_scene.update(self.ram_scene.sceneRect())
-                print(f"Bar added at x: {ram_x}, height: {ram_bar_height}")
+
+                self.ui.disk_progress_bar.setValue(int(disk_percent))
 
             except Exception as e:
                 print(e)
         except TimeoutError:
             print("Timeout error occurred.")
+
+    def hsm_statistics_error(self, error):
+        self.ui.overview_auth_label.setText("Offline")
+        self.ui.overview_auth_label.setStyleSheet("font: 700 10pt \"Inter Medium\"; color: #e51328;")
+        self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/unauthenticated.png"))
+        self.ui.overview_auth_icon.setToolTip("HSM is offline.")
+        self.time_since_update += 1
+        if hasattr(self, "last_updated"):
+            now = datetime.now()
+            # Seconds between now and self.last_updated will be the self.time_since_update
+            self.time_since_update = (now - self.last_updated).seconds
+            self.update_time = f"{self.time_since_update} seconds ago ({self.last_updated.strftime('%d/%m/%Y %H:%M:%S')})"
+        else:
+            self.update_time = f"Never"
+        self.ui.last_update_label.setText(self.update_time)
+        print(f"Error occurred: {error}")
 
     def setup_finished(self, response):
         def overview_transition():
@@ -724,21 +792,18 @@ class MainWindow(QMainWindow):
             self.ui.hsmpages.setCurrentWidget(self.ui.overview)
             self.ui.overview_hsm_name.setText(self.config["configuration"][0]["name"])
             self.ui.overview_mid.setText(self.__machine_identifier)
-            self.ui.overview_auth_label.setText("Online")
-            self.ui.overview_auth_label.setStyleSheet("font: 700 10pt \"Inter Medium\"; color: #12B76A;")
-            self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/authenticated.png"))
-            self.ui.overview_auth_icon.setToolTip("HSM is online.")
             self.networker = NetworkWorker(self.config["configuration"][0]["ip"])
             self.statsthread = QThread()
             self.networker.moveToThread(self.statsthread)
             self.statsthread.started.connect(self.networker.run)
             self.networker.progress_signal.connect(self.hsm_statistics)
+            self.networker.exception_signal.connect(self.hsm_statistics_error)
             self.statsthread.start()
 
         if response == "polaris://mid:success":
             self.ui.responselabel.setText("HSM setup successful.")
             self.ui.responselabel.setStyleSheet(
-                "background-color: #001010; color: #00ff00; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #00ff00;")
+                "background-color: #001010; color: #12B76A; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #12B76A;")
             self.stopAnimations()
             self.response_label_animation.start()
             if "configuration" not in self.config:
