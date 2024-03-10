@@ -9,10 +9,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Pip, nuitka, imageio, patchelf, and ccache
+          name: Install Pip, nuitka, imageio, patchelf, pyside6 and ccache
           command: |
             brew install python3
-            python3 -m pip install nuitka zstandard ordered-set imageio
+            python3 -m pip install nuitka zstandard ordered-set imageio pyside6 psutil requests cryptography
             brew install patchelf ccache
       - run:
           name: Run custom nuitka command
