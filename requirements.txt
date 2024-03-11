@@ -1,0 +1,4 @@
+psutil
+pyside6
+cryptography
+hashlib
