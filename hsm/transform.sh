@@ -122,7 +122,7 @@ install_pip_packages() {
   print_yellow "Installing the required pip packages..."
   sleep 1
   pip3 install --upgrade pip
-  pip3 install --upgrade cryptography psutil
+  pip3 install --upgrade cryptography psutil pycryptodome twofish rsa
   print_success "All required pip packages are installed."
 }
 
@@ -154,6 +154,18 @@ download_polaris_driver() {
   fi
   # Download the Polaris driver
   print_yellow "Downloading the Polaris driver..."
+  # Check if this is an ARM64 machine or x86_64
+  if [ "$(uname -m)" == "aarch64" ]; then
+    # ARM64
+    wget -q https://cdn.ameasere.com/polaris/driver-arm64.zip -O driver-arm64.zip
+    unzip -q driver-arm64.zip -d polaris_driver
+    rm driver-arm64.zip
+  else
+    # x86_64
+    wget -q https://cdn.ameasere.com/polaris/driver-x86.zip -O driver-x86.zip
+    unzip -q driver-x86.zip -d polaris_driver
+    rm driver.zip
+  fi
   sleep 1
   # Download the driver from the GitHub repository
   wget -q https://cdn.ameasere.com/polaris/driver.zip -O driver.zip

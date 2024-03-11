@@ -7,6 +7,8 @@
     <file>images/Polaris.png</file>
   </qresource>
   <qresource prefix="icons">
+    <file>images/icons/send.png</file>
+    <file>images/icons/arrow-left.png</file>
     <file>images/icons/ram.png</file>
     <file>images/icons/gpu.png</file>
     <file>images/icons/lock.png</file>

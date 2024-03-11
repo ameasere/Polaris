@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QLineEdit,
-    QMainWindow, QProgressBar, QPushButton, QSizePolicy,
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
+    QLabel, QLineEdit, QMainWindow, QPlainTextEdit,
+    QProgressBar, QPushButton, QScrollArea, QSizePolicy,
     QStackedWidget, QVBoxLayout, QWidget)
 from .resources_rc import *
 
@@ -1459,9 +1460,182 @@ class Ui_MainWindow(object):
         self.pages.addWidget(self.hsmlist)
         self.configurator = QWidget()
         self.configurator.setObjectName(u"configurator")
+        self.addhsmtitle_2 = QLabel(self.configurator)
+        self.addhsmtitle_2.setObjectName(u"addhsmtitle_2")
+        self.addhsmtitle_2.setGeometry(QRect(0, 90, 931, 51))
+        self.addhsmtitle_2.setStyleSheet(u"font: 600 16pt \"Inter Medium\";")
+        self.addhsmtitle_2.setAlignment(Qt.AlignCenter)
+        self.addhsmtitle_3 = QLabel(self.configurator)
+        self.addhsmtitle_3.setObjectName(u"addhsmtitle_3")
+        self.addhsmtitle_3.setGeometry(QRect(0, 160, 931, 51))
+        self.addhsmtitle_3.setStyleSheet(u"font: 600 14pt \"Inter Medium\";\n"
+"color: #9e77ed;")
+        self.addhsmtitle_3.setAlignment(Qt.AlignCenter)
+        self.addhsmtitle_3.setWordWrap(True)
+        self.btn_earlybird = QPushButton(self.configurator)
+        self.btn_earlybird.setObjectName(u"btn_earlybird")
+        self.btn_earlybird.setGeometry(QRect(370, 250, 181, 41))
+        self.btn_earlybird.setMinimumSize(QSize(120, 15))
+        self.btn_earlybird.setFont(font)
+        self.btn_earlybird.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_earlybird.setStyleSheet(u"#btn_earlybird {\n"
+"background-color: rgba(222, 222, 222, 50);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_earlybird:hover {\n"
+"background-color: rgba(222, 222, 222, 90);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}\n"
+"#btn_earlybird:pressed {\n"
+"background-color: rgba(222, 222, 222, 150);\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"text-align: center;\n"
+"border: 1px solid rgba(255, 255, 255, 150);\n"
+"border-radius: 5px;\n"
+"}")
+        icon5 = QIcon()
+        icon5.addFile(u":/icons/images/icons/arrow-left.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.btn_earlybird.setIcon(icon5)
         self.pages.addWidget(self.configurator)
         self.controlpanel = QWidget()
         self.controlpanel.setObjectName(u"controlpanel")
+        self.send_sa = QScrollArea(self.controlpanel)
+        self.send_sa.setObjectName(u"send_sa")
+        self.send_sa.setGeometry(QRect(410, 200, 501, 221))
+        self.send_sa.setStyleSheet(u" QScrollBar:vertical {\n"
+"    background: rgb(52, 59, 72);\n"
+" }\n"
+" QScrollBar:horizontal {\n"
+"    background: rgb(52, 59, 72);\n"
+" }")
+        self.send_sa.setFrameShape(QFrame.NoFrame)
+        self.send_sa.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.send_sa.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.send_sa.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 493, 221))
+        self.scrollAreaWidgetContents.setStyleSheet(u" QScrollBar:vertical {\n"
+"	border: none;\n"
+"    background: rgb(52, 59, 72);\n"
+"    width: 14px;\n"
+"    margin: 21px 0 21px 0;\n"
+"	border-radius: 0px;\n"
+" }")
+        self.horizontalLayout_11 = QHBoxLayout(self.scrollAreaWidgetContents)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.response_pte = QPlainTextEdit(self.scrollAreaWidgetContents)
+        self.response_pte.setObjectName(u"response_pte")
+        self.response_pte.setMinimumSize(QSize(200, 200))
+        self.response_pte.setStyleSheet(u"background-color: rgb(33, 37, 43);\n"
+"font: 600 10pt \"Inter Medium\";")
+        self.response_pte.setReadOnly(True)
+
+        self.horizontalLayout_11.addWidget(self.response_pte)
+
+        self.send_sa.setWidget(self.scrollAreaWidgetContents)
+        self.hsmnamelabel_2 = QLabel(self.controlpanel)
+        self.hsmnamelabel_2.setObjectName(u"hsmnamelabel_2")
+        self.hsmnamelabel_2.setGeometry(QRect(420, 180, 261, 21))
+        self.hsmnamelabel_2.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.response_sa_2 = QScrollArea(self.controlpanel)
+        self.response_sa_2.setObjectName(u"response_sa_2")
+        self.response_sa_2.setGeometry(QRect(410, 60, 501, 101))
+        self.response_sa_2.setStyleSheet(u" QScrollBar:vertical {\n"
+"    background: rgb(52, 59, 72);\n"
+" }\n"
+" QScrollBar:horizontal {\n"
+"    background: rgb(52, 59, 72);\n"
+" }")
+        self.response_sa_2.setFrameShape(QFrame.NoFrame)
+        self.response_sa_2.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.response_sa_2.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.response_sa_2.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_2 = QWidget()
+        self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 493, 108))
+        self.scrollAreaWidgetContents_2.setStyleSheet(u" QScrollBar:vertical {\n"
+"	border: none;\n"
+"    background: rgb(52, 59, 72);\n"
+"    width: 14px;\n"
+"    margin: 21px 0 21px 0;\n"
+"	border-radius: 0px;\n"
+" }")
+        self.horizontalLayout_12 = QHBoxLayout(self.scrollAreaWidgetContents_2)
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.send_pte = QPlainTextEdit(self.scrollAreaWidgetContents_2)
+        self.send_pte.setObjectName(u"send_pte")
+        self.send_pte.setMinimumSize(QSize(200, 90))
+        self.send_pte.setStyleSheet(u"background-color: rgb(33, 37, 43);\n"
+"font: 600 10pt \"Inter Medium\";")
+        self.send_pte.setReadOnly(False)
+
+        self.horizontalLayout_12.addWidget(self.send_pte)
+
+        self.response_sa_2.setWidget(self.scrollAreaWidgetContents_2)
+        self.hsmnamelabel_3 = QLabel(self.controlpanel)
+        self.hsmnamelabel_3.setObjectName(u"hsmnamelabel_3")
+        self.hsmnamelabel_3.setGeometry(QRect(420, 40, 261, 21))
+        self.hsmnamelabel_3.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.category_dd = QComboBox(self.controlpanel)
+        self.category_dd.addItem("")
+        self.category_dd.addItem("")
+        self.category_dd.addItem("")
+        self.category_dd.setObjectName(u"category_dd")
+        self.category_dd.setGeometry(QRect(10, 70, 186, 33))
+        self.category_dd.setFont(font2)
+        self.category_dd.setAutoFillBackground(False)
+        self.category_dd.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.category_dd.setIconSize(QSize(16, 16))
+        self.category_dd.setFrame(True)
+        self.hsmnamelabel_4 = QLabel(self.controlpanel)
+        self.hsmnamelabel_4.setObjectName(u"hsmnamelabel_4")
+        self.hsmnamelabel_4.setGeometry(QRect(10, 40, 181, 21))
+        self.hsmnamelabel_4.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.hsmnamelabel_5 = QLabel(self.controlpanel)
+        self.hsmnamelabel_5.setObjectName(u"hsmnamelabel_5")
+        self.hsmnamelabel_5.setGeometry(QRect(10, 130, 181, 21))
+        self.hsmnamelabel_5.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.algorithm_dd = QComboBox(self.controlpanel)
+        self.algorithm_dd.setObjectName(u"algorithm_dd")
+        self.algorithm_dd.setGeometry(QRect(10, 160, 186, 33))
+        self.algorithm_dd.setFont(font2)
+        self.algorithm_dd.setAutoFillBackground(False)
+        self.algorithm_dd.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.algorithm_dd.setIconSize(QSize(16, 16))
+        self.algorithm_dd.setFrame(True)
+        self.btn_sendcommand = QPushButton(self.controlpanel)
+        self.btn_sendcommand.setObjectName(u"btn_sendcommand")
+        self.btn_sendcommand.setGeometry(QRect(10, 220, 186, 30))
+        self.btn_sendcommand.setMinimumSize(QSize(150, 30))
+        self.btn_sendcommand.setFont(font)
+        self.btn_sendcommand.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_sendcommand.setStyleSheet(u"QPushButton {\n"
+"background-color: #9e77ed;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"border-radius: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"	background-color: rgb(168, 128, 255);\n"
+"	border-radius: 4px;\n"
+"}\n"
+"QPushButton:pressed {	\n"
+"	background-color: rgb(255, 243, 239);\n"
+"	font: 600 10pt \"Inter Medium\";\n"
+"	icon: url(:/icons/images/icons/log-in_purple.png);\n"
+"	color: #9e77ed;\n"
+"	border-radius: 5px;\n"
+"}\n"
+"")
+        icon6 = QIcon()
+        icon6.addFile(u":/icons/images/icons/send.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.btn_sendcommand.setIcon(icon6)
         self.pages.addWidget(self.controlpanel)
         self.dragBar = QFrame(self.bgApp)
         self.dragBar.setObjectName(u"dragBar")
@@ -1613,7 +1787,7 @@ class Ui_MainWindow(object):
 
         self.btn_minimize.setDefault(False)
         self.btn_website.setDefault(False)
-        self.pages.setCurrentIndex(0)
+        self.pages.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1706,6 +1880,20 @@ class Ui_MainWindow(object):
         self.overview_ram_4.setText(QCoreApplication.translate("MainWindow", u"Disk", None))
         self.last_update_label.setText(QCoreApplication.translate("MainWindow", u"[Placeholder]", None))
         self.last_update_label_2.setText(QCoreApplication.translate("MainWindow", u"Last update:", None))
+        self.addhsmtitle_2.setText(QCoreApplication.translate("MainWindow", u"You're an early bird!", None))
+        self.addhsmtitle_3.setText(QCoreApplication.translate("MainWindow", u"This panel is not ready yet. We want you to experience the best of Polaris, so this panel will be available to you once it is developed and tested enough to not cause disruption or headache for you!", None))
+        self.btn_earlybird.setText(QCoreApplication.translate("MainWindow", u"Return to Overview", None))
+        self.response_pte.setPlaceholderText(QCoreApplication.translate("MainWindow", u"The server will respond here...", None))
+        self.hsmnamelabel_2.setText(QCoreApplication.translate("MainWindow", u"Response", None))
+        self.send_pte.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter your data here...", None))
+        self.hsmnamelabel_3.setText(QCoreApplication.translate("MainWindow", u"Your input", None))
+        self.category_dd.setItemText(0, QCoreApplication.translate("MainWindow", u"Hashing", None))
+        self.category_dd.setItemText(1, QCoreApplication.translate("MainWindow", u"Encryption", None))
+        self.category_dd.setItemText(2, QCoreApplication.translate("MainWindow", u"Generators", None))
+
+        self.hsmnamelabel_4.setText(QCoreApplication.translate("MainWindow", u"Category", None))
+        self.hsmnamelabel_5.setText(QCoreApplication.translate("MainWindow", u"Algorithm", None))
+        self.btn_sendcommand.setText(QCoreApplication.translate("MainWindow", u" Send", None))
         self.logo.setText("")
         self.btn_hsmlist.setText(QCoreApplication.translate("MainWindow", u"Overview", None))
         self.hsmlist_bg.setText("")

@@ -66,6 +66,27 @@ class Worker(QRunnable):
             self.signals.finished.emit()  # Done
 
 
+class HSMConnector(QObject):
+    finished = Signal(str)
+    exception_signal = Signal(str)
+
+    def __init__(self, ip, machine_identifier, master_password, username, action_string):
+        super().__init__()
+        self.ip = ip
+        self.machine_identifier = machine_identifier
+        self.master_password = master_password
+        self.username = username
+        self.action_string = action_string
+
+    def run(self):
+        try:
+            response = connect_to_hsm_post_setup(self.ip, self.machine_identifier, self.master_password, self.username, self.action_string)
+            self.finished.emit(response)
+        except Exception as e:
+            print(repr(e))
+            self.exception_signal.emit(str(e))
+
+
 class NetworkWorker(QObject):
     finished = Signal()
     progress_signal = Signal(str)
@@ -195,6 +216,11 @@ class MainWindow(QMainWindow):
         self.shadow.setYOffset(0)
         self.shadow.setColor(QColor(0, 0, 0, 150))
         self.ui.bgApp.setGraphicsEffect(self.shadow)
+
+        self.btn_controlpanel_disabled = "I2J0bl9jb250cm9scGFuZWwgewpiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDsKZm9udDogNjAwIDEwcHQgIkludGVyIE1lZGl1bSI7CnRleHQtYWxpZ246IGNlbnRlcjsKY29sb3I6ICNmZmY7CmJvcmRlcjogc29saWQ7CmJvcmRlci1ib3R0b206IDJweCBzb2xpZCByZ2IoMTc2LCAxNzYsIDE3Nik7Cn0KI2J0bl9jb250cm9scGFuZWw6aG92ZXIgewpiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDsKZm9udDogNjAwIDEwcHQgIkludGVyIE1lZGl1bSI7CnRleHQtYWxpZ246IGNlbnRlcjsKY29sb3I6ICNmZmY7CmJvcmRlcjogc29saWQ7CmJvcmRlci1ib3R0b206IDJweCBzb2xpZCByZ2IoMTc2LCAxNzYsIDE3Nik7Cn0KI2J0bl9jb250cm9scGFuZWw6cHJlc3NlZCB7CmJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50Owpmb250OiA2MDAgMTBwdCAiSW50ZXIgTWVkaXVtIjsKdGV4dC1hbGlnbjogY2VudGVyOwpjb2xvcjogIzllNzdlZDsKYm9yZGVyOiBzb2xpZDsKYm9yZGVyLWJvdHRvbTogMnB4IHNvbGlkIHJnYigxNzYsIDE3NiwgMTc2KTsKfQ=="
+        self.btn_configurator_disabled = "I2J0bl9jb25maWd1cmF0b3J7CmJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50Owpmb250OiA2MDAgMTBwdCAiSW50ZXIgTWVkaXVtIjsKdGV4dC1hbGlnbjogY2VudGVyOwpjb2xvcjogI2ZmZjsKYm9yZGVyOiBzb2xpZDsKYm9yZGVyLWJvdHRvbTogMnB4IHNvbGlkIHJnYigxNzYsIDE3NiwgMTc2KTsKfQojYnRuX2NvbmZpZ3VyYXRvcjpob3ZlciB7CmJhY2tncm91bmQtY29sb3I6IHRyYW5zcGFyZW50Owpmb250OiA2MDAgMTBwdCAiSW50ZXIgTWVkaXVtIjsKdGV4dC1hbGlnbjogY2VudGVyOwpjb2xvcjogI2ZmZjsKYm9yZGVyOiBzb2xpZDsKYm9yZGVyLWJvdHRvbTogMnB4IHNvbGlkIHJnYigxNzYsIDE3NiwgMTc2KTsKfQojYnRuX2NvbmZpZ3VyYXRvcjpwcmVzc2VkIHsKYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CmZvbnQ6IDYwMCAxMHB0ICJJbnRlciBNZWRpdW0iOwp0ZXh0LWFsaWduOiBjZW50ZXI7CmNvbG9yOiAjOWU3N2VkOwpib3JkZXI6IHNvbGlkOwpib3JkZXItYm90dG9tOiAycHggc29saWQgcmdiKDE3NiwgMTc2LCAxNzYpOwp9"
+        self.btn_controlpanel_enabled = "I2J0bl9jb250cm9scGFuZWwgewpiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDsKZm9udDogNjAwIDEwcHQgIkludGVyIE1lZGl1bSI7CnRleHQtYWxpZ246IGNlbnRlcjsKY29sb3I6ICNmZmY7CmJvcmRlcjogc29saWQ7CmJvcmRlci1ib3R0b206IDJweCBzb2xpZCAjOWU3N2VkOwp9CiNidG5fY29udHJvbHBhbmVsOmhvdmVyIHsKYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CmZvbnQ6IDYwMCAxMHB0ICJJbnRlciBNZWRpdW0iOwp0ZXh0LWFsaWduOiBjZW50ZXI7CmNvbG9yOiAjZmZmOwpib3JkZXI6IHNvbGlkOwpib3JkZXItYm90dG9tOiAycHggc29saWQgIzllNzdlZDsKfQojYnRuX2NvbnRyb2xwYW5lbDpwcmVzc2VkIHsKYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CmZvbnQ6IDYwMCAxMHB0ICJJbnRlciBNZWRpdW0iOwp0ZXh0LWFsaWduOiBjZW50ZXI7CmNvbG9yOiAjOWU3N2VkOwpib3JkZXI6IHNvbGlkOwpib3JkZXItYm90dG9tOiAycHggc29saWQgIzllNzdlZDsKfQ=="
+        self.btn_configurator_enabled = "I2J0bl9jb25maWd1cmF0b3IgewpiYWNrZ3JvdW5kLWNvbG9yOiB0cmFuc3BhcmVudDsKZm9udDogNjAwIDEwcHQgIkludGVyIE1lZGl1bSI7CnRleHQtYWxpZ246IGNlbnRlcjsKY29sb3I6ICNmZmY7CmJvcmRlcjogc29saWQ7CmJvcmRlci1ib3R0b206IDJweCBzb2xpZCAjOWU3N2VkOwp9CiNidG5fY29uZmlndXJhdG9yOmhvdmVyIHsKYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CmZvbnQ6IDYwMCAxMHB0ICJJbnRlciBNZWRpdW0iOwp0ZXh0LWFsaWduOiBjZW50ZXI7CmNvbG9yOiAjZmZmOwpib3JkZXI6IHNvbGlkOwpib3JkZXItYm90dG9tOiAycHggc29saWQgIzllNzdlZDsKfQojYnRuX2NvbmZpZ3VyYXRvcjpwcmVzc2VkIHsKYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7CmZvbnQ6IDYwMCAxMHB0ICJJbnRlciBNZWRpdW0iOwp0ZXh0LWFsaWduOiBjZW50ZXI7CmNvbG9yOiAjOWU3N2VkOwpib3JkZXI6IHNvbGlkOwpib3JkZXItYm90dG9tOiAycHggc29saWQgIzllNzdlZDsKfQ=="
         # APP NAME
         # ///////////////////////////////////////////////////////////////
         title = "Polaris"
@@ -206,6 +232,13 @@ class MainWindow(QMainWindow):
         if "configuration" not in self.config or len(self.config["configuration"]) == 0:
             self.ui.pages.setCurrentWidget(self.ui.hsmlist)
             self.ui.hsmpages.setCurrentWidget(self.ui.addfirst)
+
+            self.ui.configurator_bg.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.511364, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(132, 132, 132, 255))")
+            self.ui.controlpanel_bg.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.511364, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(132, 132, 132, 255))")
+            self.ui.btn_controlpanel.setStyleSheet(base64.b64decode(self.btn_controlpanel_disabled).decode("utf-8"))
+            self.ui.btn_configurator.setStyleSheet(base64.b64decode(self.btn_configurator_disabled).decode("utf-8"))
+            self.ui.btn_controlpanel.setEnabled(False)
+            self.ui.btn_configurator.setEnabled(False)
         else:
             self.ui.pages.setCurrentWidget(self.ui.hsmlist)
             self.ui.overview_hsm_name.setText(self.config["configuration"][0]["name"])
@@ -234,7 +267,8 @@ class MainWindow(QMainWindow):
             master_pw = self.ui.overview_masterpw_field.text()
             if master_pw == "":
                 self.ui.overview_responselabel.setText("Please enter the master password.")
-                self.ui.overview_responselabel.setStyleSheet("background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
+                self.ui.overview_responselabel.setStyleSheet(
+                    "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                 self.response_label_2_animation.start()
                 timer = QTimer()
                 timer.singleShot(3000, lambda: self.response_label_2_animation_reverse.start())
@@ -251,7 +285,8 @@ class MainWindow(QMainWindow):
                 self.ui.overview_masterpw_field.setReadOnly(True)
                 self.ui.overview_icon_4.setToolTip("Master password is set. You need to restart to change this.")
                 self.ui.overview_responselabel.setText("Master password set.")
-                self.ui.overview_responselabel.setStyleSheet("background-color: #001010; color: #12B76A; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #12B76A;")
+                self.ui.overview_responselabel.setStyleSheet(
+                    "background-color: #001010; color: #12B76A; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #12B76A;")
                 self.response_label_2_animation.start()
                 timer = QTimer()
                 timer.singleShot(3000, lambda: self.response_label_2_animation_reverse.start())
@@ -267,6 +302,28 @@ class MainWindow(QMainWindow):
             worker.signals.error.connect(ping_hsm_error)
 
         self.ui.overview_auth_btn.clicked.connect(set_masterpw)
+        self.ui.btn_hsmlist.clicked.connect(self.buttonClick)
+        self.ui.btn_sendcommand.clicked.connect(self.buttonClick)
+
+        self.ui.algorithm_dd.addItems([algorithm for algorithm in hashlib.algorithms_available])
+        # Sort items into alphabetical order
+        self.ui.algorithm_dd.model().sort(0)
+
+        def category_dd_changed():
+            if self.ui.category_dd.currentText() == "Hashing":
+                self.ui.algorithm_dd.clear()
+                self.ui.algorithm_dd.addItems([algorithm for algorithm in hashlib.algorithms_available])
+                # Sort items into alphabetical order
+                self.ui.algorithm_dd.model().sort(0)
+            elif self.ui.category_dd.currentText() == "Encryption":
+                self.ui.algorithm_dd.clear()
+                self.ui.algorithm_dd.addItems(["AES", "RSA", "DES", "3DES", "Blowfish", "Twofish"])
+            elif self.ui.category_dd.currentText() == "Generators":
+                self.ui.algorithm_dd.clear()
+                self.ui.algorithm_dd.addItems(["UUID4", "Random", "RandomString", "RandomNumber"])
+
+        self.ui.category_dd.currentIndexChanged.connect(category_dd_changed)
+        self.ui.category_dd.setCurrentIndex(0)
 
         self.ui.ctx_btns.hide()
         for child in self.ui.ctx_btns.children():
@@ -385,17 +442,29 @@ class MainWindow(QMainWindow):
                 self.addfirstshadow.setYOffset(0)
                 self.addfirstshadow.setColor(QColor(255, 255, 255, 150))
                 self.ui.btn_addfirsthsm.setGraphicsEffect(self.addfirstshadow)
+            elif self.ui.btn_earlybird.graphicsEffect() is None:
+                self.earlybirdshadow = QGraphicsDropShadowEffect(self.ui.btn_earlybird)
+                self.earlybirdshadow.setBlurRadius(25)
+                self.earlybirdshadow.setXOffset(0)
+                self.earlybirdshadow.setYOffset(0)
+                self.earlybirdshadow.setColor(QColor(255, 255, 255, 150))
+                self.ui.btn_earlybird.setGraphicsEffect(self.earlybirdshadow)
             else:
                 pass
 
         # Remove once mouse leaves
         def leave_handler(_):
             self.ui.btn_addfirsthsm.setGraphicsEffect(None)
+            self.ui.btn_earlybird.setGraphicsEffect(None)
 
         self.ui.btn_addfirsthsm.enterEvent = enter_handler
         self.ui.btn_addfirsthsm.leaveEvent = leave_handler
 
         # widgets.settingsTopBtn.hide()
+
+        self.ui.btn_earlybird.clicked.connect(self.buttonClick)
+        self.ui.btn_configurator.clicked.connect(self.buttonClick)
+        self.ui.btn_controlpanel.clicked.connect(self.buttonClick)
 
         self.paintEvent(None)
 
@@ -431,9 +500,9 @@ class MainWindow(QMainWindow):
         self.ui.ipaddress.setText(ipaddr)
 
         if "configuration" not in self.config or len(self.config["configuration"]) == 0:
-            self.ui.hsmpages.setCurrentWidget(self.ui.addfirst)
+            self.ui.hsmpages.setCurrentWidget(self.ui.addfirst) # Setup page
         else:
-            self.ui.hsmpages.setCurrentWidget(self.ui.overview)
+            self.ui.hsmpages.setCurrentWidget(self.ui.overview) # Dashboard page
 
         # SHOW APP
         # ///////////////////////////////////////////////////////////////
@@ -596,6 +665,16 @@ class MainWindow(QMainWindow):
                 self.ui.icon_4.setPixmap(QPixmap(":/icons/images/icons/settings_selected.png"))
         elif btnName == "btn_website":
             webbrowser.get().open("https://ameasere.com/polaris")
+        elif btnName == "btn_earlybird":
+            self.ui.pages.setCurrentWidget(self.ui.hsmlist)
+            self.ui.hsmpages.setCurrentWidget(self.ui.overview)
+        elif btnName == "btn_controlpanel":
+            self.ui.pages.setCurrentWidget(self.ui.controlpanel)
+        elif btnName == "btn_configurator":
+            self.ui.pages.setCurrentWidget(self.ui.configurator)
+        elif btnName == "btn_hsmlist":
+            self.ui.pages.setCurrentWidget(self.ui.hsmlist)
+            self.ui.hsmpages.setCurrentWidget(self.ui.overview)
         elif btnName == "btn_addfirsthsm":
             self.ui.hsmpages.setCurrentWidget(self.ui.hsmdetails)
             self.hsm_name_animation.start()
@@ -618,6 +697,36 @@ class MainWindow(QMainWindow):
             self.hsm_uuid_animation.finished.connect(lambda: self.ui.hsm_uuid.setGraphicsEffect(None))
             self.hsm_ipaddress_animation.finished.connect(lambda: self.ui.hsm_ip.setGraphicsEffect(None))
             self.hsm_uuid_animation.finished.connect(lambda: self.updateWindow)
+
+        elif btnName == "btn_sendcommand":
+            if self.ui.send_pte.toPlainText() == "" and (self.ui.algorithm_dd.currentText() != "RSA" and self.ui.category_dd.currentText() != "Generators"):
+                self.ui.response_pte.setPlainText("Please enter an input!")
+                return
+            elif self.__masterpw == "" or self.__masterpw is None:
+                self.ui.response_pte.setPlainText("Please set the master password!")
+                return
+            else:
+                self.ui.response_pte.setPlainText("Processing...")
+                self.ui.response_pte.setStyleSheet("color: #12B76A; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+                self.ui.response_pte.repaint()
+                QApplication.processEvents()
+                action = self.ui.algorithm_dd.currentText().lower()
+                category = self.ui.category_dd.currentText().lower()
+                if action != "rsa" or category != "generators":
+                    user_in = self.ui.send_pte.toPlainText()
+                    action_string = f"polaris://{action}:{user_in}"
+                else:
+                    action_string = f"polaris://{action}"
+                self.connectthread = QThread()
+                self.connector = HSMConnector(self.config["configuration"][0]["ip"], self.config["configuration"][0]["my_uuid"], self.__masterpw, self.config["username"], action_string)
+                self.connector.moveToThread(self.connectthread)
+                self.connectthread.started.connect(self.connector.run)
+                self.connector.finished.connect(self.hsmconnector_progress)
+                self.connector.exception_signal.connect(self.hsmconnector_progress)
+                self.ui.btn_sendcommand.setEnabled(False)
+                self.ui.btn_sendcommand.setStyleSheet("QPushButton {background-color: #b0b0b0;font: 600 10pt \"Inter Medium\";border-radius: 5px;}QPushButton:hover {background-color: #b0b0b0;border-radius: 4px;}QPushButton:pressed {	background-color: #b0b0b0;font: 600 10pt \"Inter Medium\";icon: url(:/icons/images/icons/log-in_purple.png);border-radius: 5px;}")
+                self.connectthread.start()
+
         elif btnName == "add_button":
             def is_valid(hsmip):
                 try:
@@ -648,7 +757,10 @@ class MainWindow(QMainWindow):
                 return
 
             def print_error(etuple):
-                self.ui.responselabel.setText("An error occurred. Please try again.")
+                if etuple[1] == "polaris://mid:failure":
+                    self.ui.responselabel.setText("Please restart the application and try again.")
+                else:
+                    self.ui.responselabel.setText("An error occurred. Please try again.")
                 self.ui.responselabel.setStyleSheet(
                     "background-color: #001010; color: #e51328; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #e51328;")
                 self.stopAnimations()
@@ -662,21 +774,60 @@ class MainWindow(QMainWindow):
             worker.signals.error.connect(print_error)
             self.threadpool.start(worker)
 
+    def hsmconnector_progress(self, response):
+        response = response.replace("polaris://", "")
+        # Replace the action at the start and the : afterwards.
+        action = response.split(":")[0]
+        response = response.replace(response.split(":")[0] + ":", "")
+        if action == "rsa":
+            # Split the data: the data is formatted as [pub]<base64>:[priv]<base64>
+            response = response.split(":")
+            pub = response[0].replace("[pub]", "")
+            priv = response[1].replace("[priv]", "")
+            self.ui.response_pte.setPlainText(f"Public Key: {pub}\n\nPrivate Key: {priv}")
+        else:
+            self.ui.response_pte.setPlainText(response)
+        if "error" in response or "failure" in response:
+            self.ui.response_pte.setStyleSheet("color: #e51328; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+        self.ui.response_pte.setStyleSheet("color: #12B76A; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+        self.ui.btn_sendcommand.setEnabled(True)
+        self.ui.btn_sendcommand.setStyleSheet("QPushButton {background-color: #9e77ed;font: 600 10pt \"Inter Medium\";border-radius: 5px;}QPushButton:hover {background-color: rgb(168, 128, 255);border-radius: 4px;}QPushButton:pressed {	background-color: rgb(255, 243, 239);font: 600 10pt \"Inter Medium\";icon: url(:/icons/images/icons/log-in_purple.png);color: #9e77ed;border-radius: 5px;}")
+        self.ui.response_pte.repaint()
+        QApplication.processEvents()
+        self.connectthread.quit()
+
     def updateWindow(self):
         # Process events in the event loop
         self.repaint()
         QApplication.processEvents()
 
     def hsm_statistics(self, statistics):
-        if self.ui.overview_auth_label.text() == "Offline":
-            self.ui.overview_auth_label.setText("Online")
-            self.ui.overview_auth_label.setStyleSheet("font: 700 10pt \"Inter Medium\"; color: #12B76A;")
-            self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/authenticated.png"))
-            self.ui.overview_auth_icon.setToolTip("HSM is online.")
         try:
             if statistics == "b''":
                 self.hsm_statistics_error("No statistics received.")
+                self.ui.configurator_bg.setStyleSheet(
+                    "background-color: qlineargradient(spread:pad, x1:0.511364, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(132, 132, 132, 255))")
+                self.ui.controlpanel_bg.setStyleSheet(
+                    "background-color: qlineargradient(spread:pad, x1:0.511364, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(132, 132, 132, 255))")
+                self.ui.btn_controlpanel.setStyleSheet(base64.b64decode(self.btn_controlpanel_disabled).decode("utf-8"))
+                self.ui.btn_configurator.setStyleSheet(base64.b64decode(self.btn_configurator_disabled).decode("utf-8"))
+                self.ui.btn_controlpanel.setEnabled(False)
+                self.ui.btn_configurator.setEnabled(False)
+                self.ui.pages.setCurrentWidget(self.ui.hsmlist)
+                self.ui.hsmpages.setCurrentWidget(self.ui.overview)
                 return
+            else:
+                if self.ui.overview_auth_label.text() == "Offline":
+                    self.ui.overview_auth_label.setText("Online")
+                    self.ui.overview_auth_label.setStyleSheet("font: 700 10pt \"Inter Medium\"; color: #12B76A;")
+                    self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/authenticated.png"))
+                    self.ui.overview_auth_icon.setToolTip("HSM is online.")
+                    self.ui.controlpanel_bg.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.494, y1:0, x2:0.494, y2:1, stop:0 rgba(0, 9, 31, 100), stop:1 rgba(157, 122, 222, 80));")
+                    self.ui.configurator_bg.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.494, y1:0, x2:0.494, y2:1, stop:0 rgba(0, 9, 31, 100), stop:1 rgba(157, 122, 222, 80));")
+                    self.ui.btn_controlpanel.setEnabled(True)
+                    self.ui.btn_configurator.setEnabled(True)
+                    self.ui.btn_controlpanel.setStyleSheet(base64.b64decode(self.btn_controlpanel_enabled).decode("utf-8"))
+                    self.ui.btn_configurator.setStyleSheet(base64.b64decode(self.btn_configurator_enabled).decode("utf-8"))
             self.time_since_update = 0
             # Get time now in DD/MM/YYYY HH:MM:SS format
             now = datetime.now()
@@ -776,6 +927,16 @@ class MainWindow(QMainWindow):
         self.ui.overview_auth_icon.setPixmap(QPixmap(":/icons/images/icons/unauthenticated.png"))
         self.ui.overview_auth_icon.setToolTip("HSM is offline.")
         self.time_since_update += 1
+        self.ui.configurator_bg.setStyleSheet(
+            "background-color: qlineargradient(spread:pad, x1:0.511364, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(132, 132, 132, 255))")
+        self.ui.controlpanel_bg.setStyleSheet(
+            "background-color: qlineargradient(spread:pad, x1:0.511364, y1:0, x2:0.5, y2:1, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(132, 132, 132, 255))")
+        self.ui.btn_controlpanel.setStyleSheet(base64.b64decode(self.btn_controlpanel_disabled).decode("utf-8"))
+        self.ui.btn_configurator.setStyleSheet(base64.b64decode(self.btn_configurator_disabled).decode("utf-8"))
+        self.ui.btn_controlpanel.setEnabled(False)
+        self.ui.btn_configurator.setEnabled(False)
+        self.ui.pages.setCurrentWidget(self.ui.hsmlist)
+        self.ui.hsmpages.setCurrentWidget(self.ui.overview)
         if hasattr(self, "last_updated"):
             now = datetime.now()
             # Seconds between now and self.last_updated will be the self.time_since_update

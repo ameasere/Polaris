@@ -5,6 +5,9 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from Crypto.Cipher import DES, DES3, Blowfish
+from twofish import Twofish
+from Crypto.Util.Padding import pad
 import threading
 import os
 import hashlib
@@ -13,7 +16,16 @@ import sqlite3
 import time
 import subprocess
 import psutil
+import base64
+import uuid
+import random
+import string
+import rsa
 from multiprocessing import Pool
+
+valid_hashes = hashlib.algorithms_available
+valid_encryption_decryption_algorithms = ["aes", "rsa", "des", "3des", "blowfish", "twofish"]
+valid_secret_generators = ["uuid4", "random", "randomstring", "randomnumber"]
 
 
 def check_if_db_exists():
@@ -101,16 +113,111 @@ def decrypt_data(key, ciphertext):
 
 
 def protocol(data):
-    pass
+    # Check if the data fits the protocol. If it does, return True. Otherwise, return False.
+    """
+    1) The data must start with polaris://
+    2) Data must be in the form of <action>:<data>
+    3) The action must be a valid hash, encryption algorithm or secret generator.
+    4) The final 3 values should be the machine identifier, the master password and the username.
+    """
+    if not data.startswith("polaris://"):
+        return False
+
+    data = data[10:]
+    data = data.split("/")
+
+    if len(data) != 4:
+        print(f"[{time.ctime()}] Invalid data received: {data} | Does not have the correct number of elements.")
+        return False
+
+    # Replace the data[0] element with the lower of itself
+    action = data[0].lower().split(":")[0]
+    mid = data[1].split(":")[1]
+    mp = data[2].split(":")[1]
+    username = data[3].split(":")[1]
+
+    if data[1].split(":")[0] != "mid" or data[2].split(":")[0] != "mp" or data[3].split(":")[0] != "username":
+        print(f"[{time.ctime()}] Invalid data received: {data} | One or more elements are not in the correct format.")
+        return False
+
+    elif mid == "" or mp == "" or username == "":
+        print(f"[{time.ctime()}] Invalid data received: {data} | One or more elements are empty.")
+        return False
+
+    elif action in valid_hashes or action in valid_encryption_decryption_algorithms or action in valid_secret_generators:
+        print(f"[{time.ctime()}] Valid data received: {data}")
+        return True
+    return False
 
 
-def protocol_handler(data, client_socket, shared_key):
-    pass
+def protocol_handler(data, shared_key):
+    data = data[10:]
+    data = data.split(":")
+    data[0] = data[0].lower()
+    print(f"[{time.ctime()}] Protocol handler received: {data}")
+    if data[0] in valid_hashes:
+        h = hashlib.new(data[0])
+        h.update(data[1].encode())
+        data = "polaris://" + data[0] + ":" + h.hexdigest()
+        return data
+    elif data[0] in valid_encryption_decryption_algorithms:
+        if data[0] == "aes":
+            cipher = AESGCM(shared_key)
+            nonce = os.urandom(12)
+            ciphertext = cipher.encrypt(nonce, data[1].encode(), None)
+            ciphertext_base64 = base64.b64encode(ciphertext).decode()
+            nonce_base64 = base64.b64encode(nonce).decode()
+            data = "polaris://" + data[0] + ":" + nonce_base64 + ":" + ciphertext_base64
+            return data
+        elif data[0] == "rsa":
+            print(f"[{time.ctime()}] Generating RSA key pair, this may take a while...")
+            (pub, priv) = rsa.newkeys(2048) # Poolsize omitted, daemonic process not allowed. THIS IS A FUTURE TODO!
+            print(f"[{time.ctime()}] RSA key pair generated.")
+            pub = base64.b64encode(pub.save_pkcs1()).decode()
+            priv = base64.b64encode(priv.save_pkcs1()).decode()
+            data = "polaris://" + data[0] + ":[pub]" + pub + ":[priv]" + priv
+            return data
+        elif data[0] == "des":
+            cipher = DES.new(shared_key[:8], DES.MODE_ECB)
+            data = "polaris://" + data[0] + ":" + base64.b64encode(cipher.encrypt(pad(data[1].encode(), 8))).decode()
+            return data
+        elif data[0] == "3des":
+            cipher = DES3.new(shared_key[:24], DES3.MODE_ECB)
+            data = "polaris://" + data[0] + ":" + base64.b64encode(cipher.encrypt(pad(data[1].encode(), 8))).decode()
+            return data
+        elif data[0] == "blowfish":
+            cipher = Blowfish.new(shared_key[:16], Blowfish.MODE_ECB)
+            data = "polaris://" + data[0] + ":" + base64.b64encode(cipher.encrypt(pad(data[1].encode(), 8))).decode()
+            return data
+        elif data[0] == "twofish":
+            cipher = Twofish(shared_key[:32])
+            ciphertext = b""
+            if len(data[1]) % 16 != 0:
+                # Pad it
+                data[1] = data[1] + " " * (16 - len(data[1]) % 16)
+            for i in range(0, len(data[1]), 16):
+                ciphertext += cipher.encrypt(data[1][i:i + 16].encode())
+            data = "polaris://" + data[0] + ":" + base64.b64encode(ciphertext).decode()
+            return data
+
+    elif data[0] in valid_secret_generators:
+        if data[0] == "uuid4":
+            data = "polaris://" + data[0] + ":" + str(uuid.uuid4())
+            return data
+        elif data[0] == "random":
+            data = "polaris://" + data[0] + ":" + str(os.urandom(16))
+            return data
+        elif data[0] == "randomstring":
+            data = "polaris://" + data[0] + ":" + ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+            return data
+        elif data[0] == "randomnumber":
+            data = "polaris://" + data[0] + ":" + str(random.randint(0, 100))
+            return data
 
 
 def handle_client(client_socket):
     shared_key = key_exchange(client_socket)
-    encrypted_data = client_socket.recv(1024)
+    encrypted_data = client_socket.recv(8192)
     if len(encrypted_data) == 0:
         print(f"[{time.ctime()}] Connection closed by {client_socket.getpeername()}")
         logger(f"Connection closed by {client_socket.getpeername()}")
@@ -120,11 +227,15 @@ def handle_client(client_socket):
 
     # Process the decrypted_data as needed
     print(f"[{time.ctime()}] Received encrypted data: {encrypted_data}")
+    logger(f"Received encrypted data: {encrypted_data} from {client_socket.getpeername()}")
     sys.stdout.flush()  # Journalctl Prints
     print(f"[{time.ctime()}] Decrypted data: {decrypted_data}")
+    logger(f"Decrypted data: {decrypted_data}")
     sys.stdout.flush()  # Journalctl Prints
 
     if decrypted_data == "Hello, HSM":
+        print(f"[{time.ctime()}] This looks like a handshake.")
+        logger(f"This looks like a handshake.")
         encrypted_data = encrypt_data(shared_key, "Hello, Client")
         client_socket.send(encrypted_data)
         print(f"[{time.ctime()}] Sent encrypted data: Hello, Client")
@@ -135,18 +246,31 @@ def handle_client(client_socket):
 
     elif decrypted_data.startswith("polaris://mid:") and len(
             decrypted_data.replace("polaris://", "").split("/")) == 3:
+        print(f"[{time.ctime()}] Client has initiated setup.")
+        logger(f"Client has initiated setup.")
         mid = decrypted_data.replace("polaris://mid:", "").split("/")[0]
         mp = decrypted_data.replace("polaris://mid:", "").split("/")[1]
         username = decrypted_data.replace("polaris://mid:", "").split("/")[2]
         print(f"[{time.ctime()}] Received: {mid}, {mp}, {username}")
         logger(f"Received: {mid}, {mp}, {username} from {client_socket.getpeername()}")
         sys.stdout.flush()  # Journalctl Prints
+        # Check if this combination of username, password and machine id already exists in the database
+        # Check if the MID and IP combination already exists in the database as well
         try:
             conn = sqlite3.connect("/etc/polaris/polaris.db")
             c = conn.cursor()
-            c.execute("SELECT * FROM machines WHERE mid=?", (mid,))
-            c.execute("INSERT INTO machines (mid, ip) VALUES (?, ?)", (mid, client_socket.getpeername()[0]))
             salt = open("/etc/polaris/salt", "r").read()
+            users_combo = c.execute("SELECT * FROM users WHERE username = ? AND password = ? AND mid = ?", (username, hashlib.sha256((mp + salt).encode()).hexdigest(), mid)).fetchall()
+            machines_combo = c.execute("SELECT * FROM machines WHERE mid = ? AND ip = ?", (mid, client_socket.getpeername()[0])).fetchall()
+            if len(users_combo) > 0 or len(machines_combo) > 0:
+                encrypted_data = encrypt_data(shared_key, "polaris://mid:failure")
+                client_socket.send(encrypted_data)
+                print(f"[{time.ctime()}] Sent encrypted data: polaris://mid:failure")
+                logger(f"Sent encrypted data: polaris://mid:failure to {client_socket.getpeername()}")
+                sys.stdout.flush()
+                client_socket.close()
+                return
+            c.execute("INSERT INTO machines (mid, ip) VALUES (?, ?)", (mid, client_socket.getpeername()[0]))
             mp_hash = hashlib.sha256((mp + salt).encode()).hexdigest()
             c.execute("INSERT INTO users (username, password, mid) VALUES (?, ?, ?)", (username, mp_hash, mid))
             conn.commit()
@@ -165,36 +289,27 @@ def handle_client(client_socket):
         return
 
     elif protocol(decrypted_data):
-        protocol_handler(decrypted_data, client_socket, shared_key)
-        return
-
-    if not decrypted_data.startswith("polaris://"):
-        print(f"[{time.ctime()}] Invalid data received")
+        print(f"[{time.ctime()}] Protocol validation successful: {decrypted_data}")
+        logger(f"Protocol validation successful: {decrypted_data}")
+        data_to_return = protocol_handler(decrypted_data, shared_key)
+        encrypted_data = encrypt_data(shared_key, data_to_return)
+        print(f"[{time.ctime()}] Sending encrypted data: {encrypted_data}")
+        client_socket.send(encrypted_data)
+        print(f"[{time.ctime()}] Sent encrypted data: {data_to_return}")
+        logger(f"Sent encrypted data: {data_to_return} to {client_socket.getpeername()}")
         sys.stdout.flush()  # Journalctl Prints
         return
 
-    # Remove the "polaris://" prefix
-    decrypted_data = decrypted_data[10:]
-    # Form of <action>:<data>
-    decrypted_data = decrypted_data.split(":")
-    action = decrypted_data[0]
-    data = decrypted_data[1]
-    if action in hashlib.algorithms_available:
-        h = hashlib.new(action)
-        h.update(data.encode())
-        data = h.hexdigest()
-        old_data = data
     else:
-        print(f"[{time.ctime()}] Invalid action received")
-        sys.stdout.flush()  # Journalctl Prints
+        print(f"[{time.ctime()}] Invalid data received: {decrypted_data}")
+        logger(f"Invalid data received: {decrypted_data}")
+        encrypted_data = encrypt_data(shared_key, "polaris://error")
+        client_socket.send(encrypted_data)
+        print(f"[{time.ctime()}] Sent encrypted data: polaris://error")
+        logger(f"Sent encrypted data: polaris://error to {client_socket.getpeername()}")
+        sys.stdout.flush()
+        client_socket.close()
         return
-
-    data = "polaris://" + action + ":" + data
-    encrypted_data = encrypt_data(shared_key, data)
-
-    client_socket.send(encrypted_data)
-    print(f"[{time.ctime()}] Sent encrypted data: polaris://{action}:{old_data}")
-    sys.stdout.flush()  # Journalctl Prints
 
 
 def handle_statistics_client(client_socket):
@@ -212,12 +327,12 @@ def handle_statistics_client(client_socket):
             client_socket.send(data.encode())
         except ConnectionResetError:
             try:
-                print(f"{time.ctime()} Connection closed by {client_socket.getpeername()}")
+                print(f"[{time.ctime()}] Connection closed by {client_socket.getpeername()}")
                 sys.stdout.flush()  # Journalctl Prints
                 client_socket.close()
                 return
             except OSError:
-                print(f"{time.ctime()} Connection closed by previously connected client.")
+                print(f"[{time.ctime()}] Connection closed by previously connected client.")
                 sys.stdout.flush()  # Journalctl Prints
                 client_socket.close()
                 return
@@ -295,7 +410,7 @@ if __name__ == '__main__':
     else:
         logger(f"Database found. Continuing with the existing database...")
     try:
-        with Pool(initializer=muted_initializer) as pool:
+        with Pool() as pool:
             pool.apply_async(start_server)
             pool.apply_async(start_statistics_server)
             while True:

@@ -49,25 +49,9 @@ def decrypt_data(key, ciphertext):
     return plaintext.decode()
 
 
-def send_data(ip, data):
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print(f"Connecting to {ip}")
-    client.connect((ip, 26555))
-
-    shared_key = key_exchange(client)
-
-    encrypted_data = encrypt_data(shared_key, data)
-    client.send(encrypted_data)
-    encrypted_response = client.recv(4096)
-    decrypted_response = decrypt_data(shared_key, encrypted_response)
-
-    client.close()
-    return (encrypted_response, decrypted_response)
-
-
 def connector(ip_address):
     hsm = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    hsm.settimeout(5)
+    hsm.settimeout(60)
     hsm.connect((ip_address, 26555))
     return hsm
 
@@ -112,16 +96,39 @@ def connect_to_hsm_post_setup(ip_address, machine_identifier, master_password, u
         else:
             hsm = connector(ip_address)
             handshake_key = key_exchange(hsm)
+            action_string += "/mid:" + machine_identifier + "/mp:" + master_password + "/username:" + username
             encrypted_setup = encrypt_data(handshake_key, action_string)
             hsm.send(encrypted_setup)
-            response = hsm.recv(1024)
-            decrypted_response = decrypt_data(handshake_key, response)
+            """
+            response = hsm.recv(8192)
             hsm.close()
-            return decrypted_response
+            # This response won't be complete, we have to keep reading until we get the full response
+            decrypted_response = decrypt_data(handshake_key, response)
+            """
+            # This response won't be complete, we have to keep reading until we get the full response
+            keep_reading_response = True
+            full_response = None
+
+            while keep_reading_response:
+                response = hsm.recv(8192)
+                if not response and full_response is not None:
+                    keep_reading_response = False
+                elif full_response is None:
+                    full_response = response
+                else:
+                    full_response += response
+                try:
+                    decrypted_response = decrypt_data(handshake_key, full_response)
+                    hsm.close()
+                    return decrypted_response
+                except Exception:
+                    continue
     except TimeoutError:
         raise Exception("Connection to HSM timed out")
     except socket.error:
         raise Exception("Connection to HSM failed")
+    except Exception as e:
+        print(f'Exception: {repr(e)}')
 
 
 def connect_to_hsm_setup(ip_address, machine_identifier, master_password, username):
@@ -146,7 +153,10 @@ def connect_to_hsm_setup(ip_address, machine_identifier, master_password, userna
             response = hsm.recv(1024)
             decrypted_response = decrypt_data(handshake_key, response)
             hsm.close()
-            return decrypted_response
+            if decrypted_response == "polaris://mid:failure":
+                raise Exception("polaris://mid:failure")
+            else:
+                return decrypted_response
     except TimeoutError:
         raise Exception("Connection to HSM timed out")
     except socket.error:

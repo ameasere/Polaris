@@ -27,6 +27,7 @@ import requests
 import traceback
 import sys
 import ipaddress
+import hashlib
 from uuid import uuid4
 from datetime import datetime
 

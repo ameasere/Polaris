@@ -1561,7 +1561,7 @@ text-align: left;</string>
         <string notr="true">background: transparent;</string>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="hsmlist">
         <widget class="QStackedWidget" name="hsmpages">
@@ -2697,8 +2697,449 @@ color: #fff;</string>
          </widget>
         </widget>
        </widget>
-       <widget class="QWidget" name="configurator"/>
-       <widget class="QWidget" name="controlpanel"/>
+       <widget class="QWidget" name="configurator">
+        <widget class="QLabel" name="addhsmtitle_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>931</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 600 16pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="text">
+          <string>You're an early bird!</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="addhsmtitle_3">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>160</y>
+           <width>931</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 600 14pt &quot;Inter Medium&quot;;
+color: #9e77ed;</string>
+         </property>
+         <property name="text">
+          <string>This panel is not ready yet. We want you to experience the best of Polaris, so this panel will be available to you once it is developed and tested enough to not cause disruption or headache for you!</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_earlybird">
+         <property name="geometry">
+          <rect>
+           <x>370</x>
+           <y>250</y>
+           <width>181</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>120</width>
+           <height>15</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Inter Medium</family>
+           <pointsize>10</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">#btn_earlybird {
+background-color: rgba(222, 222, 222, 50);
+font: 600 10pt &quot;Inter Medium&quot;;
+text-align: center;
+border: 1px solid rgba(255, 255, 255, 150);
+border-radius: 5px;
+}
+#btn_earlybird:hover {
+background-color: rgba(222, 222, 222, 90);
+font: 600 10pt &quot;Inter Medium&quot;;
+text-align: center;
+border: 1px solid rgba(255, 255, 255, 150);
+border-radius: 5px;
+}
+#btn_earlybird:pressed {
+background-color: rgba(222, 222, 222, 150);
+font: 600 10pt &quot;Inter Medium&quot;;
+text-align: center;
+border: 1px solid rgba(255, 255, 255, 150);
+border-radius: 5px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Return to Overview</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/images/icons/arrow-left.png</normaloff>:/icons/images/icons/arrow-left.png</iconset>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="controlpanel">
+        <widget class="QScrollArea" name="send_sa">
+         <property name="geometry">
+          <rect>
+           <x>410</x>
+           <y>200</y>
+           <width>501</width>
+           <height>221</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"> QScrollBar:vertical {
+    background: rgb(52, 59, 72);
+ }
+ QScrollBar:horizontal {
+    background: rgb(52, 59, 72);
+ }</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOn</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAsNeeded</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>493</width>
+            <height>221</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"> QScrollBar:vertical {
+	border: none;
+    background: rgb(52, 59, 72);
+    width: 14px;
+    margin: 21px 0 21px 0;
+	border-radius: 0px;
+ }</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <item>
+            <widget class="QPlainTextEdit" name="response_pte">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>200</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(33, 37, 43);
+font: 600 10pt &quot;Inter Medium&quot;;</string>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="placeholderText">
+              <string>The server will respond here...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+        <widget class="QLabel" name="hsmnamelabel_2">
+         <property name="geometry">
+          <rect>
+           <x>420</x>
+           <y>180</y>
+           <width>261</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Response</string>
+         </property>
+        </widget>
+        <widget class="QScrollArea" name="response_sa_2">
+         <property name="geometry">
+          <rect>
+           <x>410</x>
+           <y>60</y>
+           <width>501</width>
+           <height>101</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"> QScrollBar:vertical {
+    background: rgb(52, 59, 72);
+ }
+ QScrollBar:horizontal {
+    background: rgb(52, 59, 72);
+ }</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOn</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAsNeeded</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>493</width>
+            <height>108</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"> QScrollBar:vertical {
+	border: none;
+    background: rgb(52, 59, 72);
+    width: 14px;
+    margin: 21px 0 21px 0;
+	border-radius: 0px;
+ }</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QPlainTextEdit" name="send_pte">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>90</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(33, 37, 43);
+font: 600 10pt &quot;Inter Medium&quot;;</string>
+             </property>
+             <property name="readOnly">
+              <bool>false</bool>
+             </property>
+             <property name="placeholderText">
+              <string>Enter your data here...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+        <widget class="QLabel" name="hsmnamelabel_3">
+         <property name="geometry">
+          <rect>
+           <x>420</x>
+           <y>40</y>
+           <width>261</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Your input</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="category_dd">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>186</width>
+           <height>33</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Inter Medium 400</family>
+           <pointsize>10</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(33, 37, 43);</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string>Hashing</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Encryption</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Generators</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLabel" name="hsmnamelabel_4">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>181</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Category</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="hsmnamelabel_5">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>130</y>
+           <width>181</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Algorithm</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="algorithm_dd">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>160</y>
+           <width>186</width>
+           <height>33</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Inter Medium 400</family>
+           <pointsize>10</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(33, 37, 43);</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_sendcommand">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>220</y>
+           <width>186</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Inter Medium</family>
+           <pointsize>10</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #9e77ed;
+font: 600 10pt &quot;Inter Medium&quot;;
+border-radius: 5px;
+}
+QPushButton:hover {
+	background-color: rgb(168, 128, 255);
+	border-radius: 4px;
+}
+QPushButton:pressed {	
+	background-color: rgb(255, 243, 239);
+	font: 600 10pt &quot;Inter Medium&quot;;
+	icon: url(:/icons/images/icons/log-in_purple.png);
+	color: #9e77ed;
+	border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string> Send</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/images/icons/send.png</normaloff>:/icons/images/icons/send.png</iconset>
+         </property>
+        </widget>
+       </widget>
       </widget>
       <widget class="QFrame" name="dragBar">
        <property name="geometry">
