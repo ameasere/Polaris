@@ -177,12 +177,11 @@ check_driver_sum() {
   # Get the SHA256 sum of the driver
   if [ "$(uname -m)" == "aarch64" ]; then
     driver_sum=$(sha256sum polaris_driver/driver.bin | awk '{print $1}')
-  # Compare the sum with the one on the server
     wget -q https://cdn.ameasere.com/polaris/driver-arm64.sha256 -O driver.sha256
   else
-        driver_sum=$(sha256sum polaris_driver/driver.bin | awk '{print $1}')
-  # Compare the sum with the one on the server
+    driver_sum=$(sha256sum polaris_driver/driver.bin | awk '{print $1}')
     wget -q https://cdn.ameasere.com/polaris/driver-x86.sha256 -O driver.sha256
+  fi
   server_sum=$(cat driver.sha256)
   if [ "$driver_sum" == "$server_sum" ]; then
     print_success "SHA256 sum of the driver matches the one on the server."
