@@ -164,15 +164,9 @@ download_polaris_driver() {
     # x86_64
     wget -q https://cdn.ameasere.com/polaris/driver-x86.zip -O driver-x86.zip
     unzip -q driver-x86.zip -d polaris_driver
-    rm driver.zip
+    rm driver-x86.zip
   fi
   sleep 1
-  # Download the driver from the GitHub repository
-  wget -q https://cdn.ameasere.com/polaris/driver.zip -O driver.zip
-  # Unzip the driver
-  unzip -q driver.zip -d polaris_driver
-  # Remove the zip file
-  rm driver.zip
   print_success "Polaris driver downloaded successfully."
 }
 
@@ -181,9 +175,14 @@ check_driver_sum() {
   print_yellow "Checking the SHA256 sum of the driver..."
   sleep 1
   # Get the SHA256 sum of the driver
-  driver_sum=$(sha256sum polaris_driver/driver.bin | awk '{print $1}')
+  if [ "$(uname -m)" == "aarch64" ]; then
+    driver_sum=$(sha256sum polaris_driver/driver.bin | awk '{print $1}')
   # Compare the sum with the one on the server
-  wget -q https://cdn.ameasere.com/polaris/driver.sha256 -O driver.sha256
+    wget -q https://cdn.ameasere.com/polaris/driver-arm64.sha256 -O driver.sha256
+  else
+        driver_sum=$(sha256sum polaris_driver/driver.bin | awk '{print $1}')
+  # Compare the sum with the one on the server
+    wget -q https://cdn.ameasere.com/polaris/driver-x86.sha256 -O driver.sha256
   server_sum=$(cat driver.sha256)
   if [ "$driver_sum" == "$server_sum" ]; then
     print_success "SHA256 sum of the driver matches the one on the server."
