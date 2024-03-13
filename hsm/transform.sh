@@ -234,14 +234,9 @@ configure_system() {
   sleep 1
   # curl -s https://api.drand.sh/52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971/public/latest | jq -r '.randomness' | head -c 32 | sudo tee /etc/polaris/salt
   # DO NOT PRINT THIS TO CONSOLE
-  curl -s https://api.drand.sh/52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971/public/latest | jq -r '.randomness' | head -c 32 | sudo tee /etc/polaris/salt > /dev/null
-  chmod 640 /etc/polaris/salt
-  chown root:root /etc/polaris/salt
-  print_success "Salt generated successfully."
-  # If /etc/polaris directory exists, the user should choose to keep or replace it
   if [ -d /etc/polaris ]; then
-    print_yellow "The /etc/polaris directory already exists. Do you want to keep or replace it? [K/R]"
-    read -r -p "[K/R]: " keep_replace
+  print_yellow "The /etc/polaris directory already exists. Do you want to keep or replace it? [K/R]"
+  read -r -p "[K/R]: " keep_replace
     if [ "$keep_replace" == "K" ] || [ "$keep_replace" == "k" ]; then
       print_success "You have chosen to keep the /etc/polaris directory."
       sleep 1
@@ -257,6 +252,12 @@ configure_system() {
   else
     sudo mkdir -p /etc/polaris
   fi
+  curl -s https://api.drand.sh/52db9ba70e0cc0f6eaf7803dd07447a1f5477735fd3f661792ba94600c84e971/public/latest | jq -r '.randomness' | head -c 32 | sudo tee /etc/polaris/salt > /dev/null
+  chmod 640 /etc/polaris/salt
+  chown root:root /etc/polaris/salt
+  print_success "Salt generated successfully."
+  # If /etc/polaris directory exists, the user should choose to keep or replace it
+
   # Add firewall rule to allow incoming connections on port 26555
   print_yellow "Adding firewall rule to allow incoming connections on port 26555..."
   sleep 1
