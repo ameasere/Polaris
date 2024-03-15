@@ -30,29 +30,34 @@
 </p>
 
 <p align="center">
-<img src="https://ameasere.com/polaris/images/Dashboard.png">
+<img src="https://github.com/ameasere/Polaris/assets/55900441/610746f7-a4a7-41fe-b8ad-f270ef9c0a6b"
+
 </p>
 
 ## Key Features
 
 * Configuration, deployment and management of HSMs.
-* Multiple HSMs can be managed at once.
+* Multiple HSMs can be managed at once. (Prospective)
 * Accounts managed by Polaris can be used to log into the HSMs.
-* NFC support for logging into HSMs in administrator mode.
+* NFC support for logging into HSMs in administrator mode. (Prospective)
+* Secrets generation, storage and remote management without the worry of a man in the middle.
+
+With advanced cryptography at its heart, Polaris maximizes the potential of data security even on the cheapest hardware; you can even deploy it on a VM, we wouldn't recommend it though.
+Polaris keeps your data in the spotlight while ensuring only you and the HSM can communicate privately. Learn more about this from Cloudflare <a href="https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography">here.</a>
 
 ## How To Use
 
 To use Polaris:
 
 * Download the latest release from [here](https://github.com/ameasere/polaris/releases) for your OS/Architecture.
+  - <b>0.5.0 is known to have issues with binaries. It is recommended you run Polaris from source until a future release.</b> 
 
 * Source Code
   - Clone this repository via the Command Line with `git clone https://github.com/ameasere/polaris`.
-  - Install [Python >3.9](https://python.org) for your OS/Architecture, and add to your PATH.
+  - Install [Python 3.8+](https://python.org) for your OS/Architecture, and add to your PATH.
   - Install the requirements via the `requirements.txt` file.
-  - Install Redis Server for your OS/Architecture, and add to your PATH. Make sure this starts and runs in the background.
   - Modify the source code to fit your account management requirements (by default, Polaris uses the global
-  server at `ameasere.com`).
+    server at `ameasere.com`).
   - Execute the `polaris.py` file via the Command Line, or using an IDE.
     - We highly recommend [PyCharm](https://www.jetbrains.com/pycharm/), that is how we developed Polaris!
 
@@ -69,16 +74,18 @@ This software uses the following:
 - [SQLAlchemy](https://www.sqlalchemy.org/)
 - [Qt](https://qt.io)
 - [Mailgun](https://mailgun.com)
-- [Infisical](https://infisical.com)
+- [Doppler](https://doppler.com)
 - [Mintlify](https://mintlify.com)
-- [New Relic](https://newrelic.com/)
+- [DRand](https://drand.love/)
 - [Sentry](https://sentry.io)
+- [CircleCI](https://circleci.com)
 - Emojis are taken from [here](https://github.com/arvida/emoji-cheat-sheet.com)
 
 With a huge thanks to:
 
 - [Wanderson Pimenta](https://github.com/Wanderson-Magalhaes)
 - [Zeno Rocha](https://zenorocha.com/)
+- Dr Ahmed Elmesiry, PhD @ LMU
 
 ## Support
 
