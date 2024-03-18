@@ -8,6 +8,11 @@ BLUE='\033[0;34m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
+# https://peps.python.org/pep-0668/
+# By default now, Pip packages are refused in favour or package manager binaries.
+# Not all Pip libraries were ported, this is a stupid move by Python's team.
+export PIP_BREAK_SYSTEM_PACKAGES=1
+
 # Function to print in green color
 print_success() {
   echo -e "${GREEN}$1${NC}"
