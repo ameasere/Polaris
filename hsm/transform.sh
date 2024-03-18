@@ -105,15 +105,15 @@ check_pre_reqs() {
   if is_package_installed "pacman"; then
     # Arch Linux
     # Run the install command, if it is installed already then DO NOT reinstall
-    sudo pacman -S "openssl" "python3" "unzip" "ufw" "jq" --noconfirm --needed
+    sudo pacman -S "openssl" "python3" "unzip" "ufw" "jq" "dnsutils" --noconfirm --needed
   elif is_package_installed "apt"; then
     # Debian and Ubuntu
     # Run the install command, if it is installed already then it will skip it
-    sudo apt install openssl python3 python3-pip python3-venv unzip ufw jq -y
+    sudo apt install openssl python3 python3-pip python3-venv unzip ufw jq dnsutils -y
   elif is_package_installed "dnf"; then
     # Fedora
     # Run the install command, if it is installed already then it will skip it
-    sudo dnf install openssl python3 python3-pip python3-venv unzip ufw jq -y
+    sudo dnf install openssl python3 python3-pip python3-venv unzip ufw jq dnsutils -y
   else
     print_error "Error: Unsupported distribution. Please install the required dependencies manually."
     exit 1
