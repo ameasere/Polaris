@@ -605,8 +605,6 @@ class LoginWindow(QMainWindow):
                     if isinstance(response, str):
                         response = json.loads(response)
                     config["username"] = self.__cached_username
-                    if isinstance(response, str):
-                        response = json.loads(response)
                     config["token"] = response["token"]
                     print(config)
                     with open(os.getcwd() + "/config/config.json", "w") as f:
