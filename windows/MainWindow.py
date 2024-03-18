@@ -717,6 +717,7 @@ class MainWindow(QMainWindow):
                     action_string = f"polaris://{action}:{user_in}"
                 else:
                     action_string = f"polaris://{action}"
+                print(self.config)
                 self.connectthread = QThread()
                 self.connector = HSMConnector(self.config["configuration"][0]["ip"], self.config["configuration"][0]["my_uuid"], self.__masterpw, self.config["username"], action_string)
                 self.connector.moveToThread(self.connectthread)
@@ -967,10 +968,12 @@ class MainWindow(QMainWindow):
                 "background-color: #001010; color: #12B76A; border-radius: 10px; font: 600 10pt \"Inter Medium\"; border: 1px solid #12B76A;")
             self.stopAnimations()
             self.response_label_animation.start()
+            self.config = json.loads(open(os.getcwd() + "/config/config.json", "r").read())
             if "configuration" not in self.config:
                 self.config["configuration"] = []
             self.config["configuration"].append(
                 {"name": self.ui.hsm_name.text(), "ip": self.ui.hsm_ip.text(), "my_uuid": self.__machine_identifier})
+            print(f"New config: {self.config}")
             with open(os.getcwd() + "/config/config.json", "w") as f:
                 f.write(json.dumps(self.config))
                 f.close()
