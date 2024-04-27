@@ -1561,7 +1561,7 @@ text-align: left;</string>
         <string notr="true">background: transparent;</string>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="hsmlist">
         <widget class="QStackedWidget" name="hsmpages">
@@ -2697,62 +2697,97 @@ color: #fff;</string>
          </widget>
         </widget>
        </widget>
-       <widget class="QWidget" name="configurator">
-        <widget class="QLabel" name="addhsmtitle_2">
+       <widget class="QWidget" name="secrets">
+        <widget class="QLabel" name="overview_cpu_3">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>90</y>
-           <width>931</width>
-           <height>51</height>
+           <x>210</x>
+           <y>0</y>
+           <width>41</width>
+           <height>31</height>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">font: 600 16pt &quot;Inter Medium&quot;;</string>
+          <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
          </property>
          <property name="text">
-          <string>You're an early bird!</string>
+          <string>Store</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="overview_cpu_5">
+         <property name="geometry">
+          <rect>
+           <x>600</x>
+           <y>0</y>
+           <width>191</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 700 12pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Retrieve</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="addhsmtitle_3">
+        <widget class="QLabel" name="label">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>160</y>
-           <width>931</width>
-           <height>51</height>
+           <x>450</x>
+           <y>-10</y>
+           <width>7</width>
+           <height>461</height>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">font: 600 14pt &quot;Inter Medium&quot;;
-color: #9e77ed;</string>
+          <string notr="true">background-color: #9e77ed;</string>
          </property>
          <property name="text">
-          <string>This panel is not ready yet. We want you to experience the best of Polaris, so this panel will be available to you once it is developed and tested enough to not cause disruption or headache for you!</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
+          <string/>
          </property>
         </widget>
-        <widget class="QPushButton" name="btn_earlybird">
+        <widget class="QPlainTextEdit" name="secret_response">
          <property name="geometry">
           <rect>
-           <x>370</x>
-           <y>250</y>
-           <width>181</width>
-           <height>41</height>
+           <x>510</x>
+           <y>200</y>
+           <width>361</width>
+           <height>203</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>120</width>
-           <height>15</height>
+           <width>200</width>
+           <height>200</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(33, 37, 43);
+font: 600 10pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="placeholderText">
+          <string>The server will respond here...</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_retrievesecret">
+         <property name="geometry">
+          <rect>
+           <x>600</x>
+           <y>130</y>
+           <width>186</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>30</height>
           </size>
          </property>
          <property name="font">
@@ -2767,38 +2802,210 @@ color: #9e77ed;</string>
           <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
-          <string notr="true">#btn_earlybird {
-background-color: rgba(222, 222, 222, 50);
+          <string notr="true">QPushButton {
+background-color: #9e77ed;
 font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
 border-radius: 5px;
 }
-#btn_earlybird:hover {
-background-color: rgba(222, 222, 222, 90);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
+QPushButton:hover {
+	background-color: rgb(168, 128, 255);
+	border-radius: 4px;
 }
-#btn_earlybird:pressed {
-background-color: rgba(222, 222, 222, 150);
-font: 600 10pt &quot;Inter Medium&quot;;
-text-align: center;
-border: 1px solid rgba(255, 255, 255, 150);
-border-radius: 5px;
-}</string>
+QPushButton:pressed {	
+	background-color: rgb(255, 243, 239);
+	font: 600 10pt &quot;Inter Medium&quot;;
+	icon: url(:/icons/images/icons/log-in_purple.png);
+	color: #9e77ed;
+	border-radius: 5px;
+}
+</string>
          </property>
          <property name="text">
-          <string>Return to Overview</string>
+          <string> Send</string>
          </property>
          <property name="icon">
           <iconset resource="resources.qrc">
-           <normaloff>:/icons/images/icons/arrow-left.png</normaloff>:/icons/images/icons/arrow-left.png</iconset>
+           <normaloff>:/icons/images/icons/send.png</normaloff>:/icons/images/icons/send.png</iconset>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="secrets_dd">
+         <property name="geometry">
+          <rect>
+           <x>600</x>
+           <y>80</y>
+           <width>186</width>
+           <height>33</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Inter Medium 400</family>
+           <pointsize>10</pointsize>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(33, 37, 43);</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="frame">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="hsmnamelabel_6">
+         <property name="geometry">
+          <rect>
+           <x>600</x>
+           <y>50</y>
+           <width>181</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Secrets</string>
+         </property>
+        </widget>
+        <widget class="QPlainTextEdit" name="send_pte_2">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>200</y>
+           <width>361</width>
+           <height>201</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>90</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(33, 37, 43);
+font: 600 10pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="readOnly">
+          <bool>false</bool>
+         </property>
+         <property name="placeholderText">
+          <string>Enter your secret here...</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_storesecret">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>130</y>
+           <width>186</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Inter Medium</family>
+           <pointsize>10</pointsize>
+           <italic>false</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+background-color: #9e77ed;
+font: 600 10pt &quot;Inter Medium&quot;;
+border-radius: 5px;
+}
+QPushButton:hover {
+	background-color: rgb(168, 128, 255);
+	border-radius: 4px;
+}
+QPushButton:pressed {	
+	background-color: rgb(255, 243, 239);
+	font: 600 10pt &quot;Inter Medium&quot;;
+	icon: url(:/icons/images/icons/log-in_purple.png);
+	color: #9e77ed;
+	border-radius: 5px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string> Send</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/icons/images/icons/send.png</normaloff>:/icons/images/icons/send.png</iconset>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="secret_label">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>80</y>
+           <width>271</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background: solid rgb(16, 11, 16);
+border: 2px solid rgb(157, 122, 222);
+border-radius: 15px;
+font: 600 10pt &quot;Inter Medium&quot;;
+color: white;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="maxLength">
+          <number>15</number>
+         </property>
+         <property name="placeholderText">
+          <string>Give your secret a label...</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="hsmnamelabel_7">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>50</y>
+           <width>181</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 600 10pt &quot;Inter Medium&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Secret Name</string>
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="controlpanel">
+       <widget class="QWidget" name="generator">
         <widget class="QScrollArea" name="send_sa">
          <property name="geometry">
           <rect>
@@ -3305,7 +3512,7 @@ border-bottom: 2px solid #9e77ed;
 }</string>
        </property>
        <property name="text">
-        <string>Control Panel</string>
+        <string>Generator</string>
        </property>
       </widget>
       <widget class="QLabel" name="controlpanel_bg">
@@ -3377,7 +3584,7 @@ border-bottom: 2px solid #9e77ed;
 }</string>
        </property>
        <property name="text">
-        <string>Configurator</string>
+        <string>Secrets</string>
        </property>
       </widget>
       <widget class="QLabel" name="configurator_bg">

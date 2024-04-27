@@ -455,14 +455,12 @@ class MainWindow(QMainWindow):
         # Remove once mouse leaves
         def leave_handler(_):
             self.ui.btn_addfirsthsm.setGraphicsEffect(None)
-            self.ui.btn_earlybird.setGraphicsEffect(None)
 
         self.ui.btn_addfirsthsm.enterEvent = enter_handler
         self.ui.btn_addfirsthsm.leaveEvent = leave_handler
 
         # widgets.settingsTopBtn.hide()
 
-        self.ui.btn_earlybird.clicked.connect(self.buttonClick)
         self.ui.btn_configurator.clicked.connect(self.buttonClick)
         self.ui.btn_controlpanel.clicked.connect(self.buttonClick)
 
@@ -669,9 +667,9 @@ class MainWindow(QMainWindow):
             self.ui.pages.setCurrentWidget(self.ui.hsmlist)
             self.ui.hsmpages.setCurrentWidget(self.ui.overview)
         elif btnName == "btn_controlpanel":
-            self.ui.pages.setCurrentWidget(self.ui.controlpanel)
+            self.ui.pages.setCurrentWidget(self.ui.generator)
         elif btnName == "btn_configurator":
-            self.ui.pages.setCurrentWidget(self.ui.configurator)
+            self.ui.pages.setCurrentWidget(self.ui.secrets)
         elif btnName == "btn_hsmlist":
             self.ui.pages.setCurrentWidget(self.ui.hsmlist)
             self.ui.hsmpages.setCurrentWidget(self.ui.overview)
@@ -727,6 +725,12 @@ class MainWindow(QMainWindow):
                 self.ui.btn_sendcommand.setEnabled(False)
                 self.ui.btn_sendcommand.setStyleSheet("QPushButton {background-color: #b0b0b0;font: 600 10pt \"Inter Medium\";border-radius: 5px;}QPushButton:hover {background-color: #b0b0b0;border-radius: 4px;}QPushButton:pressed {	background-color: #b0b0b0;font: 600 10pt \"Inter Medium\";icon: url(:/icons/images/icons/log-in_purple.png);border-radius: 5px;}")
                 self.connectthread.start()
+
+        elif btnName == "btn_storesecret":
+            pass
+
+        elif btnName == "btn_retrievesecret":
+            pass
 
         elif btnName == "add_button":
             def is_valid(hsmip):

@@ -99,12 +99,6 @@ def connect_to_hsm_post_setup(ip_address, machine_identifier, master_password, u
             action_string += "/mid:" + machine_identifier + "/mp:" + master_password + "/username:" + username
             encrypted_setup = encrypt_data(handshake_key, action_string)
             hsm.send(encrypted_setup)
-            """
-            response = hsm.recv(8192)
-            hsm.close()
-            # This response won't be complete, we have to keep reading until we get the full response
-            decrypted_response = decrypt_data(handshake_key, response)
-            """
             # This response won't be complete, we have to keep reading until we get the full response
             keep_reading_response = True
             full_response = None

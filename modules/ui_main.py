@@ -1458,54 +1458,115 @@ class Ui_MainWindow(object):
         self.last_update_label.raise_()
         self.last_update_label_2.raise_()
         self.pages.addWidget(self.hsmlist)
-        self.configurator = QWidget()
-        self.configurator.setObjectName(u"configurator")
-        self.addhsmtitle_2 = QLabel(self.configurator)
-        self.addhsmtitle_2.setObjectName(u"addhsmtitle_2")
-        self.addhsmtitle_2.setGeometry(QRect(0, 90, 931, 51))
-        self.addhsmtitle_2.setStyleSheet(u"font: 600 16pt \"Inter Medium\";")
-        self.addhsmtitle_2.setAlignment(Qt.AlignCenter)
-        self.addhsmtitle_3 = QLabel(self.configurator)
-        self.addhsmtitle_3.setObjectName(u"addhsmtitle_3")
-        self.addhsmtitle_3.setGeometry(QRect(0, 160, 931, 51))
-        self.addhsmtitle_3.setStyleSheet(u"font: 600 14pt \"Inter Medium\";\n"
-"color: #9e77ed;")
-        self.addhsmtitle_3.setAlignment(Qt.AlignCenter)
-        self.addhsmtitle_3.setWordWrap(True)
-        self.btn_earlybird = QPushButton(self.configurator)
-        self.btn_earlybird.setObjectName(u"btn_earlybird")
-        self.btn_earlybird.setGeometry(QRect(370, 250, 181, 41))
-        self.btn_earlybird.setMinimumSize(QSize(120, 15))
-        self.btn_earlybird.setFont(font)
-        self.btn_earlybird.setCursor(QCursor(Qt.PointingHandCursor))
-        self.btn_earlybird.setStyleSheet(u"#btn_earlybird {\n"
-"background-color: rgba(222, 222, 222, 50);\n"
+        self.secrets = QWidget()
+        self.secrets.setObjectName(u"secrets")
+        self.overview_cpu_3 = QLabel(self.secrets)
+        self.overview_cpu_3.setObjectName(u"overview_cpu_3")
+        self.overview_cpu_3.setGeometry(QRect(210, 0, 41, 31))
+        self.overview_cpu_3.setStyleSheet(u"font: 700 12pt \"Inter Medium\";")
+        self.overview_cpu_5 = QLabel(self.secrets)
+        self.overview_cpu_5.setObjectName(u"overview_cpu_5")
+        self.overview_cpu_5.setGeometry(QRect(600, 0, 191, 31))
+        self.overview_cpu_5.setStyleSheet(u"font: 700 12pt \"Inter Medium\";")
+        self.overview_cpu_5.setAlignment(Qt.AlignCenter)
+        self.label = QLabel(self.secrets)
+        self.label.setObjectName(u"label")
+        self.label.setGeometry(QRect(450, -10, 7, 461))
+        self.label.setStyleSheet(u"background-color: #9e77ed;")
+        self.secret_response = QPlainTextEdit(self.secrets)
+        self.secret_response.setObjectName(u"secret_response")
+        self.secret_response.setGeometry(QRect(510, 200, 361, 203))
+        self.secret_response.setMinimumSize(QSize(200, 200))
+        self.secret_response.setStyleSheet(u"background-color: rgb(33, 37, 43);\n"
+"font: 600 10pt \"Inter Medium\";")
+        self.secret_response.setReadOnly(True)
+        self.btn_retrievesecret = QPushButton(self.secrets)
+        self.btn_retrievesecret.setObjectName(u"btn_retrievesecret")
+        self.btn_retrievesecret.setGeometry(QRect(600, 130, 186, 30))
+        self.btn_retrievesecret.setMinimumSize(QSize(150, 30))
+        self.btn_retrievesecret.setFont(font)
+        self.btn_retrievesecret.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_retrievesecret.setStyleSheet(u"QPushButton {\n"
+"background-color: #9e77ed;\n"
 "font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
 "border-radius: 5px;\n"
 "}\n"
-"#btn_earlybird:hover {\n"
-"background-color: rgba(222, 222, 222, 90);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
+"QPushButton:hover {\n"
+"	background-color: rgb(168, 128, 255);\n"
+"	border-radius: 4px;\n"
 "}\n"
-"#btn_earlybird:pressed {\n"
-"background-color: rgba(222, 222, 222, 150);\n"
-"font: 600 10pt \"Inter Medium\";\n"
-"text-align: center;\n"
-"border: 1px solid rgba(255, 255, 255, 150);\n"
-"border-radius: 5px;\n"
-"}")
+"QPushButton:pressed {	\n"
+"	background-color: rgb(255, 243, 239);\n"
+"	font: 600 10pt \"Inter Medium\";\n"
+"	icon: url(:/icons/images/icons/log-in_purple.png);\n"
+"	color: #9e77ed;\n"
+"	border-radius: 5px;\n"
+"}\n"
+"")
         icon5 = QIcon()
-        icon5.addFile(u":/icons/images/icons/arrow-left.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.btn_earlybird.setIcon(icon5)
-        self.pages.addWidget(self.configurator)
-        self.controlpanel = QWidget()
-        self.controlpanel.setObjectName(u"controlpanel")
-        self.send_sa = QScrollArea(self.controlpanel)
+        icon5.addFile(u":/icons/images/icons/send.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.btn_retrievesecret.setIcon(icon5)
+        self.secrets_dd = QComboBox(self.secrets)
+        self.secrets_dd.setObjectName(u"secrets_dd")
+        self.secrets_dd.setGeometry(QRect(600, 80, 186, 33))
+        self.secrets_dd.setFont(font2)
+        self.secrets_dd.setAutoFillBackground(False)
+        self.secrets_dd.setStyleSheet(u"background-color: rgb(33, 37, 43);")
+        self.secrets_dd.setIconSize(QSize(16, 16))
+        self.secrets_dd.setFrame(True)
+        self.hsmnamelabel_6 = QLabel(self.secrets)
+        self.hsmnamelabel_6.setObjectName(u"hsmnamelabel_6")
+        self.hsmnamelabel_6.setGeometry(QRect(600, 50, 181, 21))
+        self.hsmnamelabel_6.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.send_pte_2 = QPlainTextEdit(self.secrets)
+        self.send_pte_2.setObjectName(u"send_pte_2")
+        self.send_pte_2.setGeometry(QRect(40, 200, 361, 201))
+        self.send_pte_2.setMinimumSize(QSize(200, 90))
+        self.send_pte_2.setStyleSheet(u"background-color: rgb(33, 37, 43);\n"
+"font: 600 10pt \"Inter Medium\";")
+        self.send_pte_2.setReadOnly(False)
+        self.btn_storesecret = QPushButton(self.secrets)
+        self.btn_storesecret.setObjectName(u"btn_storesecret")
+        self.btn_storesecret.setGeometry(QRect(130, 130, 186, 30))
+        self.btn_storesecret.setMinimumSize(QSize(150, 30))
+        self.btn_storesecret.setFont(font)
+        self.btn_storesecret.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_storesecret.setStyleSheet(u"QPushButton {\n"
+"background-color: #9e77ed;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"border-radius: 5px;\n"
+"}\n"
+"QPushButton:hover {\n"
+"	background-color: rgb(168, 128, 255);\n"
+"	border-radius: 4px;\n"
+"}\n"
+"QPushButton:pressed {	\n"
+"	background-color: rgb(255, 243, 239);\n"
+"	font: 600 10pt \"Inter Medium\";\n"
+"	icon: url(:/icons/images/icons/log-in_purple.png);\n"
+"	color: #9e77ed;\n"
+"	border-radius: 5px;\n"
+"}\n"
+"")
+        self.btn_storesecret.setIcon(icon5)
+        self.secret_label = QLineEdit(self.secrets)
+        self.secret_label.setObjectName(u"secret_label")
+        self.secret_label.setGeometry(QRect(90, 80, 271, 30))
+        self.secret_label.setMinimumSize(QSize(0, 30))
+        self.secret_label.setStyleSheet(u"background: solid rgb(16, 11, 16);\n"
+"border: 2px solid rgb(157, 122, 222);\n"
+"border-radius: 15px;\n"
+"font: 600 10pt \"Inter Medium\";\n"
+"color: white;")
+        self.secret_label.setMaxLength(15)
+        self.hsmnamelabel_7 = QLabel(self.secrets)
+        self.hsmnamelabel_7.setObjectName(u"hsmnamelabel_7")
+        self.hsmnamelabel_7.setGeometry(QRect(100, 50, 181, 21))
+        self.hsmnamelabel_7.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
+        self.pages.addWidget(self.secrets)
+        self.generator = QWidget()
+        self.generator.setObjectName(u"generator")
+        self.send_sa = QScrollArea(self.generator)
         self.send_sa.setObjectName(u"send_sa")
         self.send_sa.setGeometry(QRect(410, 200, 501, 221))
         self.send_sa.setStyleSheet(u" QScrollBar:vertical {\n"
@@ -1540,11 +1601,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.addWidget(self.response_pte)
 
         self.send_sa.setWidget(self.scrollAreaWidgetContents)
-        self.hsmnamelabel_2 = QLabel(self.controlpanel)
+        self.hsmnamelabel_2 = QLabel(self.generator)
         self.hsmnamelabel_2.setObjectName(u"hsmnamelabel_2")
         self.hsmnamelabel_2.setGeometry(QRect(420, 180, 261, 21))
         self.hsmnamelabel_2.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
-        self.response_sa_2 = QScrollArea(self.controlpanel)
+        self.response_sa_2 = QScrollArea(self.generator)
         self.response_sa_2.setObjectName(u"response_sa_2")
         self.response_sa_2.setGeometry(QRect(410, 60, 501, 101))
         self.response_sa_2.setStyleSheet(u" QScrollBar:vertical {\n"
@@ -1579,11 +1640,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12.addWidget(self.send_pte)
 
         self.response_sa_2.setWidget(self.scrollAreaWidgetContents_2)
-        self.hsmnamelabel_3 = QLabel(self.controlpanel)
+        self.hsmnamelabel_3 = QLabel(self.generator)
         self.hsmnamelabel_3.setObjectName(u"hsmnamelabel_3")
         self.hsmnamelabel_3.setGeometry(QRect(420, 40, 261, 21))
         self.hsmnamelabel_3.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
-        self.category_dd = QComboBox(self.controlpanel)
+        self.category_dd = QComboBox(self.generator)
         self.category_dd.addItem("")
         self.category_dd.addItem("")
         self.category_dd.addItem("")
@@ -1594,15 +1655,15 @@ class Ui_MainWindow(object):
         self.category_dd.setStyleSheet(u"background-color: rgb(33, 37, 43);")
         self.category_dd.setIconSize(QSize(16, 16))
         self.category_dd.setFrame(True)
-        self.hsmnamelabel_4 = QLabel(self.controlpanel)
+        self.hsmnamelabel_4 = QLabel(self.generator)
         self.hsmnamelabel_4.setObjectName(u"hsmnamelabel_4")
         self.hsmnamelabel_4.setGeometry(QRect(10, 40, 181, 21))
         self.hsmnamelabel_4.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
-        self.hsmnamelabel_5 = QLabel(self.controlpanel)
+        self.hsmnamelabel_5 = QLabel(self.generator)
         self.hsmnamelabel_5.setObjectName(u"hsmnamelabel_5")
         self.hsmnamelabel_5.setGeometry(QRect(10, 130, 181, 21))
         self.hsmnamelabel_5.setStyleSheet(u"font: 600 10pt \"Inter Medium\";")
-        self.algorithm_dd = QComboBox(self.controlpanel)
+        self.algorithm_dd = QComboBox(self.generator)
         self.algorithm_dd.setObjectName(u"algorithm_dd")
         self.algorithm_dd.setGeometry(QRect(10, 160, 186, 33))
         self.algorithm_dd.setFont(font2)
@@ -1610,7 +1671,7 @@ class Ui_MainWindow(object):
         self.algorithm_dd.setStyleSheet(u"background-color: rgb(33, 37, 43);")
         self.algorithm_dd.setIconSize(QSize(16, 16))
         self.algorithm_dd.setFrame(True)
-        self.btn_sendcommand = QPushButton(self.controlpanel)
+        self.btn_sendcommand = QPushButton(self.generator)
         self.btn_sendcommand.setObjectName(u"btn_sendcommand")
         self.btn_sendcommand.setGeometry(QRect(10, 220, 186, 30))
         self.btn_sendcommand.setMinimumSize(QSize(150, 30))
@@ -1633,10 +1694,8 @@ class Ui_MainWindow(object):
 "	border-radius: 5px;\n"
 "}\n"
 "")
-        icon6 = QIcon()
-        icon6.addFile(u":/icons/images/icons/send.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.btn_sendcommand.setIcon(icon6)
-        self.pages.addWidget(self.controlpanel)
+        self.btn_sendcommand.setIcon(icon5)
+        self.pages.addWidget(self.generator)
         self.dragBar = QFrame(self.bgApp)
         self.dragBar.setObjectName(u"dragBar")
         self.dragBar.setGeometry(QRect(0, 0, 1261, 51))
@@ -1787,7 +1846,7 @@ class Ui_MainWindow(object):
 
         self.btn_minimize.setDefault(False)
         self.btn_website.setDefault(False)
-        self.pages.setCurrentIndex(2)
+        self.pages.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1880,9 +1939,17 @@ class Ui_MainWindow(object):
         self.overview_ram_4.setText(QCoreApplication.translate("MainWindow", u"Disk", None))
         self.last_update_label.setText(QCoreApplication.translate("MainWindow", u"[Placeholder]", None))
         self.last_update_label_2.setText(QCoreApplication.translate("MainWindow", u"Last update:", None))
-        self.addhsmtitle_2.setText(QCoreApplication.translate("MainWindow", u"You're an early bird!", None))
-        self.addhsmtitle_3.setText(QCoreApplication.translate("MainWindow", u"This panel is not ready yet. We want you to experience the best of Polaris, so this panel will be available to you once it is developed and tested enough to not cause disruption or headache for you!", None))
-        self.btn_earlybird.setText(QCoreApplication.translate("MainWindow", u"Return to Overview", None))
+        self.overview_cpu_3.setText(QCoreApplication.translate("MainWindow", u"Store", None))
+        self.overview_cpu_5.setText(QCoreApplication.translate("MainWindow", u"Retrieve", None))
+        self.label.setText("")
+        self.secret_response.setPlaceholderText(QCoreApplication.translate("MainWindow", u"The server will respond here...", None))
+        self.btn_retrievesecret.setText(QCoreApplication.translate("MainWindow", u" Send", None))
+        self.hsmnamelabel_6.setText(QCoreApplication.translate("MainWindow", u"Secrets", None))
+        self.send_pte_2.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter your secret here...", None))
+        self.btn_storesecret.setText(QCoreApplication.translate("MainWindow", u" Send", None))
+        self.secret_label.setText("")
+        self.secret_label.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Give your secret a label...", None))
+        self.hsmnamelabel_7.setText(QCoreApplication.translate("MainWindow", u"Secret Name", None))
         self.response_pte.setPlaceholderText(QCoreApplication.translate("MainWindow", u"The server will respond here...", None))
         self.hsmnamelabel_2.setText(QCoreApplication.translate("MainWindow", u"Response", None))
         self.send_pte.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter your data here...", None))
@@ -1897,9 +1964,9 @@ class Ui_MainWindow(object):
         self.logo.setText("")
         self.btn_hsmlist.setText(QCoreApplication.translate("MainWindow", u"Overview", None))
         self.hsmlist_bg.setText("")
-        self.btn_controlpanel.setText(QCoreApplication.translate("MainWindow", u"Control Panel", None))
+        self.btn_controlpanel.setText(QCoreApplication.translate("MainWindow", u"Generator", None))
         self.controlpanel_bg.setText("")
-        self.btn_configurator.setText(QCoreApplication.translate("MainWindow", u"Configurator", None))
+        self.btn_configurator.setText(QCoreApplication.translate("MainWindow", u"Secrets", None))
         self.configurator_bg.setText("")
     # retranslateUi
 
