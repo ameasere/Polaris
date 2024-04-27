@@ -215,9 +215,9 @@ def protocol_handler(data, shared_key):
             return data
 
     elif data[0] == "store":
-        pass
+        logger("Store command received.")
     elif data[0] == "retrieve":
-        pass
+        logger("Retrieve command received.")
 
 
 def handle_client(client_socket):
