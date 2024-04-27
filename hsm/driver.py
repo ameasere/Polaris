@@ -39,7 +39,7 @@ def check_if_db_exists():
         c.execute(
             "CREATE TABLE users (uid INTEGER PRIMARY KEY, username TEXT, password TEXT, mid INTEGER, FOREIGN KEY(mid) REFERENCES machines(mid))")
         c.execute(
-            "CREATE TABLE secrets (sid INTEGER PRIMARY KEY, uid INTEGER, secret TEXT, FOREIGN KEY(uid) REFERENCES users(uid))")
+            "CREATE TABLE secrets (sid INTEGER PRIMARY KEY, uid INTEGER, label TEXT, secret TEXT, FOREIGN KEY(uid) REFERENCES users(uid))")
         conn.commit()
         conn.close()
         return False
@@ -213,6 +213,11 @@ def protocol_handler(data, shared_key):
         elif data[0] == "randomnumber":
             data = "polaris://" + data[0] + ":" + str(random.randint(0, 100))
             return data
+
+    elif data[0] == "store":
+        pass
+    elif data[0] == "retrieve":
+        pass
 
 
 def handle_client(client_socket):
