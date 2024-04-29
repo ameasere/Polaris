@@ -2877,7 +2877,7 @@ QPushButton:pressed {
           <string>Secrets</string>
          </property>
         </widget>
-        <widget class="QPlainTextEdit" name="send_pte_2">
+        <widget class="QPlainTextEdit" name="secret_value">
          <property name="geometry">
           <rect>
            <x>40</x>

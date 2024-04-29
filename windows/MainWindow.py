@@ -276,6 +276,14 @@ class MainWindow(QMainWindow):
             else:
                 self.ui.auth_area_border.setStyleSheet("border: 1px solid #12B76A; border-radius: 10px;")
                 self.__masterpw = master_pw
+                self.connectorthread = QThread()
+                # Send retrieveall command to HSM
+                self.connector = HSMConnector(self.config["configuration"][0]["ip"], self.config["configuration"][0]["my_uuid"], self.__masterpw, self.__response["username"], "polaris://retrieveall")
+                self.connector.moveToThread(self.connectorthread)
+                self.connector.finished.connect(self.hsmsecret_fetchall)
+                self.connector.exception_signal.connect(self.hsmsecret_fetchall)
+                self.connectorthread.started.connect(self.connector.run)
+                self.connectorthread.start()
                 self.ui.overview_auth_btn.setText("MP set.")
                 # Make the button not clickable
                 self.ui.overview_auth_btn.setEnabled(False)
@@ -343,6 +351,8 @@ class MainWindow(QMainWindow):
         self.ui.btn_website.clicked.connect(self.buttonClick)
         self.ui.btn_addfirsthsm.clicked.connect(self.buttonClick)
         self.ui.add_button.clicked.connect(self.buttonClick)
+        self.ui.btn_storesecret.clicked.connect(self.buttonClick)
+        self.ui.btn_retrievesecret.clicked.connect(self.buttonClick)
 
         # ANIMATIONS
         # ///////////////////////////////////////////////////////////////
@@ -715,7 +725,6 @@ class MainWindow(QMainWindow):
                     action_string = f"polaris://{action}:{user_in}"
                 else:
                     action_string = f"polaris://{action}"
-                print(self.config)
                 self.connectthread = QThread()
                 self.connector = HSMConnector(self.config["configuration"][0]["ip"], self.config["configuration"][0]["my_uuid"], self.__masterpw, self.config["username"], action_string)
                 self.connector.moveToThread(self.connectthread)
@@ -727,10 +736,56 @@ class MainWindow(QMainWindow):
                 self.connectthread.start()
 
         elif btnName == "btn_storesecret":
-            pass
+            if self.ui.secret_label.text() == "" or self.ui.secret_value.toPlainText() == "":
+                self.ui.secret_value.setPlainText("Please fill in all fields.")
+                return
+            elif self.__masterpw == "" or self.__masterpw is None:
+                self.ui.secret_value.setPlainText("Please set the master password!")
+                return
+            else:
+                secret_value = self.ui.secret_value.toPlainText()
+                self.ui.secret_value.setPlainText("Processing...")
+                self.ui.secret_value.setStyleSheet("color: #12B76A; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+                self.ui.secret_value.repaint()
+                QApplication.processEvents()
+                action = "store"
+                secret_label = self.ui.secret_label.text()
+                action_string = f"polaris://{action}:{secret_label}:{secret_value}"
+                self.connectthread = QThread()
+                self.connector = HSMConnector(self.config["configuration"][0]["ip"], self.config["configuration"][0]["my_uuid"], self.__masterpw, self.config["username"], action_string)
+                self.connector.moveToThread(self.connectthread)
+                self.connectthread.started.connect(self.connector.run)
+                self.connector.finished.connect(self.hsmsecret_progress)
+                self.connector.exception_signal.connect(self.hsmsecret_progress)
+                self.ui.btn_storesecret.setEnabled(False)
+                self.ui.btn_storesecret.setStyleSheet("QPushButton {background-color: #b0b0b0;font: 600 10pt \"Inter Medium\";border-radius: 5px;}QPushButton:hover {background-color: #b0b0b0;border-radius: 4px;}QPushButton:pressed {	background-color: #b0b0b0;font: 600 10pt \"Inter Medium\";icon: url(:/icons/images/icons/log-in_purple.png);border-radius: 5px;}")
+                self.connectthread.start()
 
         elif btnName == "btn_retrievesecret":
-            pass
+            if self.ui.secrets_dd.currentText() == "":
+                self.ui.secret_value.setPlainText("Please select a secret.")
+                return
+            elif self.__masterpw == "" or self.__masterpw is None:
+                self.ui.secret_value.setPlainText("Please set the master password!")
+                return
+            else:
+                secret_label = self.ui.secrets_dd.currentText()
+                self.ui.secret_response.setPlainText("Processing...")
+                self.ui.secret_response.setStyleSheet("color: #12B76A; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+                self.ui.secret_response.repaint()
+                QApplication.processEvents()
+                action = "retrieve"
+                action_string = f"polaris://{action}:{secret_label}"
+                self.connectthread = QThread()
+                self.connector = HSMConnector(self.config["configuration"][0]["ip"], self.config["configuration"][0]["my_uuid"], self.__masterpw, self.config["username"], action_string)
+                self.connector.moveToThread(self.connectthread)
+                self.connectthread.started.connect(self.connector.run)
+                self.connector.finished.connect(self.hsmsecret_retrieve)
+                self.connector.exception_signal.connect(self.hsmsecret_retrieve)
+                self.ui.btn_retrievesecret.setEnabled(False)
+                self.ui.btn_retrievesecret.setStyleSheet("QPushButton {background-color: #b0b0b0;font: 600 10pt \"Inter Medium\";border-radius: 5px;}QPushButton:hover {background-color: #b0b0b0;border-radius: 4px;}QPushButton:pressed {	background-color: #b0b0b0;font: 600 10pt \"Inter Medium\";icon: url(:/icons/images/icons/log-in_purple.png);border-radius: 5px;}")
+                self.connectthread.start()
+
 
         elif btnName == "add_button":
             def is_valid(hsmip):
@@ -774,10 +829,24 @@ class MainWindow(QMainWindow):
                 self.timer.singleShot(1500, lambda: self.response_label_animation_reverse.start())
 
             worker = Worker(lambda: connect_to_hsm_setup(self.ui.hsm_ip.text(), self.__machine_identifier,
-                                                         self.ui.hsm_masterpw.text(), self.__response["username"]))
+                                                         self.ui.hsm_masterpw.text(), self.__response["username"].lower()))
             worker.signals.result.connect(self.setup_finished)
             worker.signals.error.connect(print_error)
             self.threadpool.start(worker)
+
+    def hsmsecret_fetchall(self, progress):
+        response = progress.replace("polaris://", "")
+        if "error" in response or "failure" in response:
+            self.ui.secret_value.setPlainText(response)
+            self.ui.secret_value.setStyleSheet("color: #e51328; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+        else:
+            secrets = response.split("/")
+            if len(secrets) == 0:
+                self.ui.secret_response.setPlainText("No secrets found.")
+                return
+            for secret in secrets:
+                # Add item to the dropdowns
+                self.ui.secrets_dd.addItem(secret)
 
     def hsmconnector_progress(self, response):
         response = response.replace("polaris://", "")
@@ -798,6 +867,39 @@ class MainWindow(QMainWindow):
         self.ui.btn_sendcommand.setEnabled(True)
         self.ui.btn_sendcommand.setStyleSheet("QPushButton {background-color: #9e77ed;font: 600 10pt \"Inter Medium\";border-radius: 5px;}QPushButton:hover {background-color: rgb(168, 128, 255);border-radius: 4px;}QPushButton:pressed {	background-color: rgb(255, 243, 239);font: 600 10pt \"Inter Medium\";icon: url(:/icons/images/icons/log-in_purple.png);color: #9e77ed;border-radius: 5px;}")
         self.ui.response_pte.repaint()
+        QApplication.processEvents()
+        self.connectthread.quit()
+
+    def hsmsecret_progress(self, response):
+        response = response.replace("polaris://", "")
+        if "error" in response or "failure" in response:
+            self.ui.secret_value.setPlainText(response)
+            self.ui.secret_value.setStyleSheet("color: #e51328; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+        else:
+            # Capitalize the first letter of the response
+            response = response[0].upper() + response[1:]
+            # Insert a space after :
+            response = response.replace(":", ": ")
+            response += "!"
+            self.ui.secret_value.setPlainText(response)
+            self.ui.secret_value.setStyleSheet("color: #12B76A; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+        self.ui.btn_storesecret.setEnabled(True)
+        self.ui.btn_storesecret.setStyleSheet("QPushButton {background-color: #9e77ed;font: 600 10pt \"Inter Medium\";border-radius: 5px;}QPushButton:hover {background-color: rgb(168, 128, 255);border-radius: 4px;}QPushButton:pressed {	background-color: rgb(255, 243, 239);font: 600 10pt \"Inter Medium\";icon: url(:/icons/images/icons/log-in_purple.png);color: #9e77ed;border-radius: 5px;}")
+        self.ui.secret_value.repaint()
+        QApplication.processEvents()
+        self.connectthread.quit()
+
+    def hsmsecret_retrieve(self, progress):
+        response = progress.replace("polaris://", "")
+        if "error" in response or "failure" in response:
+            self.ui.secret_response.setPlainText(response)
+            self.ui.secret_response.setStyleSheet("color: #e51328; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+        else:
+            self.ui.secret_response.setPlainText(response.replace("retrieve:", ""))
+            self.ui.secret_response.setStyleSheet("color: #12B76A; font: 600 10pt \"Inter Medium\";background-color: rgb(33, 37, 43);")
+        self.ui.btn_retrievesecret.setEnabled(True)
+        self.ui.btn_retrievesecret.setStyleSheet("QPushButton {background-color: #9e77ed;font: 600 10pt \"Inter Medium\";border-radius: 5px;}QPushButton:hover {background-color: rgb(168, 128, 255);border-radius: 4px;}QPushButton:pressed {	background-color: rgb(255, 243, 239);font: 600 10pt \"Inter Medium\";icon: url(:/icons/images/icons/log-in_purple.png);color: #9e77ed;border-radius: 5px;}")
+        self.ui.secret_response.repaint()
         QApplication.processEvents()
         self.connectthread.quit()
 
