@@ -1145,7 +1145,7 @@ class Ui_LoginWindow(object):
         self.bg1.setText("")
         self.logo.setText("")
         self.creditsLabel.setText(QCoreApplication.translate("LoginWindow", u"Milestone 3 Build", None))
-        self.creditsLabel_2.setText(QCoreApplication.translate("LoginWindow", u"0.3.0", None))
+        self.creditsLabel_2.setText(QCoreApplication.translate("LoginWindow", u"1.0.0", None))
         self.btn_dropdown.setText("")
         self.login_button.setText(QCoreApplication.translate("LoginWindow", u" Log In", None))
         self.password.setInputMask("")

@@ -320,7 +320,7 @@ def protocol_handler(data, shared_key):
             return "polaris://store:success"
     elif data[0] == "retrieve":
         logger("Retrieve command received.")
-        print(f"[{time.ctime()}] Retrieving secret with label: {data}")
+        print(f"[{time.ctime()}] Retrieving secret with label: {backup_data[0].split(':')[1]}")
         mid = backup_data[1].split(":")[1]
         mp = backup_data[2].split(":")[1]
         username = backup_data[3].split(":")[1]

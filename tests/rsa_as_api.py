@@ -120,3 +120,8 @@ async def rsa_as_api(request: Request):
 
     # Return the encrypted message and signature
     return {'encrypted_message': encrypted_message, 'signature': signature, 'time_taken': time_taken}
+
+if __name__ == '__main__':
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)

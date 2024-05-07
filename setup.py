@@ -23,8 +23,9 @@ setuptools.setup(
         "Programming Language :: Python",
         "Operating System :: OS Independent"
     ],
-    install_requires=["cryptography", 
-                      "psutil", 
-                      "pyside6"
-    ]
+    install_requires=["cryptography",
+                      "psutil",
+                      "pyside6",
+                      "requests",
+                      ]
 )

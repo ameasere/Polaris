@@ -1884,7 +1884,7 @@ class Ui_MainWindow(object):
         self.btn_settings.setText(QCoreApplication.translate("MainWindow", u"  Settings", None))
         self.sep4.setText("")
         self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"Milestone 5 Build", None))
-        self.creditsLabel_2.setText(QCoreApplication.translate("MainWindow", u"0.5.0", None))
+        self.creditsLabel_2.setText(QCoreApplication.translate("MainWindow", u"1.0.0", None))
         self.btn_dropdown.setText("")
         self.btn_addfirsthsm.setText(QCoreApplication.translate("MainWindow", u"Add your first HSM", None))
         self.hsm_name.setText("")

@@ -690,7 +690,7 @@ color: rgba(162, 159, 159, 120);
 text-align: left;</string>
        </property>
        <property name="text">
-        <string>0.5.0</string>
+        <string>1.0.0</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
