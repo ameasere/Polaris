@@ -50,7 +50,6 @@ Polaris keeps your data in the spotlight while ensuring only you and the HSM can
 To use Polaris:
 
 * Download the latest release from [here](https://github.com/ameasere/polaris/releases) for your OS/Architecture.
-  - <b>0.5.0 is known to have issues with binaries. It is recommended you run Polaris from source until a future release.</b> 
 
 * Source Code
   - Clone this repository via the Command Line with `git clone https://github.com/ameasere/polaris`.
